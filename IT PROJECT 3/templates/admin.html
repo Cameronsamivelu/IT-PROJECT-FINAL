@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Employee Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <header class="admin-header">
+
+            <h1>ANGEL</h1>
+
+            <p>Employee Luggage Management</p>
+
+        </header>
+
+
+        <main class="admin-content">
+
+            <section class="admin-card">
+
+                <h2>Register New Luggage</h2>
+
+                <p>
+                    Enter the passenger and flight information below.
+                    ANGEL will automatically generate a unique tracking ID.
+                </p>
+
+
+                <form id="luggageForm">
+
+                    <label for="passenger">
+                        Passenger Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="passenger"
+                        name="passenger"
+                        placeholder="Enter passenger name"
+                        required
+                    >
+
+
+                    <label for="flight">
+                        Flight Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="flight"
+                        name="flight"
+                        placeholder="Example: SA123"
+                        required
+                    >
+
+
+                    <label for="origin">
+                        Departure Airport
+                    </label>
+
+                    <input
+                        type="text"
+                        id="origin"
+                        name="origin"
+                        placeholder="Example: Durban"
+                        required
+                    >
+
+
+                    <label for="destination">
+                        Destination Airport
+                    </label>
+
+                    <input
+                        type="text"
+                        id="destination"
+                        name="destination"
+                        placeholder="Example: Johannesburg"
+                        required
+                    >
+
+
+                    <label for="weight">
+                        Luggage Weight
+                    </label>
+
+                    <input
+                        type="text"
+                        id="weight"
+                        name="weight"
+                        placeholder="Example: 18.5 kg"
+                        required
+                    >
+
+
+                    <button type="submit">
+                        Register Luggage
+                    </button>
+
+                </form>
+
+
+                <div id="registrationResult"></div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+<script>
+
+document.getElementById("luggageForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const form = document.getElementById("luggageForm");
+
+    const formData = new FormData(form);
+
+    fetch("/admin/add", {
+        method: "POST",
+        body: formData
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        const result = document.getElementById("registrationResult");
+
+        if (data.success) {
+
+            result.innerHTML = `
+                <div class="registration-success">
+
+                    <h2>✓ Luggage Registered</h2>
+
+                    <p>
+                        Your luggage has been successfully registered.
+                    </p>
+
+                    <p>
+                        <strong>Tracking ID:</strong>
+                        ${data.tracking_id}
+                    </p>
+
+                    <p>
+                        This tracking ID can now be used to track the luggage.
+                    </p>
+
+                </div>
+            `;
+
+            form.reset();
+
+        }
+
+        else {
+
+            result.innerHTML = `
+                <div class="registration-error">
+
+                    <h2>Registration Failed</h2>
+
+                    <p>
+                        Unable to register the luggage.
+                    </p>
+
+                </div>
+            `;
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        document.getElementById("registrationResult").innerHTML = `
+            <div class="registration-error">
+
+                <h2>Something went wrong</h2>
+
+                <p>
+                    ANGEL could not connect to the server.
+                </p>
+
+            </div>
+        `;
+
+    });
+
+});
+
+</script>
+
+</body>
+
+</html>

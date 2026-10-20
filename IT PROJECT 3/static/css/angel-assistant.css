@@ -1,0 +1,452 @@
+
+/* =========================================
+   ANGEL ASSISTANT — VISUAL POLISH
+   ========================================= */
+
+.angel-chat-toggle {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 60px;
+    height: 60px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    background: #0d477f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000;
+    box-shadow: 0 6px 22px rgba(13, 71, 127, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+                background 0.2s ease;
+}
+
+.angel-chat-toggle:hover {
+    background: #08345d;
+    transform: translateY(-3px);
+    box-shadow: 0 9px 26px rgba(13, 71, 127, 0.36);
+}
+
+.angel-chat-toggle svg {
+    width: 27px;
+    height: 27px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.angel-chat-window {
+    position: fixed;
+    right: 25px;
+    bottom: 100px;
+    width: 380px;
+    max-width: calc(100vw - 30px);
+    height: 550px;
+    max-height: calc(100vh - 130px);
+    background: #ffffff;
+    border: 1px solid #dce5ef;
+    border-radius: 18px;
+    box-shadow: 0 18px 55px rgba(18, 43, 70, 0.2);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #263445;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.98);
+    transform-origin: bottom right;
+    transition: opacity 0.2s ease, transform 0.2s ease,
+                visibility 0.2s ease;
+}
+
+.angel-chat-window.angel-chat-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Header */
+
+.angel-chat-header {
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #0d477f, #12365c);
+    color: #ffffff;
+    padding: 19px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.angel-chat-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.angel-chat-avatar {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #c6a96b;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #174f83, #082b4c);
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 27px;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.06);
+}
+
+.angel-chat-header h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    line-height: 1.3;
+    letter-spacing: 0.2px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.angel-chat-header p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #e1ebf6;
+}
+
+.angel-chat-close {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 9px;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.angel-chat-close:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+/* Conversation area */
+
+.angel-chat-messages {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 20px 16px 12px;
+    background: #f4f7fb;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+}
+
+.angel-chat-message {
+    max-width: 88%;
+    width: fit-content;
+    padding: 12px 15px;
+    margin-bottom: 13px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.75;
+    letter-spacing: 0.1px;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+.angel-chat-message.bot {
+    background: #ffffff;
+    border: 1px solid #e2e9f1;
+    border-bottom-left-radius: 5px;
+    color: #344256;
+    box-shadow: 0 2px 5px rgba(25, 52, 80, 0.035);
+}
+
+.angel-chat-message.user {
+    margin-left: auto;
+    background: #0d477f;
+    color: #ffffff;
+    border: 1px solid #0d477f;
+    border-bottom-right-radius: 5px;
+}
+
+/* Options area */
+
+.angel-chat-options {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 12px 16px 17px;
+    background: #f4f7fb;
+    max-height: 48%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-top: 1px solid #e8edf4;
+}
+
+/* General menu and suggestion buttons */
+
+.angel-chat-option {
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    text-align: left;
+    padding: 12px 14px;
+    border: 1px solid #d5e1ee;
+    border-radius: 11px;
+    background: #ffffff;
+    color: #174d7e;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12.5px;
+    line-height: 1.5;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(23, 57, 90, 0.025);
+    transition: background 0.18s ease, border-color 0.18s ease,
+                transform 0.18s ease;
+}
+
+.angel-chat-option:hover {
+    background: #eaf2fb;
+    border-color: #8fb5dc;
+    transform: translateY(-1px);
+}
+
+.angel-chat-option:active {
+    transform: translateY(0);
+}
+
+/* =========================================
+   PASSENGER SUPPORT REPLY COMPOSER
+   ========================================= */
+
+/* Give the message composer its own full-width row. */
+.angel-chat-options:has(.angel-chat-input-form) {
+    max-height: 48%;
+    padding: 14px 16px 16px;
+    gap: 9px;
+}
+
+/* Input and Send button sit side by side. */
+.angel-chat-input-form {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Larger, readable message field. */
+.angel-chat-text-input {
+    display: block;
+    flex: 1 1 0;
+    width: 0;
+    min-width: 0;
+    min-height: 48px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid #cbd8e6;
+    border-radius: 12px;
+    outline: none;
+    background: #ffffff;
+    color: #263445;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    box-shadow: 0 2px 6px rgba(18, 43, 70, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.angel-chat-text-input::placeholder {
+    color: #8997a8;
+    opacity: 1;
+}
+
+.angel-chat-text-input:focus {
+    border-color: #0d477f;
+    box-shadow: 0 0 0 3px rgba(13, 71, 127, 0.12);
+}
+
+.angel-chat-text-input:disabled {
+    background: #edf1f6;
+    color: #758397;
+    cursor: wait;
+    opacity: 1;
+}
+
+/* Make Send a proper action button, not a full-width menu button. */
+.angel-chat-input-form .angel-chat-option {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 76px;
+    min-height: 48px;
+    padding: 12px 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid #0d477f;
+    border-radius: 12px;
+    background: #0d477f;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    box-shadow: 0 3px 8px rgba(13, 71, 127, 0.16);
+    transform: none;
+}
+
+.angel-chat-input-form .angel-chat-option:hover {
+    background: #08345d;
+    border-color: #08345d;
+    transform: none;
+}
+
+.angel-chat-input-form .angel-chat-option:active {
+    background: #062a4b;
+}
+
+.angel-chat-input-form .angel-chat-option:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    box-shadow: none;
+}
+
+/* Keep the extra support controls visually consistent. */
+.angel-chat-options > .angel-chat-option {
+    margin: 0;
+}
+
+/* Footer */
+
+.angel-chat-footer {
+    flex-shrink: 0;
+    padding: 11px 10px;
+    text-align: center;
+    border-top: 1px solid #e5ebf2;
+    background: #ffffff;
+    color: #7a8798;
+    font-size: 10px;
+    line-height: 1.5;
+    letter-spacing: 0.25px;
+}
+
+/* Keyboard accessibility */
+
+.angel-chat-option:focus-visible,
+.angel-chat-toggle:focus-visible,
+.angel-chat-close:focus-visible,
+.angel-chat-text-input:focus-visible {
+    outline: 3px solid #f0b429;
+    outline-offset: 3px;
+}
+
+/* Small screens */
+
+@media (max-width: 480px) {
+    .angel-chat-toggle {
+        width: 56px;
+        height: 56px;
+        right: 16px;
+        bottom: 16px;
+    }
+
+    .angel-chat-window {
+        right: 10px;
+        bottom: 82px;
+        width: calc(100vw - 20px);
+        max-width: none;
+        height: min(550px, calc(100dvh - 100px));
+        max-height: calc(100dvh - 100px);
+        border-radius: 16px;
+    }
+
+    .angel-chat-header {
+        padding: 16px;
+    }
+
+    .angel-chat-messages {
+        padding: 16px 12px 10px;
+    }
+
+    .angel-chat-options {
+        padding: 10px 12px 14px;
+        gap: 8px;
+    }
+
+    .angel-chat-options:has(.angel-chat-input-form) {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .angel-chat-input-form {
+        gap: 8px;
+    }
+
+    .angel-chat-text-input {
+        min-height: 46px;
+        padding: 11px 12px;
+        font-size: 14px;
+    }
+
+    .angel-chat-input-form .angel-chat-option {
+        min-width: 68px;
+        min-height: 46px;
+        padding: 11px 13px;
+    }
+
+    .angel-chat-option {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 350px) {
+    .angel-chat-input-form {
+        gap: 6px;
+    }
+
+    .angel-chat-text-input {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .angel-chat-input-form .angel-chat-option {
+        min-width: 60px;
+        padding: 10px;
+        font-size: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .angel-chat-toggle,
+    .angel-chat-window,
+    .angel-chat-option,
+    .angel-chat-text-input {
+        transition: none;
+    }
+
+    .angel-chat-messages {
+        scroll-behavior: auto;
+    }
+}

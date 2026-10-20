@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Employee Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="employee-login-page">
+
+        <div class="employee-login-card">
+
+            <div class="employee-login-header">
+
+                <h1>ANGEL</h1>
+
+                <h2>Employee Login</h2>
+
+                <p>
+                    Airport Navigation & Guidance for Every Luggage
+                </p>
+
+            </div>
+
+
+            {% if error %}
+
+            <div class="login-error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <form method="POST"
+                  action="{{ url_for('employee_login_process') }}">
+
+                <label for="username">
+                    Employee Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                >
+
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+
+                <button type="submit">
+                    Login
+                </button>
+
+            </form>
+
+
+            <div class="employee-login-footer">
+
+                <a href="{{ url_for('home') }}">
+                    ← Back to ANGEL Home
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

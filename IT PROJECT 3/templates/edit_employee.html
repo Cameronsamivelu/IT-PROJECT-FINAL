@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Edit Employee</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="employees-page">
+
+        <!-- HEADER -->
+
+        <header class="employees-header">
+
+            <div>
+
+                <h1>ANGEL</h1>
+
+                <p>Edit Employee Account</p>
+
+            </div>
+
+            <a href="{{ url_for('employees') }}"
+               class="employees-back-button">
+
+                ← Employee Accounts
+
+            </a>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <main class="employees-content">
+
+            <section class="employee-form-card">
+
+                <h2>Edit Employee</h2>
+
+                <p>
+                    Update the employee's account information
+                    and access level.
+                </p>
+
+
+                <form method="POST"
+                      action="{{ url_for('edit_employee', employee_id=employee['id']) }}">
+
+
+                    <!-- FULL NAME -->
+
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        value="{{ employee['full_name'] }}"
+                        required
+                    >
+
+
+                    <!-- USERNAME -->
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value="{{ employee['username'] }}"
+                        required
+                    >
+
+
+                    <!-- ROLE -->
+
+                    <label for="role">
+                        Role
+                    </label>
+
+                    <select
+                        id="role"
+                        name="role"
+                    >
+
+                        <option
+                            value="Employee"
+                            {% if employee['role'] == 'Employee' %}
+                            selected
+                            {% endif %}
+                        >
+                            Employee
+                        </option>
+
+                        <option
+                            value="Supervisor"
+                            {% if employee['role'] == 'Supervisor' %}
+                            selected
+                            {% endif %}
+                        >
+                            Supervisor
+                        </option>
+
+                        <option
+                            value="Admin"
+                            {% if employee['role'] == 'Admin' %}
+                            selected
+                            {% endif %}
+                        >
+                            Admin
+                        </option>
+
+                    </select>
+
+
+                    <!-- BUTTON -->
+
+                    <button type="submit">
+                        Save Changes
+                    </button>
+
+                </form>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

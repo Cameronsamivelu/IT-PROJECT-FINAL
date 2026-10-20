@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/angel-assistant.css') }}">
+</head>
+
+<body>
+<nav>
+    <div class="logo">ANGEL</div>
+
+    <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Track Luggage</a></li>
+        <li><a href="#">Flights</a></li>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">Login</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+
+    <h1>ANGEL</h1>
+
+    <h2>Airport Navigation &amp; Guidance for Every Luggage</h2>
+
+    <p>
+        Welcome to ANGEL, your intelligent airport luggage tracking system.
+        Track your baggage, view your flight history, report missing luggage,
+        and receive instant assistance from our AI chatbot.
+    </p>
+
+    <div class="search-box">
+        <h3>Track Your Luggage</h3>
+
+        <div class="search-bar">
+            <input
+                type="text"
+                id="trackingID"
+                placeholder="Enter your luggage tracking ID">
+
+            <button onclick="searchLuggage()">Search</button>
+        </div>
+
+        <div id="searchResult"></div>
+    </div>
+
+</section>
+
+<!-- ANGEL assistant chat window -->
+<div id="angelChatWindow"
+     class="angel-chat-window"
+     role="dialog"
+     aria-label="ANGEL assistant"
+     aria-modal="false"
+     aria-hidden="true">
+
+    <div class="angel-chat-header">
+        <div class="angel-chat-brand">
+            <div class="angel-chat-avatar">A</div>
+
+            <div>
+                <h3>ANGEL assistant</h3>
+                <p>How can we help you?</p>
+            </div>
+        </div>
+
+        <button type="button"
+                id="angelChatClose"
+                class="angel-chat-close"
+                aria-label="Close chat">
+            &times;
+        </button>
+    </div>
+
+    <div id="angelChatMessages" class="angel-chat-messages"
+         aria-live="polite"></div>
+
+    <div id="angelChatOptions" class="angel-chat-options"></div>
+
+    <div class="angel-chat-footer">
+        <span>ANGEL assistant · Automated support</span>
+    </div>
+</div>
+
+<!-- Floating chatbot button -->
+<button type="button"
+        id="angelChatToggle"
+        class="angel-chat-toggle"
+        aria-label="Open ANGEL assistant"
+        aria-controls="angelChatWindow"
+        aria-expanded="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8
+                 8.5 8.5 0 0 1-7.6 4.7
+                 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7
+                 a8.4 8.4 0 0 1-.9-3.8
+                 8.5 8.5 0 0 1 4.7-7.6
+                 8.4 8.4 0 0 1 3.8-.9h.5
+                 a8.5 8.5 0 0 1 8 8v.5z"/>
+    </svg>
+</button>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="{{ url_for('static', filename='js/angel-assistant.js') }}"></script>
+
+</body>
+</html>
