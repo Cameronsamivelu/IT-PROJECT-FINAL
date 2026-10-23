@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Luggage | ANGEL</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h1 { margin: 0; }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 700px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 16px 0 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        .button {
+            display: inline-block;
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 12px 17px;
+            border-radius: 7px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 20px;
+        }
+
+        .back-button {
+            background: #64748b;
+            margin-left: 8px;
+        }
+
+        .message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+        }
+
+        .hint {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>ANGEL</h1>
+        <a href="{{ url_for('user_dashboard') }}">Back to Dashboard</a>
+    </header>
+
+    <main>
+        <section class="form-card">
+            <h2>Register My Luggage</h2>
+            <p>Enter your luggage and flight details below.</p>
+
+            {% with messages = get_flashed_messages() %}
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+
+            <form method="POST"
+                  action="{{ url_for('register_customer_luggage') }}">
+
+                <label for="passenger">Passenger Name</label>
+                <input type="text" id="passenger" name="passenger"
+                       required maxlength="100"
+                       value="{{ session.get('user_name', '') }}">
+
+                <label for="flight">Flight Number</label>
+                <input type="text" id="flight" name="flight"
+                       required maxlength="30"
+                       placeholder="e.g. SA123">
+
+                <label for="origin">Departure Airport / Origin</label>
+                <input type="text" id="origin" name="origin"
+                       required maxlength="100"
+                       placeholder="e.g. Durban">
+
+                <label for="destination">Destination Airport</label>
+                <input type="text" id="destination" name="destination"
+                       required maxlength="100"
+                       placeholder="e.g. Johannesburg">
+
+                <label for="weight">Luggage Weight</label>
+                <input type="text" id="weight" name="weight"
+                       required maxlength="20"
+                       placeholder="e.g. 18.5 kg">
+
+                <p class="hint">
+                    Your luggage will initially be marked as Checked In.
+                    Employee updates will change its journey status.
+                </p>
+
+                <button type="submit" class="button">
+                    Register Luggage
+                </button>
+
+                <a href="{{ url_for('user_dashboard') }}"
+                   class="button back-button">
+                    Cancel
+                </a>
+            </form>
+        </section>
+    </main>
+
+    <footer>ANGEL Luggage Tracking System</footer>
+</body>
+</html>

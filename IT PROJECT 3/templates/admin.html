@@ -38,11 +38,32 @@
                 </p>
 
 
-                <form id="luggageForm">
+                
+<form id="luggageForm">
 
-                    <label for="passenger">
-                        Passenger Name
-                    </label>
+    <label for="user_id">
+        Customer Account
+    </label>
+
+    <select
+        id="user_id"
+        name="user_id"
+        required
+    >
+        <option value="">-- Select a customer --</option>
+
+        {% for customer in customers %}
+        <option value="{{ customer['id'] }}">
+            {{ customer['full_name'] }} ({{ customer['username'] }})
+        </option>
+        {% endfor %}
+
+    </select>
+
+    <label for="passenger">
+        Passenger Name
+    </label>
+
 
                     <input
                         type="text"

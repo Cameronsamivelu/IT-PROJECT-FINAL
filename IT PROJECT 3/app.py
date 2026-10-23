@@ -1,5 +1,8 @@
 
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for, send_file
+from flask import (
+    Flask, render_template, request, jsonify, session,
+    redirect, url_for, send_file, flash
+)
 import sqlite3
 import random
 import io
@@ -86,6 +89,17 @@ def create_database():
         )
     """)
 
+    # Create customer user accounts
+    connection.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            full_name TEXT NOT NULL,
+            username TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT 'Active'
+        )
+    """)
+
     # Live-agent conversations
     connection.execute("""
         CREATE TABLE IF NOT EXISTS support_conversations (
@@ -149,6 +163,12 @@ def create_database():
         connection.execute(
             "ALTER TABLE luggage ADD COLUMN registered_at TEXT"
         )
+
+    if "user_id" not in existing_columns:
+        connection.execute(
+            "ALTER TABLE luggage ADD COLUMN user_id INTEGER"
+        )
+
 
     # Migrate existing luggage
     connection.execute("""
@@ -357,6 +377,237 @@ def home():
 
 
 # =========================================================
+# CUSTOMER REGISTRATION
+# =========================================================
+
+@app.route("/user-register", methods=["GET", "POST"])
+def user_register():
+    if request.method == "GET":
+        return render_template("user_register.html")
+
+    full_name = request.form.get("full_name", "").strip()
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "")
+    confirm_password = request.form.get("confirm_password", "")
+
+    if not all([full_name, username, password, confirm_password]):
+        flash("Please complete all fields.")
+        return redirect(url_for("user_register"))
+
+    if len(password) < 8:
+        flash("Your password must contain at least 8 characters.")
+        return redirect(url_for("user_register"))
+
+    if password != confirm_password:
+        flash("Your passwords do not match.")
+        return redirect(url_for("user_register"))
+
+    connection = get_db()
+
+    try:
+        connection.execute("""
+            INSERT INTO users (full_name, username, password_hash)
+            VALUES (?, ?, ?)
+        """, (
+            full_name,
+            username,
+            generate_password_hash(password)
+        ))
+
+        connection.commit()
+
+    except sqlite3.IntegrityError:
+        flash("That username already exists. Please choose another.")
+        return redirect(url_for("user_register"))
+
+    finally:
+        connection.close()
+
+    flash("Account created successfully. Please log in.")
+    return redirect(url_for("user_login"))
+
+
+# =========================================================
+# CUSTOMER LOGIN
+# =========================================================
+
+@app.route("/user-login", methods=["GET", "POST"])
+def user_login():
+    if request.method == "GET":
+        return render_template("user_login.html")
+
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "")
+
+    connection = get_db()
+
+    user = connection.execute("""
+        SELECT id, full_name, username, password_hash, status
+        FROM users
+        WHERE username = ?
+    """, (username,)).fetchone()
+
+    connection.close()
+
+    if (
+        user is None
+        or user["status"] != "Active"
+        or not check_password_hash(user["password_hash"], password)
+    ):
+        flash("Invalid username or password, or the account is inactive.")
+        return redirect(url_for("user_login"))
+
+    # Start a customer session without changing employee session fields.
+    session.pop("user_id", None)
+    session["user_id"] = user["id"]
+    session["user_name"] = user["full_name"]
+
+    return redirect(url_for("user_dashboard"))
+
+
+# =========================================================
+# CUSTOMER DASHBOARD
+# =========================================================
+
+@app.route("/user-dashboard")
+def user_dashboard():
+    if "user_id" not in session:
+        return redirect(url_for("user_login"))
+
+    connection = get_db()
+
+    user = connection.execute("""
+        SELECT id, full_name, status
+        FROM users
+        WHERE id = ?
+    """, (session["user_id"],)).fetchone()
+
+    if user is None or user["status"] != "Active":
+        connection.close()
+        session.pop("user_id", None)
+        session.pop("user_name", None)
+        flash("Your account is unavailable. Please contact support.")
+        return redirect(url_for("user_login"))
+
+    # Only show luggage linked to this customer's account.
+    luggage = connection.execute("""
+        SELECT tracking_id, passenger, flight, origin, destination,
+               weight, status, location, journey_status, alert_status,
+               registered_at
+        FROM luggage
+        WHERE user_id = ?
+        ORDER BY id DESC
+    """, (user["id"],)).fetchall()
+
+    connection.close()
+
+    return render_template(
+        "user_dashboard.html",
+        customer_name=user["full_name"],
+        luggage=luggage
+    )
+
+
+# =========================================================
+# CUSTOMER LUGGAGE REGISTRATION
+# =========================================================
+
+@app.route("/user-register-luggage", methods=["GET", "POST"])
+def register_customer_luggage():
+    if "user_id" not in session:
+        return redirect(url_for("user_login"))
+
+    if request.method == "GET":
+        return render_template("user_register_luggage.html")
+
+    passenger = request.form.get("passenger", "").strip()
+    flight = request.form.get("flight", "").strip()
+    origin = request.form.get("origin", "").strip()
+    destination = request.form.get("destination", "").strip()
+    weight = request.form.get("weight", "").strip()
+
+    if not all([passenger, flight, origin, destination, weight]):
+        flash("Please complete all luggage fields.")
+        return redirect(url_for("register_customer_luggage"))
+
+    connection = get_db()
+
+    try:
+        # Confirm that the logged-in customer is still active.
+        customer = connection.execute("""
+            SELECT id
+            FROM users
+            WHERE id = ? AND status = 'Active'
+        """, (session["user_id"],)).fetchone()
+
+        if customer is None:
+            session.pop("user_id", None)
+            session.pop("user_name", None)
+            flash("Your account is unavailable. Please contact support.")
+            return redirect(url_for("user_login"))
+
+        # Generate a unique tracking ID using ANGEL's existing format.
+        tracking_id = None
+
+        for _ in range(20):
+            possible_id = "ANGEL-" + str(random.randint(10000, 99999))
+
+            existing = connection.execute("""
+                SELECT id FROM luggage WHERE tracking_id = ?
+            """, (possible_id,)).fetchone()
+
+            if existing is None:
+                tracking_id = possible_id
+                break
+
+        if tracking_id is None:
+            flash("Could not generate a tracking ID. Please try again.")
+            return redirect(url_for("register_customer_luggage"))
+
+        # Link the luggage to the logged-in customer,
+        # not to a customer ID supplied by the form.
+        connection.execute("""
+            INSERT INTO luggage (
+                user_id, tracking_id, passenger, flight,
+                origin, destination, weight, status, location,
+                journey_status, alert_status, registered_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        """, (
+            session["user_id"],
+            tracking_id,
+            passenger,
+            flight,
+            origin,
+            destination,
+            weight,
+            "Checked In",
+            origin,
+            "Checked In",
+            None
+        ))
+
+        connection.commit()
+
+    finally:
+        connection.close()
+
+    flash(f"Luggage registered successfully! Your tracking ID is {tracking_id}.")
+    return redirect(url_for("user_dashboard"))
+
+
+# =========================================================
+# CUSTOMER LOGOUT
+# =========================================================
+
+@app.route("/user-logout")
+def user_logout():
+    session.pop("user_id", None)
+    session.pop("user_name", None)
+    flash("You have been logged out.")
+    return redirect(url_for("user_login"))
+
+# =========================================================
 # EMPLOYEE LOGIN PAGE
 # =========================================================
 
@@ -424,6 +675,145 @@ def employee_dashboard():
 
 
 # =========================================================
+# CUSTOMER DATABASE
+# =========================================================
+
+@app.route("/customers", methods=["GET"])
+def customers():
+    if "employee_id" not in session:
+        return redirect(url_for("employee_login"))
+
+    connection = get_db()
+
+    try:
+        customer_rows = connection.execute("""
+            SELECT id, full_name, username, status
+            FROM users
+            ORDER BY id DESC
+        """).fetchall()
+    finally:
+        connection.close()
+
+    return render_template(
+        "customers.html",
+        customers=customer_rows
+    )
+
+
+# =========================================================
+# EDIT CUSTOMER DETAILS
+# =========================================================
+
+@app.route("/customers/edit/<int:customer_id>", methods=["GET", "POST"])
+def edit_customer(customer_id):
+    if "employee_id" not in session:
+        return redirect(url_for("employee_login"))
+
+    connection = get_db()
+
+    try:
+        customer = connection.execute("""
+            SELECT id, full_name, username, status
+            FROM users
+            WHERE id = ?
+        """, (customer_id,)).fetchone()
+
+        if customer is None:
+            return "Customer not found.", 404
+
+        if request.method == "POST":
+            full_name = request.form.get("full_name", "").strip()
+            username = request.form.get("username", "").strip()
+
+            if not full_name or not username:
+                flash("Please complete all fields.")
+                return redirect(
+                    url_for("edit_customer", customer_id=customer_id)
+                )
+
+            try:
+                connection.execute("""
+                    UPDATE users
+                    SET full_name = ?, username = ?
+                    WHERE id = ?
+                """, (full_name, username, customer_id))
+
+                connection.commit()
+
+            except sqlite3.IntegrityError:
+                flash("That username is already in use.")
+                return redirect(
+                    url_for("edit_customer", customer_id=customer_id)
+                )
+
+            flash("Customer details updated successfully.")
+
+            log_activity(
+                "Customer Updated",
+                f"Updated customer account ID {customer_id}."
+            )
+
+            return redirect(url_for("customers"))
+
+    finally:
+        connection.close()
+
+    return render_template(
+        "edit_customer.html",
+        customer=customer
+    )
+
+
+# =========================================================
+# ACTIVATE OR DEACTIVATE CUSTOMER
+# =========================================================
+
+@app.route("/customers/status/<int:customer_id>", methods=["POST"])
+def change_customer_status(customer_id):
+    if "employee_id" not in session:
+        return redirect(url_for("employee_login"))
+
+    connection = get_db()
+
+    try:
+        customer = connection.execute("""
+            SELECT id, full_name, status
+            FROM users
+            WHERE id = ?
+        """, (customer_id,)).fetchone()
+
+        if customer is None:
+            flash("Customer not found.")
+            return redirect(url_for("customers"))
+
+        new_status = (
+            "Inactive"
+            if customer["status"] == "Active"
+            else "Active"
+        )
+
+        connection.execute("""
+            UPDATE users
+            SET status = ?
+            WHERE id = ?
+        """, (new_status, customer_id))
+
+        connection.commit()
+
+    finally:
+        connection.close()
+
+    log_activity(
+        "Customer Status Changed",
+        f"Customer ID {customer_id} changed to {new_status}."
+    )
+
+    flash(f"Customer account is now {new_status}.")
+
+    return redirect(url_for("customers"))
+
+
+# =========================================================
 # EMPLOYEE LOGOUT
 # =========================================================
 
@@ -443,8 +833,21 @@ def admin():
     if "employee_id" not in session:
         return redirect(url_for("employee_login"))
 
-    return render_template("admin.html")
+    connection = get_db()
 
+    customers = connection.execute("""
+        SELECT id, full_name, username
+        FROM users
+        WHERE status = 'Active'
+        ORDER BY full_name ASC
+    """).fetchall()
+
+    connection.close()
+
+    return render_template(
+        "admin.html",
+        customers=customers
+    )
 
 # =========================================================
 # MANAGEMENT DASHBOARD
@@ -1532,53 +1935,86 @@ def add_luggage():
             "message": "Employee login required."
         }), 401
 
+    # Get the selected customer and luggage details
+    user_id = request.form.get("user_id", "").strip()
     passenger = request.form.get("passenger", "").strip()
     flight = request.form.get("flight", "").strip()
     origin = request.form.get("origin", "").strip()
     destination = request.form.get("destination", "").strip()
     weight = request.form.get("weight", "").strip()
 
-    if not all([passenger, flight, origin, destination, weight]):
+    if not all([
+        user_id, passenger, flight, origin, destination, weight
+    ]):
         return jsonify({
             "success": False,
-            "message": "Please complete all luggage fields."
+            "message": "Please complete all fields and select a customer."
+        }), 400
+
+    # Validate the selected customer ID
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        return jsonify({
+            "success": False,
+            "message": "Please select a valid customer account."
         }), 400
 
     connection = get_db()
-    tracking_id = None
 
-    for _ in range(20):
-        possible_id = "ANGEL-" + str(random.randint(10000, 99999))
+    try:
+        customer = connection.execute("""
+            SELECT id
+            FROM users
+            WHERE id = ? AND status = 'Active'
+        """, (user_id,)).fetchone()
 
-        existing = connection.execute("""
-            SELECT id FROM luggage WHERE tracking_id = ?
-        """, (possible_id,)).fetchone()
+        if customer is None:
+            return jsonify({
+                "success": False,
+                "message": "The selected customer account was not found or is inactive."
+            }), 400
 
-        if existing is None:
-            tracking_id = possible_id
-            break
+        # Generate a unique tracking ID
+        tracking_id = None
 
-    if tracking_id is None:
+        for _ in range(20):
+            possible_id = "ANGEL-" + str(random.randint(10000, 99999))
+
+            existing = connection.execute("""
+                SELECT id
+                FROM luggage
+                WHERE tracking_id = ?
+            """, (possible_id,)).fetchone()
+
+            if existing is None:
+                tracking_id = possible_id
+                break
+
+        if tracking_id is None:
+            return jsonify({
+                "success": False,
+                "message": "Could not generate a unique tracking ID."
+            }), 500
+
+        # Save the luggage and link it to the selected customer
+        connection.execute("""
+            INSERT INTO luggage (
+                user_id, tracking_id, passenger, flight,
+                origin, destination, weight, status, location,
+                journey_status, alert_status, registered_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        """, (
+            user_id, tracking_id, passenger, flight,
+            origin, destination, weight, "Checked In",
+            origin, "Checked In", None
+        ))
+
+        connection.commit()
+
+    finally:
         connection.close()
-        return jsonify({
-            "success": False,
-            "message": "Could not generate a unique tracking ID."
-        }), 500
-
-    connection.execute("""
-        INSERT INTO luggage (
-            tracking_id, passenger, flight, origin, destination,
-            weight, status, location, journey_status, alert_status,
-            registered_at
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-    """, (
-        tracking_id, passenger, flight, origin, destination,
-        weight, "Checked In", origin, "Checked In", None
-    ))
-
-    connection.commit()
-    connection.close()
 
     log_activity(
         "Luggage Registered",
@@ -1589,7 +2025,6 @@ def add_luggage():
         "success": True,
         "tracking_id": tracking_id
     })
-
 
 # =========================================================
 # LIVE AGENT: PASSENGER STARTS A CHAT

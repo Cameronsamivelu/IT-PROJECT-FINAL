@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Luggage | ANGEL</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h1 { margin: 0; }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .welcome, .luggage-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .luggage-card h3 { margin-top: 0; }
+
+        .tracking-id {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #64748b;
+            padding: 35px 15px;
+        }
+
+        .message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 11px 16px;
+            border-radius: 7px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>ANGEL</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('user_logout') }}">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="welcome">
+            <h2>Welcome, {{ customer_name }}!</h2>
+            <p>View your registered luggage and check its journey status here.</p>
+            <a href="{{ url_for('register_customer_luggage') }}" class="button">
+    + Register My Luggage
+</a>
+
+            {% with messages = get_flashed_messages() %}
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+        </section>
+
+        <h2>My Luggage</h2>
+
+        {% if luggage %}
+            {% for bag in luggage %}
+                <section class="luggage-card">
+                    <h3>
+                        Tracking ID:
+                        <span class="tracking-id">{{ bag["tracking_id"] }}</span>
+                    </h3>
+
+                    <p><strong>Passenger:</strong> {{ bag["passenger"] }}</p>
+                    <p><strong>Flight:</strong> {{ bag["flight"] }}</p>
+                    <p><strong>From:</strong> {{ bag["origin"] }}</p>
+                    <p><strong>To:</strong> {{ bag["destination"] }}</p>
+                    <p><strong>Weight:</strong> {{ bag["weight"] }}</p>
+                    <p>
+                        <strong>Journey status:</strong>
+                        <span class="status">
+                            {{ bag["journey_status"] or bag["status"] }}
+                        </span>
+                    </p>
+                    <p><strong>Last known location:</strong> {{ bag["location"] }}</p>
+                    <p><strong>Registered:</strong> {{ bag["registered_at"] }}</p>
+                </section>
+            {% endfor %}
+        {% else %}
+            <section class="luggage-card empty">
+                <h3>No luggage linked to your account yet</h3>
+                <p>Once your luggage is registered to your account, it will appear here.</p>
+            </section>
+        {% endif %}
+    </main>
+
+    <footer>
+        ANGEL Luggage Tracking System
+    </footer>
+</body>
+</html>
