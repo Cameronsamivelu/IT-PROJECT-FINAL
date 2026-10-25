@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>ANGEL</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='images/angel-logo.jpeg') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,15 +19,36 @@
 
 <body>
 <nav>
-    <div class="logo">ANGEL</div>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/angel-logo.jpeg') }}" alt="ANGEL Logo" class="navbar-logo">
+    </div>
 
     <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Track Luggage</a></li>
-        <li><a href="#">Flights</a></li>
-        <li><a href="#">Support</a></li>
-        <li><a href="#">Support</a></li>
-        <li><a href="{{ url_for('user_login') }}">User Login</a></li>
+        <li class="support-item">
+    <a href="#" id="supportInfoToggle">Support</a>
+
+    <div class="support-popup" id="supportPopup" hidden>
+        <h3>Need Assistance?</h3>
+        <p>
+            Experiencing technical difficulties or need help with your luggage?
+            Our ANGEL AI Assistant is here to help.
+        </p>
+        <p>
+            Click the chat icon in the bottom-right corner,
+            or select the option below.
+        </p>
+        <a href="#" id="openAngelSupport">Open ANGEL Assistant →</a>
+    </div>
+</li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle">☰ Menu</a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ url_for('employee_login') }}">Employee Login</a></li>
+                <li><a href="{{ url_for('user_login') }}">Customer Login</a></li>
+                <li><a href="{{ url_for('faq') }}">FAQs</a></li>
+
+            </ul>
+        </li>
     </ul>
 </nav>
 
@@ -111,6 +134,50 @@
                  a8.5 8.5 0 0 1 8 8v.5z"/>
     </svg>
 </button>
+<footer class="angel-footer">
+    <div class="footer-container">
+
+        <div class="footer-section">
+            <h3>ANGEL</h3>
+            <p>Airport Navigation & Guidance for Every Luggage.</p>
+            <p>Making luggage tracking simpler, smarter, and more reliable.</p>
+        </div>
+
+        <div class="footer-section">
+            <h3>About ANGEL</h3>
+            <p>ANGEL helps passengers track their luggage and access support throughout their journey.</p>
+        </div>
+
+        <div class="footer-section">
+            <h3>Information</h3>
+            <a href="#">About Us</a>
+            <a href="#">Legal</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+
+        <div class="footer-section">
+            <h3>Connect With Us</h3>
+            <div class="footer-socials">
+                <a href="#" aria-label="Facebook" title="Facebook">
+    <i class="bi bi-facebook" aria-hidden="true"></i>
+</a>
+<a href="#" aria-label="Instagram" title="Instagram">
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+</a>
+<a href="#" aria-label="X" title="X">
+    <i class="bi bi-twitter-x" aria-hidden="true"></i>
+</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 ANGEL. All rights reserved.</p>
+    </div>
+</footer>
+
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 <script src="{{ url_for('static', filename='js/angel-assistant.js') }}"></script>

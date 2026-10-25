@@ -375,7 +375,9 @@ def employee_can_access_conversation(conversation):
 def home():
     return render_template("index.html")
 
-
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
 # =========================================================
 # CUSTOMER REGISTRATION
 # =========================================================

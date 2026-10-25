@@ -41,6 +41,12 @@ nav {
     font-size: 30px;
     font-weight: bold;
 }
+.navbar-logo {
+    width: 95px;
+    height: 75px;
+    object-fit: contain;
+    display: block;
+}
 
 .nav-links {
     list-style: none;
@@ -55,6 +61,47 @@ nav {
 }
 
 .nav-links a:hover {
+    color: gold;
+}
+
+/* ANGEL navbar dropdown */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #103e70;
+    min-width: 190px;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    border-radius: 6px;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    display: block;
+}
+
+.nav-links .dropdown-menu a {
+    display: block;
+    padding: 12px 18px;
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.nav-links .dropdown-menu a:hover {
+    background-color: #18558f;
     color: gold;
 }
 
@@ -2632,4 +2679,168 @@ nav {
     .activity-log-table-card {
         padding: 15px;
     }
+}
+
+
+/* ==============================
+   ANGEL FOOTER
+============================== */
+
+.angel-footer {
+    background-color: #0b3c6f;
+    color: white;
+    padding: 50px 40px 20px;
+    margin-top: 0;
+}
+
+.angel-footer .footer-container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 35px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.angel-footer .footer-section h3 {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 18px;
+}
+
+.angel-footer .footer-section p {
+    color: #dce7f2;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+    text-align: left;
+    margin-left: 0;
+}
+
+.angel-footer .footer-section a {
+    display: block;
+    color: #dce7f2;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.angel-footer .footer-section a:hover {
+    color: #ffd700;
+}
+
+.angel-footer .footer-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.angel-footer .footer-socials a {
+    margin-bottom: 0;
+}
+
+.angel-footer .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
+.angel-footer .footer-bottom p {
+    color: #dce7f2;
+    font-size: 13px;
+}
+
+@media (max-width: 900px) {
+    .angel-footer .footer-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .angel-footer .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .angel-footer {
+        padding: 35px 25px 20px;
+    }
+}
+
+/* ANGEL FOOTER ALIGNMENT IMPROVEMENTS */
+
+.angel-footer .footer-section {
+    text-align: left;
+}
+
+.angel-footer .footer-section h3 {
+    text-align: left;
+}
+
+.angel-footer .footer-section p {
+    text-align: left;
+}
+
+.angel-footer .footer-container {
+    align-items: start;
+}
+
+.angel-footer .footer-section a {
+    text-align: left;
+}
+
+/* ANGEL Support Popup */
+
+.angel-footer .support-popup {
+    display: none;
+}
+
+.support-item {
+    position: relative;
+}
+
+.support-popup {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    width: 330px;
+    max-width: 90vw;
+    padding: 22px;
+    background: white;
+    color: #173b63;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.support-popup[hidden] {
+    display: none;
+}
+
+.support-popup h3 {
+    font-size: 20px;
+    color: #0b3c6f;
+    margin-bottom: 12px;
+}
+
+.support-popup p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    color: #526477;
+    font-weight: normal;
+}
+
+.support-popup #openAngelSupport {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: #0b3c6f;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.support-popup #openAngelSupport:hover {
+    background: #145a96;
 }

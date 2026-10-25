@@ -553,6 +553,26 @@ function showActiveSupportControls() {
         }
     }
 
+    // ANGEL Support information popup
+const supportInfoToggle = document.getElementById("supportInfoToggle");
+const supportPopup = document.getElementById("supportPopup");
+const openAngelSupport = document.getElementById("openAngelSupport");
+
+if (supportInfoToggle && supportPopup) {
+    supportInfoToggle.addEventListener("click", function (event) {
+        event.preventDefault();
+        supportPopup.hidden = !supportPopup.hidden;
+    });
+}
+
+if (openAngelSupport && supportPopup) {
+    openAngelSupport.addEventListener("click", function (event) {
+        event.preventDefault();
+        supportPopup.hidden = true;
+        openChat();
+    });
+}
+
     function closeChat() {
         chatWindow.classList.remove("angel-chat-open");
         chatWindow.setAttribute("aria-hidden", "true");
