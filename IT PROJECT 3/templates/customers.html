@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Customer Database | ANGEL</title>
 
     <style>
@@ -12,211 +14,336 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background: #f4f7fb;
             color: #1f2937;
         }
 
+        /* HEADER */
+
         header {
             background: #123b70;
-            color: white;
-            padding: 22px 30px;
+            color: #ffffff;
+            padding: 22px 5%;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
         }
 
-        header h1 {
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .header-title h1 {
             margin: 0 0 8px;
+            font-size: 27px;
         }
 
-        header p {
+        .header-title p {
             margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #e2eaf5;
         }
+
+        /* WHITE BACK BUTTON */
+
+        .dashboard-back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border: 1px solid #ffffff;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #0d477f;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background 0.2s ease,
+                        border-color 0.2s ease,
+                        color 0.2s ease;
+        }
+
+        .dashboard-back-button:hover {
+            background: #eaf4ff;
+            border-color: #eaf4ff;
+            color: #08345d;
+        }
+
+        .dashboard-back-button:focus-visible {
+            outline: 3px solid #93c5fd;
+            outline-offset: 3px;
+        }
+
+        /* MAIN CONTENT */
 
         main {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #123b70;
-            text-decoration: none;
-            font-weight: bold;
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 24px;
         }
 
         .panel {
-            background: white;
-            padding: 24px;
+            background: #ffffff;
+            padding: 26px;
+            border: 1px solid #e2e8f0;
             border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
         }
 
+        .panel h2 {
+            margin: 0 0 10px;
+            font-size: 22px;
+            color: #183b63;
+        }
+
+        .panel-description {
+            margin: 0 0 20px;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* TABLE */
+
         .table-wrapper {
+            width: 100%;
             overflow-x: auto;
         }
 
         table {
             width: 100%;
+            min-width: 700px;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 8px;
         }
 
-        th, td {
-            padding: 14px;
+        th,
+        td {
+            padding: 15px 14px;
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5eaf1;
+            font-size: 14px;
         }
 
         th {
-            background: #eef3f9;
+            background: #edf3fa;
             color: #123b70;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #f8fbff;
         }
 
         .status {
-            font-weight: bold;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
         }
 
         .active {
+            background: #e6f6ed;
             color: #15803d;
         }
 
         .inactive {
+            background: #feecec;
             color: #b91c1c;
         }
 
         .empty {
-            padding: 25px;
+            padding: 28px;
             text-align: center;
-            color: #6b7280;
+            color: #64748b;
         }
+
+        /* CUSTOMER ACTIONS */
+
+        .customer-actions {
+            white-space: nowrap;
+        }
+
+        .status-form {
+            display: inline-block;
+            margin: 0 0 0 6px;
+        }
+
+        .action-btn {
+            display: inline-block;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .edit-btn {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .edit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .status-btn {
+            background: #dc2626;
+            color: #ffffff;
+        }
+
+        .status-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* MOBILE */
 
         @media (max-width: 600px) {
             header {
                 padding: 20px;
             }
 
+            .header-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .dashboard-back-button {
+                width: 100%;
+            }
+
+            main {
+                margin: 22px auto;
+                padding: 0 14px;
+            }
+
             .panel {
-                padding: 15px;
+                padding: 17px;
+            }
+
+            .header-title h1 {
+                font-size: 23px;
             }
         }
-    
-.customer-actions {
-    white-space: nowrap;
-}
-
-.status-form {
-    display: inline-block;
-    margin: 0 0 0 6px;
-}
-
-.action-btn {
-    display: inline-block;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.edit-btn {
-    background-color: #2563eb;
-    color: white;
-}
-
-.edit-btn:hover {
-    background-color: #1d4ed8;
-}
-
-.status-btn {
-    background-color: #dc2626;
-    color: white;
-}
-
-.status-btn:hover {
-    background-color: #b91c1c;
-}
     </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile-responsive.css') }}">
 </head>
 
 <body>
 
-<header>
-    <h1>ANGEL Customer Database</h1>
-    <p>View registered customer accounts and their current status.</p>
-</header>
+    <header>
+        <div class="header-inner">
 
-<main>
-    <a href="{{ url_for('employee_dashboard') }}" class="back-link">
-        ← Back to Employee Dashboard
-    </a>
+            <div class="header-title">
+                <h1>ANGEL Customer Database</h1>
+                <p>
+                    View registered customer accounts and their current status.
+                </p>
+            </div>
 
-    <section class="panel">
-        <h2>Customer Accounts</h2>
-        <p>Registered customer accounts in the ANGEL luggage tracking system.</p>
+            <a
+                href="{{ url_for('employee_dashboard') }}"
+                class="dashboard-back-button"
+            >
+                <span aria-hidden="true">&larr;</span>
+                Employee Dashboard
+            </a>
 
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Customer ID</th>
-                        <th>Full Name</th>
-                        <th>Username</th>
-                        <th>Account Status</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for customer in customers %}
-                    <tr>
-                        <td>{{ customer["id"] }}</td>
-                        <td>{{ customer["full_name"] }}</td>
-                        <td>{{ customer["username"] }}</td>
-                        <td>
-                            <span class="status {% if customer['status'] == 'Active' %}active{% else %}inactive{% endif %}">
-                                {{ customer["status"] or "Unknown" }}
-                            </span>
-                        </td>
-
-                   
-<td class="customer-actions">
-    <a class="action-btn edit-btn"
-       href="{{ url_for('edit_customer', customer_id=customer['id']) }}">
-        Edit
-    </a>
-
-    <form method="POST"
-          action="{{ url_for('change_customer_status', customer_id=customer['id']) }}"
-          class="status-form">
-
-        <button type="submit" class="action-btn status-btn">
-            {% if customer['status'] == 'Active' %}
-                Deactivate
-            {% else %}
-                Activate
-            {% endif %}
-        </button>
-    </form>
-</td>
-
-
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="4" class="empty">
-                            No customer accounts have been registered yet.
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
         </div>
-    </section>
-</main>
+    </header>
+
+    <main>
+
+        <section class="panel">
+
+            <h2>Customer Accounts</h2>
+
+            <p class="panel-description">
+                Registered customer accounts in the ANGEL luggage tracking system.
+            </p>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Full Name</th>
+                            <th>Username</th>
+                            <th>Account Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer["id"] }}</td>
+
+                            <td>{{ customer["full_name"] }}</td>
+
+                            <td>{{ customer["username"] }}</td>
+
+                            <td>
+                                <span class="status {% if customer['status'] == 'Active' %}active{% else %}inactive{% endif %}">
+                                    {{ customer["status"] or "Unknown" }}
+                                </span>
+                            </td>
+
+                            <td class="customer-actions">
+
+                                <a
+                                    class="action-btn edit-btn"
+                                    href="{{ url_for('edit_customer', customer_id=customer['id']) }}"
+                                >
+                                    Edit
+                                </a>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('change_customer_status', customer_id=customer['id']) }}"
+                                    class="status-form"
+                                >
+                                    <button type="submit" class="action-btn status-btn">
+                                        {% if customer['status'] == 'Active' %}
+                                            Deactivate
+                                        {% else %}
+                                            Activate
+                                        {% endif %}
+                                    </button>
+                                </form>
+
+                            </td>
+                        </tr>
+
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="empty">
+                                No customer accounts have been registered yet.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </body>
 </html>

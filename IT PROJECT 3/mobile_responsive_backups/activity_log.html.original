@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Activity Log</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+    <div class="activity-log-page">
+
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <header class="activity-log-header">
+
+            <div>
+
+                <h1>ANGEL</h1>
+
+                <p>Employee Activity Log</p>
+
+            </div>
+
+
+            <div class="activity-log-header-actions">
+
+                <a href="{{ url_for('management') }}"
+                   class="activity-log-back-button">
+
+                    ← Management Dashboard
+
+                </a>
+
+
+                <a href="{{ url_for('activity_log_pdf') }}"
+                   class="activity-log-pdf-button">
+
+                    ↓ Download PDF
+
+                </a>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             MAIN CONTENT
+             ===================================================== -->
+
+        <main class="activity-log-content">
+
+
+            <!-- =================================================
+                 INFORMATION CARD
+                 ================================================= -->
+
+            <section class="activity-log-info-card">
+
+                <div>
+
+                    <h2>System Activity</h2>
+
+                    <p>
+                        Review recent employee activity,
+                        luggage updates and management actions
+                        performed within ANGEL.
+                    </p>
+
+                </div>
+
+
+                <div class="activity-log-count">
+
+                    <strong>
+                        {{ activities|length }}
+                    </strong>
+
+                    <span>
+                        Records
+                    </span>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ACTIVITY TABLE
+                 ================================================= -->
+
+            <section class="activity-log-table-card">
+
+
+                {% if activities %}
+
+
+                <div class="activity-log-table-wrapper">
+
+                    <table class="activity-log-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Employee
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                                <th>
+                                    Details
+                                </th>
+
+                                <th>
+                                    Date / Time
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            {% for activity in activities %}
+
+
+                            <tr>
+
+
+                                <td>
+
+                                    #{{ activity["id"] }}
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        {{ activity["employee_name"] or "Unknown" }}
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="activity-action">
+
+                                        {{ activity["action"] }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ activity["details"] or "-" }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ activity["timestamp"] }}
+
+                                </td>
+
+
+                            </tr>
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+
+                {% else %}
+
+
+                <div class="activity-log-empty">
+
+                    <div class="activity-log-empty-icon">
+                        📋
+                    </div>
+
+                    <h2>
+                        No Activity Yet
+                    </h2>
+
+                    <p>
+                        Employee activity will appear here
+                        once actions are performed in ANGEL.
+                    </p>
+
+                </div>
+
+
+                {% endif %}
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+</body>
+
+</html>

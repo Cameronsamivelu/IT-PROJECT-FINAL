@@ -375,9 +375,374 @@ def employee_can_access_conversation(conversation):
 def home():
     return render_template("index.html")
 
+
+# =========================================================
+# ABOUT US
+# =========================================================
+
+@app.route("/about-us")
+def about_us():
+    return render_template(
+        "information_page.html",
+        page_title="About ANGEL",
+        page_label="About Us",
+        page_description=(
+            "Learn about ANGEL, our luggage tracking project and "
+            "the purpose behind the system."
+        ),
+        sections=[
+            {
+                "heading": "What is ANGEL?",
+                "paragraphs": [
+                    "ANGEL stands for Airport Navigation & Guidance "
+                    "for Every Luggage.",
+                    "It is a web-based project designed to help "
+                    "passengers and airport staff manage luggage "
+                    "information, review recorded journey statuses "
+                    "and access support."
+                ]
+            },
+            {
+                "heading": "What ANGEL aims to provide",
+                "paragraphs": [
+                    "The system brings luggage registration, tracking "
+                    "information, customer accounts and support "
+                    "functionality together in one place."
+                ],
+                "items": [
+                    "Luggage registration and tracking references.",
+                    "Recorded luggage status and last known location.",
+                    "Customer-specific luggage history when records "
+                    "are linked to the customer's account.",
+                    "Support assistance through the ANGEL interface.",
+                    "Employee and management tools for authorised "
+                    "operations."
+                ]
+            },
+            {
+                "heading": "Our project objective",
+                "paragraphs": [
+                    "Our objective is to demonstrate how a digital "
+                    "system can make luggage information easier to "
+                    "record, find and manage for both passengers "
+                    "and employees."
+                ]
+            }
+        ]
+    )
+
+
+# =========================================================
+# LEGAL INFORMATION
+# =========================================================
+
+@app.route("/legal")
+def legal():
+    return render_template(
+        "information_page.html",
+        page_title="Legal Information",
+        page_label="Legal",
+        page_description=(
+            "Important information about the scope, limitations "
+            "and intended use of the ANGEL prototype."
+        ),
+        sections=[
+            {
+                "heading": "Project status",
+                "paragraphs": [
+                    "ANGEL is currently a project prototype intended "
+                    "to demonstrate luggage management and tracking "
+                    "workflows. It is not represented as an official "
+                    "airline or airport-operated service."
+                ]
+            },
+            {
+                "heading": "Flight and luggage information",
+                "paragraphs": [
+                    "Luggage and flight details displayed by ANGEL "
+                    "come from records available in the project "
+                    "database. Unless a live airline-data integration "
+                    "is separately implemented, this information must "
+                    "not be treated as a live airline timetable or "
+                    "confirmed departure, arrival or delay information."
+                ]
+            },
+            {
+                "heading": "Accuracy and availability",
+                "paragraphs": [
+                    "Displayed information depends on the accuracy "
+                    "and completeness of the records entered into "
+                    "the system. A missing or outdated record may "
+                    "not reflect the actual physical location or "
+                    "condition of a bag."
+                ]
+            },
+            {
+                "heading": "Related policies",
+                "paragraphs": [
+                    "Please read the Terms and Conditions and Privacy "
+                    "Policy pages for further information about "
+                    "intended system use and the data handled by "
+                    "this prototype."
+                ]
+            }
+        ]
+    )
+
+
+# =========================================================
+# TERMS AND CONDITIONS
+# =========================================================
+
+@app.route("/terms-and-conditions")
+def terms_and_conditions():
+    return render_template(
+        "information_page.html",
+        page_title="Terms & Conditions",
+        page_label="Terms of Use",
+        page_description=(
+            "Guidance for using the ANGEL luggage tracking "
+            "and management prototype."
+        ),
+        sections=[
+            {
+                "heading": "1. Purpose of the system",
+                "paragraphs": [
+                    "ANGEL is designed to demonstrate digital luggage "
+                    "registration, tracking records, customer accounts "
+                    "and support workflows. Features and information "
+                    "may change as the project develops."
+                ]
+            },
+            {
+                "heading": "2. Account responsibility",
+                "paragraphs": [
+                    "Customers should provide accurate information "
+                    "when creating an account and should keep their "
+                    "login credentials private. Do not use another "
+                    "person's account without permission."
+                ]
+            },
+            {
+                "heading": "3. Tracking information",
+                "paragraphs": [
+                    "Tracking references and journey statuses reflect "
+                    "records stored in ANGEL. They do not independently "
+                    "confirm the real-time location of a physical bag "
+                    "or the operational status of an airline flight."
+                ]
+            },
+            {
+                "heading": "4. Acceptable use",
+                "paragraphs": [
+                    "Users should not attempt to access accounts, "
+                    "passenger records or management functions "
+                    "without authorisation, interfere with the "
+                    "system, or deliberately submit misleading "
+                    "information."
+                ]
+            },
+            {
+                "heading": "5. Prototype limitations",
+                "paragraphs": [
+                    "ANGEL is a project prototype. Availability, "
+                    "record accuracy and the behaviour of individual "
+                    "features may be limited by the demonstration "
+                    "environment and the data available."
+                ]
+            },
+            {
+                "heading": "6. Questions and support",
+                "paragraphs": [
+                    "For questions about a record or a problem using "
+                    "the system, use the available ANGEL support "
+                    "features or contact an authorised project "
+                    "Supervisor or Administrator."
+                ]
+            }
+        ]
+    )
+
+
+# =========================================================
+# PRIVACY POLICY
+# =========================================================
+
+@app.route("/privacy-policy")
+def privacy_policy():
+    return render_template(
+        "information_page.html",
+        page_title="Privacy Policy",
+        page_label="Privacy",
+        page_description=(
+            "An overview of the types of information handled by "
+            "ANGEL and how that information is used in the prototype."
+        ),
+        sections=[
+            {
+                "heading": "1. Information handled by ANGEL",
+                "paragraphs": [
+                    "Depending on the features used, the prototype "
+                    "may store customer names and usernames, password "
+                    "hashes, luggage tracking references, flight "
+                    "numbers, departure and destination details, "
+                    "luggage weight, journey statuses, locations "
+                    "and registration dates."
+                ]
+            },
+            {
+                "heading": "2. Support conversations",
+                "paragraphs": [
+                    "Information submitted through the support "
+                    "function may be stored so that a conversation "
+                    "can be displayed and handled by the support "
+                    "workflow."
+                ]
+            },
+            {
+                "heading": "3. How information is used",
+                "paragraphs": [
+                    "The information is used to demonstrate customer "
+                    "accounts, luggage tracking, personal luggage "
+                    "history, employee operations and support "
+                    "functionality."
+                ]
+            },
+            {
+                "heading": "4. Access to records",
+                "paragraphs": [
+                    "Personal luggage history is intended to be "
+                    "limited to records linked to the logged-in "
+                    "customer account. Employee and management "
+                    "features provide access according to the "
+                    "permissions implemented in the application."
+                ]
+            },
+            {
+                "heading": "5. Credentials and account safety",
+                "paragraphs": [
+                    "The application stores password hashes rather "
+                    "than saving customer passwords as readable "
+                    "plain text. Users should still choose a "
+                    "strong password and must not share it."
+                ]
+            },
+            {
+                "heading": "6. Prototype and third-party resources",
+                "paragraphs": [
+                    "ANGEL is a project prototype and has not been "
+                    "independently audited for production privacy "
+                    "or security requirements. Some visual assets "
+                    "may load from external font or icon services."
+                ]
+            },
+            {
+                "heading": "7. Questions or corrections",
+                "paragraphs": [
+                    "If you have a question about a demonstration "
+                    "record or believe information is incorrect, "
+                    "contact an authorised project Supervisor or "
+                    "Administrator so the record can be reviewed."
+                ]
+            }
+        ]
+    )
+
+
+# =========================================================
+# CUSTOMER FLIGHT HISTORY
+# =========================================================
+
+@app.route("/flights")
+def flights():
+    search_term = request.args.get("search", "").strip()
+
+    # Signed-out visitors see the login prompt.
+    # Do not query or expose any customer's luggage records.
+    customer_id = session.get("user_id")
+
+    if customer_id is None:
+        return render_template(
+            "flights.html",
+            customer_name=None,
+            customer_history=[],
+            search_term=search_term
+        )
+
+    connection = get_db()
+
+    try:
+        # Validate the logged-in customer account.
+        customer = connection.execute("""
+            SELECT id, full_name, status
+            FROM users
+            WHERE id = ?
+        """, (customer_id,)).fetchone()
+
+        if customer is None or customer["status"] != "Active":
+            session.pop("user_id", None)
+            session.pop("user_name", None)
+
+            flash("Your account is unavailable. Please log in again.")
+
+            return redirect(url_for("user_login"))
+
+        # Search only the luggage records linked to this customer.
+        like_term = f"%{search_term}%"
+
+        customer_history = connection.execute("""
+            SELECT
+                tracking_id,
+                flight,
+                origin,
+                destination,
+                journey_status,
+                status,
+                alert_status,
+                location,
+                registered_at
+            FROM luggage
+            WHERE user_id = ?
+              AND (
+                    ? = ''
+                    OR tracking_id LIKE ?
+                    OR flight LIKE ?
+                    OR origin LIKE ?
+                    OR destination LIKE ?
+              )
+            ORDER BY
+                COALESCE(registered_at, '') DESC,
+                id DESC
+        """, (
+            customer_id,
+            search_term,
+            like_term,
+            like_term,
+            like_term,
+            like_term
+        )).fetchall()
+
+        customer_name = customer["full_name"]
+
+    finally:
+        connection.close()
+
+    return render_template(
+        "flights.html",
+        customer_name=customer_name,
+        customer_history=customer_history,
+        search_term=search_term
+    )
+
+
+# =========================================================
+# FAQ PAGE
+# =========================================================
+
 @app.route("/faq")
 def faq():
     return render_template("faq.html")
+
 # =========================================================
 # CUSTOMER REGISTRATION
 # =========================================================
@@ -425,7 +790,7 @@ def user_register():
     finally:
         connection.close()
 
-    flash("Account created successfully. Please log in.")
+    flash("Account created successfully. Please log in.", "success")
     return redirect(url_for("user_login"))
 
 
@@ -465,6 +830,14 @@ def user_login():
     session["user_name"] = user["full_name"]
 
     return redirect(url_for("user_dashboard"))
+
+# =========================================================
+# CUSTOMER FORGOT PASSWORD PAGE
+# =========================================================
+
+@app.route("/user-forgot-password", methods=["GET"])
+def user_forgot_password():
+    return render_template("forgot_password.html")
 
 
 # =========================================================
@@ -1937,47 +2310,38 @@ def add_luggage():
             "message": "Employee login required."
         }), 401
 
-    # Get the selected customer and luggage details
-    user_id = request.form.get("user_id", "").strip()
     passenger = request.form.get("passenger", "").strip()
     flight = request.form.get("flight", "").strip()
     origin = request.form.get("origin", "").strip()
     destination = request.form.get("destination", "").strip()
     weight = request.form.get("weight", "").strip()
 
-    if not all([
-        user_id, passenger, flight, origin, destination, weight
-    ]):
+    if not all([passenger, flight, origin, destination, weight]):
         return jsonify({
             "success": False,
-            "message": "Please complete all fields and select a customer."
-        }), 400
-
-    # Validate the selected customer ID
-    try:
-        user_id = int(user_id)
-    except (ValueError, TypeError):
-        return jsonify({
-            "success": False,
-            "message": "Please select a valid customer account."
+            "message": "Please complete all fields."
         }), 400
 
     connection = get_db()
 
     try:
-        customer = connection.execute("""
+        # Automatically link the luggage to a customer account
+        # only when exactly one active account matches the
+        # passenger's full name.
+        matching_customers = connection.execute("""
             SELECT id
             FROM users
-            WHERE id = ? AND status = 'Active'
-        """, (user_id,)).fetchone()
+            WHERE status = 'Active'
+              AND LOWER(TRIM(full_name)) = LOWER(TRIM(?))
+            ORDER BY id ASC
+        """, (passenger,)).fetchall()
 
-        if customer is None:
-            return jsonify({
-                "success": False,
-                "message": "The selected customer account was not found or is inactive."
-            }), 400
+        user_id = None
 
-        # Generate a unique tracking ID
+        if len(matching_customers) == 1:
+            user_id = matching_customers[0]["id"]
+
+        # Generate a unique tracking ID.
         tracking_id = None
 
         for _ in range(20):
@@ -1996,21 +2360,38 @@ def add_luggage():
         if tracking_id is None:
             return jsonify({
                 "success": False,
-                "message": "Could not generate a unique tracking ID."
+                "message": "Could not generate a unique tracking ID. Please try again."
             }), 500
 
-        # Save the luggage and link it to the selected customer
+        # Save the luggage. A customer account is optional.
         connection.execute("""
             INSERT INTO luggage (
-                user_id, tracking_id, passenger, flight,
-                origin, destination, weight, status, location,
-                journey_status, alert_status, registered_at
+                user_id,
+                tracking_id,
+                passenger,
+                flight,
+                origin,
+                destination,
+                weight,
+                status,
+                location,
+                journey_status,
+                alert_status,
+                registered_at
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
         """, (
-            user_id, tracking_id, passenger, flight,
-            origin, destination, weight, "Checked In",
-            origin, "Checked In", None
+            user_id,
+            tracking_id,
+            passenger,
+            flight,
+            origin,
+            destination,
+            weight,
+            "Checked In",
+            origin,
+            "Checked In",
+            None
         ))
 
         connection.commit()
@@ -2235,6 +2616,7 @@ def support_employee_inbox():
             c.id,
             c.reference,
             c.tracking_id,
+            COALESCE(l.passenger, 'Passenger') AS passenger_name,
             c.status,
             c.assigned_employee_id,
             c.created_at,
@@ -2247,11 +2629,23 @@ def support_employee_inbox():
                 ORDER BY m.id DESC
                 LIMIT 1
             ) AS last_message
+
         FROM support_conversations c
-        LEFT JOIN employees e ON e.id = c.assigned_employee_id
+
+        LEFT JOIN luggage l
+            ON UPPER(TRIM(l.tracking_id)) =
+               UPPER(TRIM(c.tracking_id))
+
+        LEFT JOIN employees e
+            ON e.id = c.assigned_employee_id
+
         WHERE c.status IN ('Waiting', 'In Progress')
+
         ORDER BY
-            CASE c.status WHEN 'Waiting' THEN 0 ELSE 1 END,
+            CASE c.status
+                WHEN 'Waiting' THEN 0
+                ELSE 1
+            END,
             c.updated_at ASC
     """).fetchall()
 
@@ -2260,6 +2654,7 @@ def support_employee_inbox():
             "id": row["id"],
             "reference": row["reference"],
             "tracking_id": row["tracking_id"],
+            "passenger_name": row["passenger_name"],
             "status": row["status"],
             "assigned_employee_id": row["assigned_employee_id"],
             "assigned_employee": row["assigned_employee"],
@@ -2276,7 +2671,6 @@ def support_employee_inbox():
         "success": True,
         "conversations": conversations
     })
-
 
 # =========================================================
 # SUPPORT INBOX PAGE
@@ -2603,4 +2997,4 @@ def support_employee_resolve(conversation_id):
 
 if __name__ == "__main__":
     create_database()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)

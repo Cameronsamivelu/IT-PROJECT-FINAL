@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Management Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="management-dashboard">
+
+        <!-- HEADER -->
+
+        <header class="management-header">
+
+            <div>
+
+                <h1>ANGEL</h1>
+
+                <p>Management Dashboard</p>
+
+            </div>
+
+            <a href="{{ url_for('employee_dashboard') }}"
+               class="management-back-button">
+
+                Employee Dashboard
+
+            </a>
+
+        </header>
+
+
+        <!-- WELCOME -->
+
+        <section class="management-welcome">
+
+            <h2>Welcome, {{ employee_name }}!</h2>
+
+            <p>
+                Manage ANGEL employees, permissions and system information.
+            </p>
+
+        </section>
+
+
+        <!-- MANAGEMENT OPTIONS -->
+
+        <main class="management-content">
+
+            <div class="management-grid">
+
+
+                <!-- EMPLOYEE ACCOUNTS -->
+
+                <div class="management-card">
+
+                    <div class="management-icon">
+                    </div>
+
+                    <h3>
+                        Employee Accounts
+                    </h3>
+
+                    <p>
+                        Create and manage employee accounts,
+                        usernames and passwords.
+                    </p>
+
+                    <a href="{{ url_for('employees') }}"
+                       class="management-button">
+
+                        Manage Employees
+
+                    </a>
+
+                </div>
+
+
+                <!-- SYSTEM OVERVIEW -->
+
+                <div class="management-card">
+
+                    <div class="management-icon">
+                    </div>
+
+                    <h3>
+                        System Overview
+                    </h3>
+
+                    <p>
+                        View an overview of employees and
+                        luggage currently registered in ANGEL.
+                    </p>
+
+                    <a href="{{ url_for('overview') }}"
+                       class="management-button">
+
+                        View Overview
+
+                    </a>
+
+                </div>
+
+
+                <!-- ACTIVITY LOG -->
+
+                <div class="management-card">
+
+                    <div class="management-icon">
+                    </div>
+
+                    <h3>
+                        Activity Log
+                    </h3>
+
+                    <p>
+                        Monitor employee actions and changes
+                        made within the ANGEL system.
+                    </p>
+
+                    <a href="{{ url_for('activity_log') }}"
+                       class="management-button">
+
+                        View Activity
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
+```

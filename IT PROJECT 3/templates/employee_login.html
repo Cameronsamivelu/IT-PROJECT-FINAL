@@ -1,94 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#082b50">
+    <title>Employee Portal | ANGEL</title>
 
-    <title>ANGEL - Employee Login</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
-
+    <link rel="icon" href="{{ url_for('static', filename='images/angel-favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile-responsive.css') }}">
 </head>
 
-<body>
+<body class="auth-page">
+<main class="auth-shell">
 
-    <div class="employee-login-page">
-
-        <div class="employee-login-card">
-
-            <div class="employee-login-header">
-
-                <h1>ANGEL</h1>
-
-                <h2>Employee Login</h2>
-
-                <p>
-                    Airport Navigation & Guidance for Every Luggage
-                </p>
-
+    <aside class="auth-brand">
+        <div class="brand-top">
+            <div class="brand-logo">
+                <img
+                    src="{{ url_for('static', filename='images/angel-logo.png') }}"
+                    alt="ANGEL logo"
+                    onerror="this.style.display='none'"
+                >
             </div>
 
+            <div>
+                <p class="brand-name">ANGEL</p>
+                <p class="brand-tagline">Airport luggage guidance</p>
+            </div>
+        </div>
 
-            {% if error %}
+        <div class="brand-copy">
+            <p class="brand-eyebrow">Staff access</p>
+            <h1>Every journey takes a <span>team.</span></h1>
+            <p>
+                Sign in to access the ANGEL employee workspace and
+                the tools you need to support luggage operations.
+            </p>
+        </div>
 
-            <div class="login-error">
+        <ul class="brand-points">
+            <li class="brand-point">
+                <span class="point-icon">✓</span>
+                <span>Secure access for authorised employees</span>
+            </li>
+
+            <li class="brand-point">
+                <span class="point-icon">↗</span>
+                <span>Manage luggage operations from one place</span>
+            </li>
+        </ul>
+
+        <p class="brand-footer">
+            ANGEL employee portal · Authorised staff only
+        </p>
+    </aside>
+
+    <section class="auth-panel">
+        <p class="auth-kicker">Employee portal</p>
+        <h2 class="auth-title">Welcome to the team</h2>
+        <p class="auth-description">
+            Use your employee username and password to continue.
+        </p>
+
+        {% if error %}
+            <div class="flash error" role="alert">
                 {{ error }}
             </div>
+        {% endif %}
 
-            {% endif %}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}" role="status">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
 
-
-            <form method="POST"
-                  action="{{ url_for('employee_login_process') }}">
-
-                <label for="username">
-                    Employee Username
-                </label>
-
+        <form
+            class="auth-form"
+            method="POST"
+            action="{{ url_for('employee_login_process') }}"
+        >
+            <div class="form-field">
+                <label for="username">Employee username</label>
                 <input
                     type="text"
                     id="username"
                     name="username"
-                    placeholder="Enter your username"
+                    autocomplete="username"
+                    placeholder="Enter your employee username"
                     required
+                    autofocus
                 >
+            </div>
 
-
-                <label for="password">
-                    Password
-                </label>
-
+            <div class="form-field">
+                <label for="password">Password</label>
                 <input
                     type="password"
                     id="password"
                     name="password"
+                    autocomplete="current-password"
                     placeholder="Enter your password"
                     required
                 >
-
-
-                <button type="submit">
-                    Login
-                </button>
-
-            </form>
-
-
-            <div class="employee-login-footer">
-
-                <a href="{{ url_for('home') }}">
-                    ← Back to ANGEL Home
-                </a>
-
             </div>
 
-        </div>
+            <button class="primary-button" type="submit">
+                Sign in to employee portal
+                <span aria-hidden="true">→</span>
+            </button>
+        </form>
 
-    </div>
+        <a class="auth-home-link" href="{{ url_for('home') }}">
+            ← Back to homepage
+        </a>
+    </section>
 
+</main>
 </body>
-
 </html>

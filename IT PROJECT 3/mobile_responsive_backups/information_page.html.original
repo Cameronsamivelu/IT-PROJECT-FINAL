@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ page_title }} | ANGEL</title>
+
+    <style>
+        :root {
+            --navy: #0b3c6f;
+            --navy-dark: #082e53;
+            --blue: #176fc1;
+            --background: #f3f7fc;
+            --white: #ffffff;
+            --text: #203047;
+            --muted: #66778c;
+            --border: #e1e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 18px 5%;
+            background: var(--navy);
+            color: white;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 5px;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #dbeafe;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .nav-links .home-link {
+            background: white;
+            color: var(--navy);
+            border-color: white;
+        }
+
+        .nav-links .home-link:hover {
+            background: #eaf4ff;
+        }
+
+        main {
+            width: min(900px, calc(100% - 36px));
+            margin: 35px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .eyebrow {
+            margin-bottom: 10px;
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 12px;
+            color: var(--navy-dark);
+            font-size: 32px;
+            line-height: 1.25;
+        }
+
+        .page-heading p {
+            max-width: 760px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .content-card {
+            margin-bottom: 18px;
+            padding: 24px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(21, 49, 79, 0.04);
+        }
+
+        .content-card h2 {
+            margin: 0 0 14px;
+            color: var(--navy-dark);
+            font-size: 20px;
+        }
+
+        .content-card p,
+        .content-card li {
+            color: #53657a;
+            font-size: 14px;
+            line-height: 1.85;
+        }
+
+        .content-card p {
+            margin: 0 0 12px;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-card ul {
+            padding-left: 22px;
+            margin: 10px 0 0;
+        }
+
+        .content-card li {
+            margin-bottom: 8px;
+        }
+
+        .notice {
+            padding: 16px 18px;
+            margin-top: 24px;
+            border: 1px solid #cfe1f5;
+            border-left: 4px solid var(--blue);
+            border-radius: 8px;
+            background: #edf6ff;
+            color: #234b73;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .page-navigation {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+
+        .page-navigation a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 15px;
+            border: 1px solid #dbe5f0;
+            border-radius: 8px;
+            background: white;
+            color: var(--navy);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .page-navigation a:hover {
+            background: #eaf4ff;
+        }
+
+        footer {
+            padding: 27px 15px;
+            border-top: 1px solid var(--border);
+            background: white;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        footer a {
+            margin: 0 7px;
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                padding: 17px 20px;
+            }
+
+            .nav-links {
+                width: 100%;
+            }
+
+            .nav-links a {
+                flex: 1;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+
+            .content-card {
+                padding: 19px;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+            }
+
+            .page-navigation a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <a href="{{ url_for('home') }}" class="brand">
+        ANGEL
+        <small>PASSENGER INFORMATION</small>
+    </a>
+
+    <nav class="nav-links">
+        <a href="{{ url_for('home') }}" class="home-link">
+            &larr; Home
+        </a>
+
+        <a href="{{ url_for('flights') }}">
+            Flights
+        </a>
+
+        <a href="{{ url_for('user_login') }}">
+            Customer Login
+        </a>
+    </nav>
+
+</header>
+
+<main>
+
+    <section class="page-heading">
+        <div class="eyebrow">{{ page_label }}</div>
+
+        <h1>{{ page_title }}</h1>
+
+        <p>{{ page_description }}</p>
+    </section>
+
+    {% for section in sections %}
+
+        <section class="content-card">
+
+            <h2>{{ section["heading"] }}</h2>
+
+            {% for paragraph in section["paragraphs"] %}
+                <p>{{ paragraph }}</p>
+            {% endfor %}
+
+            {# Use dictionary-key access to avoid the .items method collision. #}
+            {% if section.get("items", []) %}
+                <ul>
+                    {% for item in section.get("items", []) %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+        </section>
+
+    {% endfor %}
+
+    <div class="notice">
+        <strong>Project information:</strong>
+        ANGEL is currently a project prototype. The descriptions and policy
+        summaries on this website are provided for demonstration purposes.
+        They should be reviewed against the final deployed system before
+        being relied upon as official legal or privacy policies.
+    </div>
+
+    <nav class="page-navigation" aria-label="Related information">
+
+        <a href="{{ url_for('about_us') }}">About Us</a>
+
+        <a href="{{ url_for('legal') }}">Legal Information</a>
+
+        <a href="{{ url_for('terms_and_conditions') }}">
+            Terms &amp; Conditions
+        </a>
+
+        <a href="{{ url_for('privacy_policy') }}">
+            Privacy Policy
+        </a>
+
+    </nav>
+
+</main>
+
+<footer>
+
+    <div>
+        &copy; 2026 ANGEL. Airport Navigation &amp; Guidance for Every Luggage.
+    </div>
+
+    <div>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('about_us') }}">About Us</a>
+        <a href="{{ url_for('legal') }}">Legal</a>
+        <a href="{{ url_for('terms_and_conditions') }}">Terms</a>
+        <a href="{{ url_for('privacy_policy') }}">Privacy</a>
+    </div>
+
+</footer>
+
+</body>
+</html>

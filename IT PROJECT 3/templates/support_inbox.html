@@ -279,6 +279,14 @@
             color: #145a9a;
         }
 
+        .conversation-passenger {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 8px 0 4px;
+            overflow-wrap: anywhere;
+        }
+
         .conversation-tracking {
             font-size: 12px;
             color: var(--muted);
@@ -457,6 +465,142 @@
             border: 1px solid #c6ebd6;
         }
 
+        /* In-page confirmation modal for resolving a support conversation. */
+        .modal-backdrop[hidden] {
+            display: none !important;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(12, 30, 51, 0.56);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            animation: modal-backdrop-in 0.16s ease-out;
+        }
+
+        .confirmation-modal {
+            width: min(100%, 460px);
+            padding: 30px;
+            background: var(--white);
+            border: 1px solid rgba(225, 232, 240, 0.9);
+            border-radius: 16px;
+            box-shadow: 0 24px 80px rgba(8, 30, 55, 0.28);
+            animation: modal-card-in 0.18s ease-out;
+        }
+
+        .confirmation-modal-icon {
+            display: flex;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            background: #e8f8ef;
+            color: var(--green);
+        }
+
+        .confirmation-modal-icon svg {
+            width: 23px;
+            height: 23px;
+        }
+
+        .confirmation-modal h2 {
+            margin: 0 0 10px;
+            color: #162b43;
+            font-size: 21px;
+            line-height: 1.3;
+        }
+
+        .confirmation-modal p {
+            margin: 0;
+            color: #617187;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .confirmation-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 26px;
+        }
+
+        .modal-cancel-button,
+        .modal-confirm-button {
+            min-height: 42px;
+            padding: 10px 15px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .modal-cancel-button {
+            background: #f2f5f9;
+            border-color: #e0e7ef;
+            color: #34465c;
+        }
+
+        .modal-cancel-button:hover {
+            background: #e7edf4;
+        }
+
+        .modal-confirm-button {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .modal-confirm-button:hover {
+            background: #116b48;
+        }
+
+        .modal-cancel-button:focus-visible,
+        .modal-confirm-button:focus-visible {
+            outline: 3px solid rgba(22, 116, 196, 0.28);
+            outline-offset: 2px;
+        }
+
+        @keyframes modal-backdrop-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modal-card-in {
+            from { opacity: 0; transform: translateY(8px) scale(0.985); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .modal-backdrop,
+            .confirmation-modal {
+                animation: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .confirmation-modal {
+                padding: 24px 20px;
+            }
+
+            .confirmation-modal-actions {
+                flex-direction: column-reverse;
+            }
+
+            .modal-cancel-button,
+            .modal-confirm-button {
+                width: 100%;
+            }
+        }
+
         .placeholder {
             flex: 1;
             min-height: 450px;
@@ -557,6 +701,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile-responsive.css') }}">
 </head>
 
 <body>
@@ -585,6 +730,40 @@
         </section>
 
         <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+        <div
+            id="resolveModal"
+            class="modal-backdrop"
+            hidden
+            aria-hidden="true"
+        >
+            <section
+                class="confirmation-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="resolveModalTitle"
+                aria-describedby="resolveModalDescription"
+                tabindex="-1"
+            >
+                <div class="confirmation-modal-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 6 9 17l-5-5"></path>
+                    </svg>
+                </div>
+                <h2 id="resolveModalTitle">Resolve this conversation?</h2>
+                <p id="resolveModalDescription">
+                    This will close the support request. Once it is resolved, you will no longer be able to send replies from this inbox.
+                </p>
+                <div class="confirmation-modal-actions">
+                    <button class="modal-cancel-button" id="cancelResolveButton" type="button">
+                        Keep conversation open
+                    </button>
+                    <button class="modal-confirm-button" id="confirmResolveButton" type="button">
+                        Resolve conversation
+                    </button>
+                </div>
+            </section>
+        </div>
 
         <section class="stats">
             <div class="stat-card">
@@ -654,6 +833,7 @@
                             placeholder="Type your reply to the passenger..."
                             maxlength="4000"
                             required
+                            aria-label="Reply to passenger. Press Enter to send or Shift plus Enter for a new line."
                         ></textarea>
 
                         <div class="reply-footer">
@@ -697,7 +877,10 @@
                 messageArea: document.getElementById("messageArea"),
                 replyForm: document.getElementById("replyForm"),
                 replyInput: document.getElementById("replyInput"),
-                sendButton: document.getElementById("sendButton")
+                sendButton: document.getElementById("sendButton"),
+                resolveModal: document.getElementById("resolveModal"),
+                cancelResolveButton: document.getElementById("cancelResolveButton"),
+                confirmResolveButton: document.getElementById("confirmResolveButton")
             };
 
             let conversations = [];
@@ -706,6 +889,88 @@
             let lastMessageSignature = "";
             let requestInProgress = false;
             let noticeTimer = null;
+            const passengerNameCache = new Map();
+
+            // Enter sends the reply; Shift+Enter keeps the normal textarea newline.
+            // This is the same capture-phase handler verified in the browser console.
+            elements.replyInput.addEventListener("keydown", event => {
+                if (
+                    event.key !== "Enter" ||
+                    event.shiftKey ||
+                    event.isComposing ||
+                    event.keyCode === 229
+                ) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                if (
+                    elements.sendButton.disabled ||
+                    elements.replyInput.disabled
+                ) {
+                    return;
+                }
+
+                if (typeof elements.replyForm.requestSubmit === "function") {
+                    elements.replyForm.requestSubmit(elements.sendButton);
+                } else {
+                    elements.sendButton.click();
+                }
+            }, true);
+
+            // Resolve the passenger name from the inbox response first, and fall back
+            // to the public luggage-tracking endpoint when older backend responses omit it.
+            async function getPassengerName(conversation) {
+                const suppliedName = String(conversation?.passenger_name || "").trim();
+                const trackingId = String(conversation?.tracking_id || "").trim();
+
+                if (suppliedName && suppliedName.toLowerCase() !== "passenger") {
+                    if (trackingId) {
+                        passengerNameCache.set(trackingId.toUpperCase(), suppliedName);
+                    }
+                    return suppliedName;
+                }
+
+                if (!trackingId) return suppliedName || "Passenger";
+
+                const cacheKey = trackingId.toUpperCase();
+                if (passengerNameCache.has(cacheKey)) {
+                    return passengerNameCache.get(cacheKey);
+                }
+
+                try {
+                    const response = await fetch(`/track?id=${encodeURIComponent(trackingId)}`, {
+                        credentials: "same-origin"
+                    });
+                    if (!response.ok) return suppliedName || "Passenger";
+
+                    const data = await response.json();
+                    const resolvedName = String(
+                        data?.luggage?.passenger ||
+                        data?.luggage?.passenger_name ||
+                        data?.passenger_name ||
+                        data?.passenger ||
+                        ""
+                    ).trim();
+
+                    if (resolvedName) {
+                        passengerNameCache.set(cacheKey, resolvedName);
+                        return resolvedName;
+                    }
+                } catch (error) {
+                    // A name lookup must never prevent the support inbox from loading.
+                }
+
+                return suppliedName || "Passenger";
+            }
+
+            async function addPassengerNames(items) {
+                return Promise.all(items.map(async conversation => ({
+                    ...conversation,
+                    passenger_name: await getPassengerName(conversation)
+                })));
+            }
 
             function showNotice(message, type = "error") {
                 clearTimeout(noticeTimer);
@@ -797,6 +1062,7 @@
 
                 const filtered = conversations.filter(c => {
                     return [
+                        c.passenger_name,
                         c.reference,
                         c.tracking_id,
                         c.status,
@@ -848,6 +1114,12 @@
 
                     item.appendChild(makeElement(
                         "div",
+                        "conversation-passenger",
+                        `Passenger: ${conversation.passenger_name || "Passenger"}`
+                    ));
+
+                    item.appendChild(makeElement(
+                        "div",
                         "conversation-tracking",
                         `Tracking ID: ${conversation.tracking_id || "Not provided"}`
                     ));
@@ -879,6 +1151,7 @@
                     selectedConversation.reference || `Request #${selectedConversation.id}`;
 
                 const details = [
+                    `Passenger: ${selectedConversation.passenger_name || "Passenger"}`,
                     `Tracking ID: ${selectedConversation.tracking_id || "Not provided"}`,
                     `Status: ${selectedConversation.status || "Unknown"}`,
                     `Assigned to: ${selectedConversation.assigned_employee || "No employee yet"}`
@@ -931,7 +1204,7 @@
 
                     if (senderType === "passenger" || senderType === "user") {
                         className = "message message-passenger";
-                        senderLabel = "Passenger";
+                        senderLabel = selectedConversation?.passenger_name || "Passenger";
                     } else if (
                         senderType === "employee" ||
                         senderType === "agent" ||
@@ -972,7 +1245,7 @@
                 try {
                     const data = await apiRequest(API.inbox);
                     conversations = Array.isArray(data.conversations)
-                        ? data.conversations
+                        ? await addPassengerNames(data.conversations)
                         : [];
 
                     renderStats();
@@ -1018,7 +1291,9 @@
                     if (data.conversation) {
                         selectedConversation = {
                             ...selectedConversation,
-                            ...data.conversation
+                            ...data.conversation,
+                            passenger_name: data.conversation.passenger_name ||
+                                selectedConversation?.passenger_name || "Passenger"
                         };
                         updateChatHeader();
                     }
@@ -1120,17 +1395,52 @@
                 }
             });
 
-            elements.resolveButton.addEventListener("click", async () => {
+            function openResolveModal() {
                 if (selectedId === null) return;
 
-                const confirmed = window.confirm(
-                    "Are you sure you want to resolve this support conversation?"
-                );
+                elements.resolveModal.hidden = false;
+                elements.resolveModal.setAttribute("aria-hidden", "false");
+                document.body.style.overflow = "hidden";
+                elements.cancelResolveButton.focus();
+            }
 
-                if (!confirmed) return;
+            function closeResolveModal(restoreFocus = true) {
+                elements.resolveModal.hidden = true;
+                elements.resolveModal.setAttribute("aria-hidden", "true");
+                document.body.style.overflow = "";
+
+                if (restoreFocus && !elements.resolveButton.disabled) {
+                    elements.resolveButton.focus();
+                }
+            }
+
+            elements.resolveButton.addEventListener("click", openResolveModal);
+            elements.cancelResolveButton.addEventListener("click", () => closeResolveModal());
+
+            elements.resolveModal.addEventListener("click", event => {
+                if (event.target === elements.resolveModal) {
+                    closeResolveModal();
+                }
+            });
+
+            document.addEventListener("keydown", event => {
+                if (elements.resolveModal.hidden) return;
+
+                if (event.key === "Escape") {
+                    closeResolveModal();
+                }
+            });
+
+            elements.confirmResolveButton.addEventListener("click", async () => {
+                if (selectedId === null) {
+                    closeResolveModal(false);
+                    return;
+                }
 
                 const conversationId = selectedId;
-                elements.resolveButton.disabled = true;
+                elements.confirmResolveButton.disabled = true;
+                elements.cancelResolveButton.disabled = true;
+                elements.confirmResolveButton.textContent = "Resolving...";
 
                 try {
                     const data = await apiRequest(API.resolve(conversationId), {
@@ -1138,6 +1448,7 @@
                         body: JSON.stringify({})
                     });
 
+                    closeResolveModal(false);
                     showNotice(data.message || "Conversation resolved.", "success");
 
                     selectedId = null;
@@ -1149,9 +1460,12 @@
 
                     await loadInbox();
                 } catch (error) {
+                    closeResolveModal(false);
                     showNotice(error.message);
                 } finally {
-                    elements.resolveButton.disabled = false;
+                    elements.confirmResolveButton.disabled = false;
+                    elements.cancelResolveButton.disabled = false;
+                    elements.confirmResolveButton.textContent = "Resolve conversation";
                 }
             });
 

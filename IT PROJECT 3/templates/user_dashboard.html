@@ -1,161 +1,471 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Luggage | ANGEL</title>
+
+    <title>My Dashboard | ANGEL</title>
 
     <style>
-        * { box-sizing: border-box; }
+        :root {
+            --navy: #0b3c6f;
+            --navy-dark: #082e53;
+            --blue: #176fc1;
+            --background: #f3f7fc;
+            --text: #203047;
+            --muted: #66778c;
+            --border: #e1e8f0;
+            --green: #18794e;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
         }
 
-        header {
-            background: #1e3a8a;
-            color: white;
-            padding: 20px 5%;
+        /* HEADER AND LOGO */
+
+        .dashboard-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 15px;
+            justify-content: space-between;
+            gap: 22px;
+            flex-wrap: wrap;
+            padding: 18px 5%;
+            background: var(--navy);
+            color: white;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .brand-link img {
+            display: block;
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 7px;
+            background: white;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 25px;
+            letter-spacing: 1.5px;
+        }
+
+        .brand-text small {
+            display: block;
+            margin-top: 4px;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #dbeafe;
+        }
+
+        .brand-link:focus-visible {
+            outline: 3px solid #93c5fd;
+            outline-offset: 4px;
+        }
+
+        /* NAVIGATION BUTTONS */
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        header h1 { margin: 0; }
-
-        header a {
-            color: white;
+        .header-nav a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 10px 16px;
+            border: 1px solid white;
+            border-radius: 8px;
+            background: white;
+            color: var(--navy);
             text-decoration: none;
-            margin-left: 15px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: background 0.2s ease, color 0.2s ease;
         }
+
+        .header-nav a:hover {
+            background: #eaf4ff;
+            color: var(--navy-dark);
+        }
+
+        .header-nav a.logout-button {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.6);
+            color: white;
+        }
+
+        .header-nav a.logout-button:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: white;
+        }
+
+        .header-nav a:focus-visible {
+            outline: 3px solid #93c5fd;
+            outline-offset: 3px;
+        }
+
+        /* PAGE CONTENT */
 
         main {
             max-width: 1100px;
-            margin: 35px auto;
-            padding: 0 20px;
+            margin: 32px auto;
+            padding: 0 22px;
         }
 
-        .welcome, .luggage-card {
+        .welcome,
+        .luggage-card {
+            padding: 25px;
+            margin-bottom: 22px;
             background: white;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            box-shadow: 0 4px 16px rgba(21, 49, 79, 0.05);
         }
 
-        .luggage-card h3 { margin-top: 0; }
+        .welcome h1,
+        .welcome h2 {
+            margin-top: 0;
+            color: var(--navy-dark);
+        }
+
+        .welcome p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .section-heading {
+            margin: 30px 0 18px;
+            color: var(--navy-dark);
+            font-size: 23px;
+        }
+
+        /* STANDARD ACTION BUTTONS */
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 42px;
+            padding: 11px 16px;
+            margin: 8px 8px 0 0;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: var(--blue);
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: background 0.2s ease;
+        }
+
+        .button:hover {
+            background: var(--navy);
+        }
+
+        .button-secondary {
+            background: #edf3fa;
+            border-color: #dbe5f0;
+            color: var(--navy);
+        }
+
+        .button-secondary:hover {
+            background: #dfeaf6;
+            color: var(--navy-dark);
+        }
+
+        /* LUGGAGE DETAILS */
+
+        .luggage-card h3 {
+            margin-top: 0;
+            color: var(--navy-dark);
+        }
 
         .tracking-id {
-            color: #2563eb;
-            font-weight: bold;
+            color: var(--blue);
+            font-weight: 800;
+        }
+
+        .luggage-card p {
+            line-height: 1.55;
+            overflow-wrap: anywhere;
         }
 
         .status {
             display: inline-block;
             padding: 6px 10px;
-            background: #dbeafe;
-            color: #1d4ed8;
-            border-radius: 20px;
-            font-size: 14px;
+            background: #eaf3ff;
+            color: #185995;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .alert-status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .alert-delayed {
+            background: #fff2d8;
+            color: #885800;
+        }
+
+        .alert-lost {
+            background: #feecec;
+            color: #b4232d;
         }
 
         .empty {
             text-align: center;
-            color: #64748b;
-            padding: 35px 15px;
+            color: var(--muted);
+            padding: 32px 18px;
         }
+
+        /* MESSAGES */
 
         .message {
-            background: #dcfce7;
-            color: #166534;
-            padding: 12px;
-            border-radius: 7px;
-            margin-bottom: 15px;
-        }
-
-        .button {
-            display: inline-block;
-            background: #2563eb;
-            color: white;
-            padding: 11px 16px;
-            border-radius: 7px;
-            text-decoration: none;
-            margin-top: 10px;
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            background: #e8f8ef;
+            border: 1px solid #c6ebd6;
+            color: #126b48;
+            line-height: 1.6;
         }
 
         footer {
+            padding: 26px 15px;
             text-align: center;
-            padding: 25px;
-            color: #64748b;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 650px) {
+            .dashboard-header {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 18px 20px;
+            }
+
+            .header-nav {
+                width: 100%;
+            }
+
+            .header-nav a {
+                flex: 1;
+            }
+
+            main {
+                margin: 22px auto;
+                padding: 0 14px;
+            }
+
+            .welcome,
+            .luggage-card {
+                padding: 19px;
+            }
         }
     </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile-responsive.css') }}">
 </head>
 
 <body>
-    <header>
-        <h1>ANGEL</h1>
-        <nav>
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('user_logout') }}">Log Out</a>
-        </nav>
-    </header>
 
-    <main>
-        <section class="welcome">
-            <h2>Welcome, {{ customer_name }}!</h2>
-            <p>View your registered luggage and check its journey status here.</p>
-            <a href="{{ url_for('register_customer_luggage') }}" class="button">
-    + Register My Luggage
-</a>
+<header class="dashboard-header">
 
-            {% with messages = get_flashed_messages() %}
-                {% for message in messages %}
-                    <div class="message">{{ message }}</div>
-                {% endfor %}
-            {% endwith %}
-        </section>
+    <a
+        href="{{ url_for('home') }}"
+        class="brand-link"
+        aria-label="Return to ANGEL homepage"
+        title="Return to homepage"
+    >
+        <img
+            src="{{ url_for('static', filename='images/angel-logo.png') }}"
+            alt=""
+            onerror="this.style.display='none'"
+        >
 
-        <h2>My Luggage</h2>
+        <span class="brand-text">
+            <strong>ANGEL</strong>
+            <small>CUSTOMER DASHBOARD</small>
+        </span>
+    </a>
 
-        {% if luggage %}
-            {% for bag in luggage %}
-                <section class="luggage-card">
-                    <h3>
-                        Tracking ID:
-                        <span class="tracking-id">{{ bag["tracking_id"] }}</span>
-                    </h3>
+    <nav class="header-nav">
 
-                    <p><strong>Passenger:</strong> {{ bag["passenger"] }}</p>
-                    <p><strong>Flight:</strong> {{ bag["flight"] }}</p>
-                    <p><strong>From:</strong> {{ bag["origin"] }}</p>
-                    <p><strong>To:</strong> {{ bag["destination"] }}</p>
-                    <p><strong>Weight:</strong> {{ bag["weight"] }}</p>
+        <a href="{{ url_for('home') }}">
+            Home
+        </a>
+
+        <a href="{{ url_for('flights') }}">
+            My Flight History
+        </a>
+
+        <a
+            href="{{ url_for('user_logout') }}"
+            class="logout-button"
+        >
+            Log Out
+        </a>
+
+    </nav>
+
+</header>
+
+<main>
+
+    <section class="welcome">
+
+        <h1>Welcome, {{ customer_name }}!</h1>
+
+        <p>
+            View your registered luggage and check its latest recorded
+            journey status from your personal ANGEL dashboard.
+        </p>
+
+        <a
+            href="{{ url_for('register_customer_luggage') }}"
+            class="button"
+        >
+            + Register My Luggage
+        </a>
+
+        <a
+            href="{{ url_for('flights') }}"
+            class="button button-secondary"
+        >
+            View My Flight History
+        </a>
+
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <div class="message" role="status">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+    </section>
+
+    <h2 class="section-heading">My Luggage</h2>
+
+    {% if luggage %}
+
+        {% for bag in luggage %}
+
+            <section class="luggage-card">
+
+                <h3>
+                    Tracking ID:
+                    <span class="tracking-id">
+                        {{ bag["tracking_id"] }}
+                    </span>
+                </h3>
+
+                <p>
+                    <strong>Passenger:</strong>
+                    {{ bag["passenger"] }}
+                </p>
+
+                <p>
+                    <strong>Flight:</strong>
+                    {{ bag["flight"] or "Not recorded" }}
+                </p>
+
+                <p>
+                    <strong>From:</strong>
+                    {{ bag["origin"] or "Not recorded" }}
+                </p>
+
+                <p>
+                    <strong>To:</strong>
+                    {{ bag["destination"] or "Not recorded" }}
+                </p>
+
+                <p>
+                    <strong>Weight:</strong>
+                    {{ bag["weight"] or "Not recorded" }}
+                </p>
+
+                <p>
+                    <strong>Journey status:</strong>
+
+                    <span class="status">
+                        {{ bag["journey_status"] or bag["status"] or "Unknown" }}
+                    </span>
+                </p>
+
+                {% if bag["alert_status"] %}
                     <p>
-                        <strong>Journey status:</strong>
-                        <span class="status">
-                            {{ bag["journey_status"] or bag["status"] }}
+                        <strong>Alert:</strong>
+
+                        <span class="alert-status {% if bag['alert_status'] == 'Lost' %}alert-lost{% else %}alert-delayed{% endif %}">
+                            {{ bag["alert_status"] }}
                         </span>
                     </p>
-                    <p><strong>Last known location:</strong> {{ bag["location"] }}</p>
-                    <p><strong>Registered:</strong> {{ bag["registered_at"] }}</p>
-                </section>
-            {% endfor %}
-        {% else %}
-            <section class="luggage-card empty">
-                <h3>No luggage linked to your account yet</h3>
-                <p>Once your luggage is registered to your account, it will appear here.</p>
-            </section>
-        {% endif %}
-    </main>
+                {% endif %}
 
-    <footer>
-        ANGEL Luggage Tracking System
-    </footer>
+                <p>
+                    <strong>Last known location:</strong>
+                    {{ bag["location"] or "Not recorded" }}
+                </p>
+
+                <p>
+                    <strong>Registered:</strong>
+                    {{ bag["registered_at"] or "Not recorded" }}
+                </p>
+
+            </section>
+
+        {% endfor %}
+
+    {% else %}
+
+        <section class="luggage-card empty">
+
+            <h3>No luggage linked to your account yet</h3>
+
+            <p>
+                Once luggage is registered to your customer account,
+                it will appear here.
+            </p>
+
+        </section>
+
+    {% endif %}
+
+</main>
+
+<footer>
+    ANGEL Luggage Tracking System
+</footer>
+
 </body>
 </html>

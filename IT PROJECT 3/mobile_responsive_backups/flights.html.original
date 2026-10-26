@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Flight History | ANGEL</title>
+
+    <style>
+        :root {
+            --navy: #0b3c6f;
+            --navy-dark: #082e53;
+            --blue: #176fc1;
+            --background: #f3f7fc;
+            --white: #ffffff;
+            --text: #203047;
+            --muted: #66778c;
+            --border: #e1e8f0;
+            --green: #18794e;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--background);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 18px 5%;
+            background: var(--navy);
+            color: white;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand {
+            color: white;
+            text-decoration: none;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 5px;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .topbar-actions a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 7px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .topbar-actions a:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .topbar-actions .back-link {
+            background: white;
+            color: var(--navy);
+            border-color: white;
+        }
+
+        .topbar-actions .back-link:hover {
+            background: #eaf4ff;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 36px auto;
+            padding: 0 22px;
+            min-height: 60vh;
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 10px;
+            font-size: 30px;
+            color: var(--navy-dark);
+        }
+
+        .page-heading p {
+            margin: 0;
+            max-width: 760px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .panel {
+            margin-bottom: 24px;
+            padding: 26px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: var(--white);
+            box-shadow: 0 4px 16px rgba(21, 49, 79, 0.05);
+        }
+
+        .panel h2 {
+            margin: 0 0 9px;
+            color: var(--navy-dark);
+            font-size: 21px;
+        }
+
+        .panel-description {
+            margin: 0 0 22px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .history-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .record-count {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: #eaf3ff;
+            color: var(--navy);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .search-form input {
+            flex: 1;
+            min-width: 220px;
+            padding: 13px 14px;
+            border: 1px solid #cdd8e5;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-form input:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(23, 111, 193, 0.12);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 43px;
+            padding: 11px 17px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: var(--blue);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: var(--navy);
+        }
+
+        .button-secondary {
+            background: #edf3fa;
+            border-color: #dbe5f0;
+            color: var(--navy);
+        }
+
+        .button-secondary:hover {
+            background: #dfeaf6;
+            color: var(--navy-dark);
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px 13px;
+            text-align: left;
+            border-bottom: 1px solid #e6ecf3;
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        th {
+            background: #edf3fa;
+            color: var(--navy);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        .tracking-id {
+            color: var(--navy);
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .flight-number {
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .route {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 7px;
+            background: #eaf3ff;
+            color: #185995;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-normal {
+            background: #e7f6ed;
+            color: #18794e;
+        }
+
+        .status-warning {
+            background: #fff2d8;
+            color: #885800;
+        }
+
+        .status-danger {
+            background: #feecec;
+            color: #b4232d;
+        }
+
+        .subtext {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .empty-state {
+            padding: 38px 20px;
+            text-align: center;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .login-card {
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 40px 32px;
+            text-align: center;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            box-shadow: 0 8px 28px rgba(21, 49, 79, 0.07);
+        }
+
+        .login-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 20px;
+            border-radius: 14px;
+            background: #eaf3ff;
+            color: var(--navy);
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .login-card h1 {
+            margin: 0 0 12px;
+            color: var(--navy-dark);
+            font-size: 26px;
+        }
+
+        .login-card p {
+            margin: 0 auto 24px;
+            max-width: 470px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .login-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .notice {
+            margin-bottom: 20px;
+            padding: 13px 15px;
+            border: 1px solid #cfe1f5;
+            border-radius: 8px;
+            background: #edf6ff;
+            color: #234b73;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        footer {
+            padding: 25px 15px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                padding: 17px 20px;
+            }
+
+            .topbar-actions {
+                width: 100%;
+            }
+
+            .topbar-actions a {
+                flex: 1;
+            }
+
+            main {
+                margin: 24px auto;
+                padding: 0 14px;
+            }
+
+            .page-heading h1 {
+                font-size: 26px;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-form input,
+            .search-form .button {
+                width: 100%;
+            }
+
+            .login-card {
+                margin: 30px auto;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <a href="{{ url_for('home') }}" class="brand">
+        ANGEL
+        <small>MY FLIGHT HISTORY</small>
+    </a>
+
+    <nav class="topbar-actions">
+        <a href="{{ url_for('home') }}" class="back-link">
+            &larr; Home
+        </a>
+
+        {% if customer_name %}
+            <a href="{{ url_for('user_dashboard') }}">
+                My Dashboard
+            </a>
+
+            <a href="{{ url_for('user_logout') }}">
+                Log Out
+            </a>
+        {% else %}
+            <a href="{{ url_for('user_login') }}">
+                Customer Login
+            </a>
+        {% endif %}
+    </nav>
+
+</header>
+
+<main>
+
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <div class="notice">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    {% if customer_name %}
+
+        <section class="page-heading">
+            <h1>Your Flight History</h1>
+
+            <p>
+                Welcome back, {{ customer_name }}. View flight and luggage
+                journey details associated with your ANGEL customer account.
+            </p>
+        </section>
+
+        <section class="panel">
+
+            <div class="history-summary">
+                <div>
+                    <h2>My Luggage Journeys</h2>
+
+                    <p class="panel-description" style="margin-bottom: 0;">
+                        These records are private to your customer account.
+                    </p>
+                </div>
+
+                <span class="record-count">
+                    {{ customer_history|length }}
+                    {% if customer_history|length == 1 %}
+                        Record
+                    {% else %}
+                        Records
+                    {% endif %}
+                </span>
+            </div>
+
+            <form method="GET"
+                  action="{{ url_for('flights') }}"
+                  class="search-form">
+
+                <input
+                    type="search"
+                    name="search"
+                    value="{{ search_term }}"
+                    placeholder="Search your tracking ID, flight or route..."
+                    aria-label="Search your flight history"
+                >
+
+                <button type="submit" class="button">
+                    Search History
+                </button>
+
+                {% if search_term %}
+                    <a href="{{ url_for('flights') }}"
+                       class="button button-secondary">
+                        Clear Search
+                    </a>
+                {% endif %}
+
+            </form>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tracking ID</th>
+                            <th>Flight</th>
+                            <th>Route</th>
+                            <th>Journey Status</th>
+                            <th>Alert</th>
+                            <th>Last Known Location</th>
+                            <th>Registered</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in customer_history %}
+                            <tr>
+
+                                <td>
+                                    <span class="tracking-id">
+                                        {{ record["tracking_id"] }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="flight-number">
+                                        {{ record["flight"] or "Not recorded" }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="route">
+                                        {{ record["origin"] or "Unknown" }}
+                                        &rarr;
+                                        {{ record["destination"] or "Unknown" }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="status-badge status-normal">
+                                        {{ record["journey_status"] or record["status"] or "Unknown" }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {% if record["alert_status"] == "Lost" %}
+                                        <span class="status-badge status-danger">
+                                            Lost
+                                        </span>
+                                    {% elif record["alert_status"] == "Delayed" %}
+                                        <span class="status-badge status-warning">
+                                            Delayed
+                                        </span>
+                                    {% else %}
+                                        <span class="status-badge">
+                                            None
+                                        </span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{ record["location"] or "Not recorded" }}
+                                </td>
+
+                                <td>
+                                    {{ record["registered_at"] or "Not recorded" }}
+                                </td>
+
+                            </tr>
+
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="empty-state">
+                                    {% if search_term %}
+                                        No flight history matches your search.
+                                        Try a different tracking ID, flight number
+                                        or route.
+                                    {% else %}
+                                        No luggage-linked flight history was
+                                        found for your account yet.
+
+                                        Once luggage is linked to your customer
+                                        account, its journey records will appear here.
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+    {% else %}
+
+        <section class="login-card">
+
+            <div class="login-icon" aria-hidden="true">A</div>
+
+            <h1>Your Flight History Awaits</h1>
+
+            <p>
+                Log in to your ANGEL customer account to view your own
+                flight-linked luggage records, journey statuses, alerts
+                and last known luggage locations.
+
+                Your personal history is only available after you sign in.
+            </p>
+
+            <div class="login-actions">
+
+                <a href="{{ url_for('user_login') }}" class="button">
+                    Log In to View History
+                </a>
+
+                <a href="{{ url_for('user_register') }}"
+                   class="button button-secondary">
+                    Create Account
+                </a>
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+</main>
+
+<footer>
+    &copy; 2026 ANGEL. Airport Navigation &amp; Guidance for Every Luggage.
+</footer>
+
+</body>
+</html>
