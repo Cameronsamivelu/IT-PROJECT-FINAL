@@ -243,24 +243,6 @@ def create_database():
             "Active"
         ))
 
-    # Create Gareth employee if missing
-    existing_employee = connection.execute("""
-        SELECT id FROM employees WHERE username = ?
-    """, ("gareth.singh",)).fetchone()
-
-    if existing_employee is None:
-        connection.execute("""
-            INSERT INTO employees
-                (full_name, username, password_hash, role, status)
-            VALUES (?, ?, ?, ?, ?)
-        """, (
-            "Gareth Singh",
-            "gareth.singh",
-            generate_password_hash("Angel123"),
-            "Employee",
-            "Active"
-        ))
-
     connection.commit()
     connection.close()
 
@@ -295,7 +277,6 @@ def log_activity(action, details=""):
 def employee_is_logged_in():
     if "employee_id" not in session:
         return False
-
     connection = get_db()
     employee = connection.execute("""
         SELECT id, status, role, full_name
@@ -2128,6 +2109,7 @@ def employee_luggage_search():
 
 @app.route("/employee-luggage/delete-passenger", methods=["POST"])
 def delete_luggage_passenger():
+
     if "employee_id" not in session:
         return jsonify({
             "success": False,
@@ -2149,7 +2131,6 @@ def delete_luggage_passenger():
         }), 400
 
     passenger = str(data.get("passenger", "")).strip()
-    luggage_ids = data.get("luggage_ids", [])
 
     if not passenger:
         return jsonify({
@@ -2157,74 +2138,40 @@ def delete_luggage_passenger():
             "message": "Passenger name is required."
         }), 400
 
-    if not isinstance(luggage_ids, list):
-        return jsonify({
-            "success": False,
-            "message": "Invalid luggage record list."
-        }), 400
-
-    valid_ids = []
-
-    for luggage_id in luggage_ids:
-        try:
-            converted_id = int(luggage_id)
-            if converted_id > 0:
-                valid_ids.append(converted_id)
-        except (TypeError, ValueError):
-            continue
-
-    valid_ids = list(dict.fromkeys(valid_ids))
-
-    if not valid_ids:
-        return jsonify({
-            "success": False,
-            "message": "No luggage records were selected."
-        }), 400
-
     connection = get_db()
-    placeholders = ",".join("?" for _ in valid_ids)
 
     rows = connection.execute(
-        f"""
+        """
         SELECT id, tracking_id, passenger
         FROM luggage
-        WHERE id IN ({placeholders})
+        WHERE LOWER(TRIM(passenger)) = LOWER(?)
         """,
-        valid_ids
+        (passenger,)
     ).fetchall()
 
     if not rows:
         connection.close()
         return jsonify({
             "success": False,
-            "message": "The selected luggage records no longer exist."
+            "message": "No luggage records found for this passenger."
         }), 404
 
-    mismatched_records = [
-        row["id"] for row in rows
-        if row["passenger"].strip().lower() != passenger.lower()
-    ]
-
-    if mismatched_records:
-        connection.close()
-        return jsonify({
-            "success": False,
-            "message": "One or more selected records do not belong to this passenger."
-        }), 400
-
     connection.execute(
-        f"DELETE FROM luggage WHERE id IN ({placeholders})",
-        valid_ids
+        """
+        DELETE FROM luggage
+        WHERE LOWER(TRIM(passenger)) = LOWER(?)
+        """,
+        (passenger,)
     )
 
     deleted_count = connection.execute(
         "SELECT changes()"
     ).fetchone()[0]
 
+    tracking_ids = [row["tracking_id"] for row in rows]
+
     connection.commit()
     connection.close()
-
-    tracking_ids = [row["tracking_id"] for row in rows]
 
     log_activity(
         "Passenger Removed",
@@ -2237,7 +2184,6 @@ def delete_luggage_passenger():
         "message": f"{passenger} was removed successfully.",
         "deleted_count": deleted_count
     })
-
 
 # =========================================================
 # VIEW LUGGAGE ALIAS
