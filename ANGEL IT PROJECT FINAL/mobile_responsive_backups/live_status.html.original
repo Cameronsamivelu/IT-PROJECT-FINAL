@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Live Luggage Status</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        /* =====================================================
+           PAGE
+           ===================================================== */
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef5fb;
+            color: #333;
+        }
+
+        .live-status-page {
+            min-height: 100vh;
+            background: #eef5fb;
+        }
+
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .live-status-header {
+            background: #0d477f;
+            color: white;
+
+            padding: 24px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+        }
+
+        .live-status-header h1 {
+            margin: 0;
+
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 1px;
+
+            color: white;
+        }
+
+        .live-status-header p {
+            margin: 5px 0 0;
+
+            font-size: 14px;
+
+            color: white;
+            opacity: 0.9;
+        }
+
+
+        /* =====================================================
+           BACK BUTTON
+           ===================================================== */
+
+        .live-status-back-button {
+            background: white;
+
+            color: #0d477f;
+
+            padding: 11px 20px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .live-status-back-button:hover {
+            background: #e8f0f7;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+           ===================================================== */
+
+        .live-status-content {
+            max-width: 1050px;
+
+            margin: 0 auto;
+
+            padding: 40px 25px 60px;
+        }
+
+
+        /* =====================================================
+           SEARCH CARD
+           ===================================================== */
+
+        .live-status-search-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 6px 20px rgba(0,0,0,0.10);
+
+            border: 1px solid #e3eaf0;
+
+            margin-bottom: 25px;
+        }
+
+        .live-status-search-card h2 {
+
+            margin: 0 0 8px;
+
+            text-align: center;
+
+            color: #0d477f;
+
+            font-size: 23px;
+        }
+
+        .live-status-search-card > p {
+
+            margin: 0 auto 25px;
+
+            text-align: center;
+
+            color: #666;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            max-width: 700px;
+        }
+
+
+        /* =====================================================
+           SEARCH AREA
+           ===================================================== */
+
+        .live-status-search {
+
+            display: flex;
+
+            gap: 12px;
+
+            max-width: 750px;
+
+            margin: 0 auto;
+        }
+
+        .live-status-search input {
+
+            flex: 1;
+
+            padding: 14px 15px;
+
+            border: 1px solid #bbb;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            box-sizing: border-box;
+        }
+
+        .live-status-search input:focus {
+
+            outline: none;
+
+            border-color: #0d5aa7;
+
+            box-shadow:
+                0 0 5px rgba(13,90,167,0.20);
+        }
+
+        .live-status-search button {
+
+            padding: 14px 22px;
+
+            background: #0d5aa7;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            white-space: nowrap;
+
+            transition: 0.2s;
+        }
+
+        .live-status-search button:hover {
+
+            background: #083f75;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           MESSAGES
+           ===================================================== */
+
+        #liveStatusMessage {
+            margin-top: 20px;
+        }
+
+        #updateMessage {
+            margin-top: 20px;
+        }
+
+        .live-status-success {
+
+            background: #e7f7ed;
+
+            border: 1px solid #48a868;
+
+            color: #218838;
+
+            padding: 13px;
+
+            border-radius: 7px;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        .live-status-error {
+
+            background: #fdeaea;
+
+            border: 1px solid #d9534f;
+
+            color: #c9302c;
+
+            padding: 13px;
+
+            border-radius: 7px;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           LUGGAGE INFORMATION CARD
+           ===================================================== */
+
+        .live-status-luggage-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 6px 20px rgba(0,0,0,0.10);
+
+            border: 1px solid #e3eaf0;
+        }
+
+        .live-status-luggage-card > h2 {
+
+            margin: 0 0 25px;
+
+            color: #0d477f;
+
+            font-size: 22px;
+
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           LUGGAGE DETAILS
+           ===================================================== */
+
+        .luggage-details-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 30px;
+        }
+
+        .luggage-detail {
+
+            background: #f7faff;
+
+            border: 1px solid #e1eaf2;
+
+            border-radius: 9px;
+
+            padding: 16px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .luggage-detail span {
+
+            color: #777;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.4px;
+        }
+
+        .luggage-detail strong {
+
+            color: #0d477f;
+
+            font-size: 15px;
+
+            word-break: break-word;
+        }
+
+        .luggage-detail-full {
+
+            grid-column: 1 / -1;
+        }
+
+
+        /* =====================================================
+           UPDATE SECTION
+           ===================================================== */
+
+        .live-status-update-section {
+
+            border-top: 1px solid #e2e8ee;
+
+            padding-top: 30px;
+        }
+
+        .live-status-update-section h2 {
+
+            margin: 0 0 22px;
+
+            color: #0d477f;
+
+            font-size: 20px;
+        }
+
+
+        /* =====================================================
+           UPDATE FORM
+           ===================================================== */
+
+        #liveStatusForm {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+        }
+
+        #liveStatusForm label {
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            color: #333;
+
+            margin-bottom: -7px;
+        }
+
+        #liveStatusForm select,
+        #liveStatusForm input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            box-sizing: border-box;
+
+            border: 1px solid #bbb;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            background: white;
+        }
+
+        #liveStatusForm select:focus,
+        #liveStatusForm input:focus {
+
+            outline: none;
+
+            border-color: #0d5aa7;
+
+            box-shadow:
+                0 0 5px rgba(13,90,167,0.20);
+        }
+
+
+        /* =====================================================
+           UPDATE BUTTON
+           ===================================================== */
+
+        .live-status-update-button {
+
+            grid-column: 1 / -1;
+
+            padding: 14px;
+
+            background: #0d5aa7;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            margin-top: 5px;
+        }
+
+        .live-status-update-button:hover {
+
+            background: #083f75;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .live-status-header {
+
+                padding: 20px;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+            .live-status-header h1 {
+
+                font-size: 28px;
+            }
+
+            .live-status-content {
+
+                padding:
+                    25px 15px 45px;
+            }
+
+            .live-status-search-card,
+            .live-status-luggage-card {
+
+                padding: 22px;
+            }
+
+            .live-status-search {
+
+                flex-direction: column;
+            }
+
+            .live-status-search button {
+
+                width: 100%;
+            }
+
+            .luggage-details-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .luggage-detail-full {
+
+                grid-column: auto;
+            }
+
+            #liveStatusForm {
+
+                grid-template-columns: 1fr;
+            }
+
+            #liveStatusForm label {
+
+                margin-bottom: -7px;
+            }
+
+            .live-status-update-button {
+
+                grid-column: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="live-status-page">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="live-status-header">
+
+        <div>
+
+            <h1>ANGEL</h1>
+
+            <p>
+                Live Luggage Status
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('employee_dashboard') }}"
+            class="live-status-back-button"
+        >
+
+            ← Employee Dashboard
+
+        </a>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main class="live-status-content">
+
+
+        <!-- =================================================
+             SEARCH
+             ================================================= -->
+
+        <section class="live-status-search-card">
+
+            <h2>
+                Update Luggage Status
+            </h2>
+
+            <p>
+                Enter an ANGEL tracking ID to view and update
+                the luggage's current status.
+            </p>
+
+
+            <div class="live-status-search">
+
+                <input
+                    type="text"
+                    id="liveTrackingID"
+                    placeholder="Enter tracking ID e.g. ANGEL-1001"
+                >
+
+
+                <button
+                    type="button"
+                    onclick="findLuggage()"
+                >
+
+                    Search Luggage
+
+                </button>
+
+            </div>
+
+
+            <div id="liveStatusMessage"></div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LUGGAGE INFORMATION
+             ================================================= -->
+
+        <section
+            id="luggageInformation"
+            class="live-status-luggage-card"
+            style="display: none;"
+        >
+
+            <h2>
+                Luggage Information
+            </h2>
+
+
+            <div class="luggage-details-grid">
+
+
+                <div class="luggage-detail">
+
+                    <span>
+                        Tracking ID
+                    </span>
+
+                    <strong id="displayTrackingID">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="luggage-detail">
+
+                    <span>
+                        Passenger
+                    </span>
+
+                    <strong id="displayPassenger">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="luggage-detail">
+
+                    <span>
+                        Flight
+                    </span>
+
+                    <strong id="displayFlight">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="luggage-detail">
+
+                    <span>
+                        Route
+                    </span>
+
+                    <strong id="displayRoute">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="luggage-detail">
+
+                    <span>
+                        Weight
+                    </span>
+
+                    <strong id="displayWeight">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="luggage-detail">
+
+                    <span>
+                        Current Status
+                    </span>
+
+                    <strong id="displayStatus">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="luggage-detail luggage-detail-full">
+
+                    <span>
+                        Current Location
+                    </span>
+
+                    <strong id="displayLocation">
+                        -
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 UPDATE STATUS
+                 ================================================= -->
+
+            <div class="live-status-update-section">
+
+                <h2>
+                    Update Live Status
+                </h2>
+
+
+                <form id="liveStatusForm">
+
+
+                    <input
+                        type="hidden"
+                        id="updateTrackingID"
+                        name="tracking_id"
+                    >
+
+
+                    <label for="status">
+                        New Status
+                    </label>
+
+
+                    <label for="location">
+                        Current Location
+                    </label>
+
+
+                    <select
+                        id="status"
+                        name="status"
+                        required
+                    >
+
+                        <option value="">
+                            Select a status
+                        </option>
+
+                        <option value="Checked In">
+                            Checked In
+                        </option>
+
+                        <option value="Loaded onto Aircraft">
+                            Loaded onto Aircraft
+                        </option>
+
+                        <option value="In Transit">
+                            In Transit
+                        </option>
+
+                        <option value="Arrived at Destination">
+                            Arrived at Destination
+                        </option>
+
+                        <option value="Ready for Collection">
+                            Ready for Collection
+                        </option>
+
+                        <option value="Collected">
+                            Collected
+                        </option>
+
+                        <option value="Delayed">
+                            Delayed
+                        </option>
+
+                        <option value="Lost">
+                            Lost
+                        </option>
+
+                    </select>
+
+
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        placeholder="Enter current luggage location"
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="live-status-update-button"
+                    >
+
+                        Update Live Status
+
+                    </button>
+
+                </form>
+
+
+                <div id="updateMessage"></div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================================
+   FIND LUGGAGE
+   ========================================================= */
+
+function findLuggage() {
+
+    const trackingID =
+        document
+            .getElementById("liveTrackingID")
+            .value
+            .trim()
+            .toUpperCase();
+
+
+    const message =
+        document
+            .getElementById("liveStatusMessage");
+
+
+    const luggageInformation =
+        document
+            .getElementById("luggageInformation");
+
+
+    if (trackingID === "") {
+
+        message.innerHTML = `
+            <div class="live-status-error">
+                Please enter a luggage tracking ID.
+            </div>
+        `;
+
+        luggageInformation.style.display = "none";
+
+        return;
+    }
+
+
+    fetch(
+        `/live-status/search?id=${encodeURIComponent(trackingID)}`
+    )
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if (data.success) {
+
+            const luggage = data.luggage;
+
+
+            document.getElementById(
+                "displayTrackingID"
+            ).textContent =
+                luggage.tracking_id;
+
+
+            document.getElementById(
+                "displayPassenger"
+            ).textContent =
+                luggage.passenger;
+
+
+            document.getElementById(
+                "displayFlight"
+            ).textContent =
+                luggage.flight;
+
+
+            document.getElementById(
+                "displayRoute"
+            ).textContent =
+                `${luggage.origin} → ${luggage.destination}`;
+
+
+            document.getElementById(
+                "displayWeight"
+            ).textContent =
+                luggage.weight;
+
+
+            document.getElementById(
+                "displayStatus"
+            ).textContent =
+                luggage.status;
+
+
+            document.getElementById(
+                "displayLocation"
+            ).textContent =
+                luggage.location;
+
+
+            document.getElementById(
+                "updateTrackingID"
+            ).value =
+                luggage.tracking_id;
+
+
+            document.getElementById(
+                "status"
+            ).value =
+                luggage.status;
+
+
+            document.getElementById(
+                "location"
+            ).value =
+                luggage.location;
+
+
+            luggageInformation.style.display =
+                "block";
+
+
+            message.innerHTML = `
+                <div class="live-status-success">
+                    ✓ Luggage found successfully.
+                </div>
+            `;
+
+        }
+
+        else {
+
+            luggageInformation.style.display =
+                "none";
+
+            message.innerHTML = `
+                <div class="live-status-error">
+                    ✕ ${data.message}
+                </div>
+            `;
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error("Error:", error);
+
+        luggageInformation.style.display =
+            "none";
+
+        message.innerHTML = `
+            <div class="live-status-error">
+                Something went wrong while searching
+                for the luggage.
+            </div>
+        `;
+
+    });
+
+}
+
+
+
+/* =========================================================
+   UPDATE STATUS
+   ========================================================= */
+
+document
+    .getElementById("liveStatusForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const form =
+                document.getElementById(
+                    "liveStatusForm"
+                );
+
+
+            const updateMessage =
+                document.getElementById(
+                    "updateMessage"
+                );
+
+
+            const formData =
+                new FormData(form);
+
+
+            fetch(
+                "/live-status/update",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            )
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                if (data.success) {
+
+                    updateMessage.innerHTML = `
+                        <div class="live-status-success">
+                            ✓ ${data.message}
+                        </div>
+                    `;
+
+
+                    document.getElementById(
+                        "displayStatus"
+                    ).textContent =
+                        document.getElementById(
+                            "status"
+                        ).value;
+
+
+                    document.getElementById(
+                        "displayLocation"
+                    ).textContent =
+                        document.getElementById(
+                            "location"
+                        ).value;
+
+                }
+
+                else {
+
+                    updateMessage.innerHTML = `
+                        <div class="live-status-error">
+                            ✕ ${data.message}
+                        </div>
+                    `;
+
+                }
+
+            })
+
+            .catch(error => {
+
+                console.error("Error:", error);
+
+                updateMessage.innerHTML = `
+                    <div class="live-status-error">
+                        Something went wrong while updating
+                        the luggage.
+                    </div>
+                `;
+
+            });
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

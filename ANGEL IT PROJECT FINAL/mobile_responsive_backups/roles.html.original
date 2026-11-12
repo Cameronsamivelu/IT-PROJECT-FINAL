@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Roles & Permissions</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="employees-page">
+
+        <!-- HEADER -->
+
+        <header class="employees-header">
+
+            <div>
+
+                <h1>ANGEL</h1>
+
+                <p>Roles & Permissions</p>
+
+            </div>
+
+            <a href="{{ url_for('management') }}"
+               class="employees-back-button">
+
+                ← Management Dashboard
+
+            </a>
+
+        </header>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="employees-content">
+
+
+            <!-- INTRODUCTION -->
+
+            <div class="employee-list-card">
+
+                <h2>Employee Roles & Permissions</h2>
+
+                <p>
+                    Manage employee roles and control the level of
+                    access each employee has within the ANGEL system.
+                </p>
+
+
+                <!-- ROLE INFORMATION -->
+
+                <div style="margin-top: 30px;">
+
+                    <div style="
+                        background: #eef5ff;
+                        padding: 18px;
+                        border-radius: 10px;
+                        margin-bottom: 15px;
+                        border-left: 5px solid #003b73;
+                    ">
+
+                        <strong>Employee</strong>
+
+                        <p style="
+                            margin: 8px 0 0;
+                            width: 100%;
+                            text-align: left;
+                            font-size: 14px;
+                        ">
+                            Standard employee access. Employees can
+                            register luggage, view luggage information
+                            and update live luggage status.
+                        </p>
+
+                    </div>
+
+
+                    <div style="
+                        background: #eef5ff;
+                        padding: 18px;
+                        border-radius: 10px;
+                        margin-bottom: 15px;
+                        border-left: 5px solid #003b73;
+                    ">
+
+                        <strong>Supervisor</strong>
+
+                        <p style="
+                            margin: 8px 0 0;
+                            width: 100%;
+                            text-align: left;
+                            font-size: 14px;
+                        ">
+                            Supervisor access includes employee
+                            management, role management, system
+                            overview and activity monitoring.
+                        </p>
+
+                    </div>
+
+
+                    <div style="
+                        background: #eef5ff;
+                        padding: 18px;
+                        border-radius: 10px;
+                        margin-bottom: 25px;
+                        border-left: 5px solid #003b73;
+                    ">
+
+                        <strong>Admin</strong>
+
+                        <p style="
+                            margin: 8px 0 0;
+                            width: 100%;
+                            text-align: left;
+                            font-size: 14px;
+                        ">
+                            Full ANGEL management access, including
+                            employee accounts, roles, system
+                            information and activity logs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMPLOYEE TABLE -->
+
+                <h2 style="margin-top: 35px;">
+                    Current Employee Roles
+                </h2>
+
+                <div class="employee-table-container">
+
+                    <table>
+
+                        <thead

@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Employee Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        /* =====================================================
+           EMPLOYEE DASHBOARD
+           ===================================================== */
+
+        .employee-dashboard {
+            min-height: 100vh;
+            background: #eef5fb;
+        }
+
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .employee-dashboard-header {
+
+            background: #0d477f;
+
+            color: white;
+
+            padding: 28px 32px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            box-sizing: border-box;
+        }
+
+
+        /* ANGEL LOGO */
+
+        .employee-dashboard-header h1 {
+
+            margin: 0 !important;
+
+            color: #ffffff !important;
+
+            font-size: 38px !important;
+
+            font-weight: 800 !important;
+
+            letter-spacing: 1.5px;
+
+            line-height: 1;
+        }
+
+
+        .employee-dashboard-header p {
+
+            margin: 7px 0 0;
+
+            color: #ffffff !important;
+
+            font-size: 16px !important;
+
+            font-weight: 500;
+
+            opacity: 1 !important;
+        }
+
+
+        /* =====================================================
+           LOGOUT
+           ===================================================== */
+
+        .logout-button {
+
+            background: white;
+
+            color: #0d477f !important;
+
+            padding: 11px 22px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition: 0.2s ease;
+        }
+
+
+        .logout-button:hover {
+
+            background: #e9f1f8;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           WELCOME
+           ===================================================== */
+
+        .employee-welcome {
+
+            text-align: center;
+
+            padding: 42px 20px 32px;
+        }
+
+
+        .employee-welcome h2 {
+
+            margin: 0;
+
+            color: #004b87;
+
+            font-size: 30px !important;
+
+            font-weight: 700;
+        }
+
+
+        .employee-welcome p {
+
+            margin-top: 9px;
+
+            color: #666;
+
+            font-size: 16px !important;
+        }
+
+
+        /* =====================================================
+           DASHBOARD CONTENT
+           ===================================================== */
+
+        .employee-dashboard-content {
+
+            max-width: 1100px !important;
+
+            width: 94%;
+
+            margin: 0 auto;
+
+            padding: 0 0 60px;
+
+            box-sizing: border-box;
+        }
+
+
+        /* =====================================================
+           DASHBOARD GRID
+           ===================================================== */
+
+        .employee-dashboard-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 24px;
+
+            width: 100%;
+
+            margin: 0 auto;
+        }
+
+
+        /* =====================================================
+           DASHBOARD CARDS
+           ===================================================== */
+
+        .employee-dashboard-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 32px;
+
+            min-height: 185px;
+
+            box-sizing: border-box;
+
+            text-decoration: none;
+
+            color: inherit;
+
+            box-shadow:
+                0 6px 18px rgba(0, 0, 0, 0.09);
+
+            border: 1px solid transparent;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+
+            cursor: pointer;
+
+            display: block;
+        }
+
+
+        .employee-dashboard-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 10px 26px rgba(0, 0, 0, 0.14);
+
+            border-color: #0d5aa7;
+        }
+
+
+        /* =====================================================
+           ICON
+           ===================================================== */
+
+        .dashboard-icon {
+
+            font-size: 34px !important;
+
+            margin-bottom: 14px;
+
+            line-height: 1;
+        }
+
+
+        /* =====================================================
+           CARD TITLE
+           ===================================================== */
+
+        .employee-dashboard-card h3 {
+
+            margin: 0 0 10px;
+
+            color: #00539b;
+
+            font-size: 21px !important;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           CARD DESCRIPTION
+           ===================================================== */
+
+        .employee-dashboard-card p {
+
+            margin: 0;
+
+            color: #666;
+
+            font-size: 15px !important;
+
+            line-height: 1.55;
+
+        }
+
+
+        /* =====================================================
+           SEARCH CARD
+           ===================================================== */
+
+        .search-luggage-card {
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           MANAGEMENT CARD
+           ===================================================== */
+
+        .management-card {
+
+            border-color: transparent;
+        }
+
+
+        .management-card:hover {
+
+            border-color: #0d5aa7;
+        }
+
+
+        /* =====================================================
+           SUPPORT INBOX CARD
+           ===================================================== */
+
+        .support-inbox-card {
+
+            border-color: #c9dff3;
+        }
+
+
+        .support-inbox-card:hover {
+
+            border-color: #0d5aa7;
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .employee-dashboard-header {
+
+                padding: 22px 20px;
+
+            }
+
+
+            .employee-dashboard-header h1 {
+
+                font-size: 32px !important;
+
+            }
+
+
+            .employee-dashboard-header p {
+
+                font-size: 14px !important;
+
+            }
+
+
+            .logout-button {
+
+                padding: 9px 16px;
+
+                font-size: 13px;
+
+            }
+
+
+            .employee-welcome {
+
+                padding-top: 30px;
+
+            }
+
+
+            .employee-welcome h2 {
+
+                font-size: 25px !important;
+
+            }
+
+
+            .employee-dashboard-content {
+
+                width: 92%;
+
+                padding-bottom: 40px;
+
+            }
+
+
+            .employee-dashboard-grid {
+
+                grid-template-columns: 1fr;
+
+                gap: 18px;
+
+            }
+
+
+            .employee-dashboard-card {
+
+                min-height: 165px;
+
+                padding: 27px;
+
+            }
+
+
+            .employee-dashboard-card h3 {
+
+                font-size: 20px !important;
+
+            }
+
+
+            .employee-dashboard-card p {
+
+                font-size: 14px !important;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="employee-dashboard">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="employee-dashboard-header">
+
+        <div>
+
+            <h1>
+                ANGEL
+            </h1>
+
+            <p>
+                Employee Dashboard
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('employee_logout') }}"
+            class="logout-button"
+        >
+
+            Logout
+
+        </a>
+
+    </header>
+
+
+    <!-- =====================================================
+         WELCOME
+         ===================================================== -->
+
+    <section class="employee-welcome">
+
+        <h2>
+
+            Welcome, {{ employee_name }}
+
+        </h2>
+
+        <p>
+
+            Logged in as {{ employee_role }}
+
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         DASHBOARD CONTENT
+         ===================================================== -->
+
+    <main class="employee-dashboard-content">
+
+
+        <div class="employee-dashboard-grid">
+
+
+            <!-- =================================================
+                 REGISTER LUGGAGE
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('admin') }}"
+                class="employee-dashboard-card"
+            >
+
+                <h3>
+
+                    Register Luggage
+
+                </h3>
+
+
+                <p>
+
+                    Register new luggage and generate a unique
+                    ANGEL tracking ID.
+
+                </p>
+
+            </a>
+
+
+            <!-- =================================================
+                 LIVE LUGGAGE STATUS
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('live_status') }}"
+                class="employee-dashboard-card"
+            >
+
+                <h3>
+
+                    Live Luggage Status
+
+                </h3>
+
+
+                <p>
+
+                    Search for luggage and update its current
+                    status and location.
+
+                </p>
+
+            </a>
+
+
+            <!-- =================================================
+                 SEARCH LUGGAGE
+                 ================================================= -->
+
+            <a
+                href="/employee-luggage"
+                class="employee-dashboard-card search-luggage-card"
+            >
+
+                <h3>
+
+                    Search Luggage
+
+                </h3>
+
+
+                <p>
+
+                    Search the luggage database using a tracking
+                    ID, passenger name, flight number or
+                    registration date.
+
+                </p>
+
+            </a>
+
+
+            <!-- =================================================
+                 SUPPORT INBOX
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('support_inbox_page') }}"
+                class="employee-dashboard-card support-inbox-card"
+            >
+
+                <h3>
+
+                    Support Inbox
+
+                </h3>
+
+
+                <p>
+
+                    View passenger support requests, accept live
+                    chats, reply to passengers and resolve issues.
+
+                </p>
+
+            </a>
+
+
+            <!-- =================================================
+                 MANAGEMENT DASHBOARD
+                 ================================================= -->
+
+            {% if employee_role in ["Supervisor", "Admin"] %}
+
+            <a
+                href="{{ url_for('management') }}"
+                class="employee-dashboard-card management-card"
+            >
+
+                <h3>
+
+                    Management Dashboard
+
+                </h3>
+
+
+                <p>
+
+                    Manage employees, roles, system information,
+                    activity logs and luggage statistics.
+
+                </p>
+
+            </a>
+
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 CUSTOMER DATABASE
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('customers') }}"
+                class="employee-dashboard-card"
+            >
+
+
+                <h3>
+                    Customer Database
+                </h3>
+
+                <p>
+                    View customer accounts, update customer
+                    information and manage account status.
+                </p>
+
+            </a>
+
+
+        </div>
+
+
+    </main>
+
+
+
+</div>
+
+
+</body>
+
+</html>

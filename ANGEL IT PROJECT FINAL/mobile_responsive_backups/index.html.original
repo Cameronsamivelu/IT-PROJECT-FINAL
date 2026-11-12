@@ -1,0 +1,2028 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL | Luggage Tracking &amp; Assistance</title>
+
+    <meta
+        name="description"
+        content="ANGEL helps passengers access luggage tracking records, review linked journey history and get customer support."
+    >
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="{{ url_for('static', filename='images/angel-favicon.ico') }}"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='images/angel-favicon.png') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/angel-assistant.css') }}"
+    >
+
+    <style>
+        /* =====================================================
+           ANGEL HOMEPAGE REDESIGN
+           ===================================================== */
+
+        :root {
+            --angel-navy: #0b3159;
+            --angel-navy-dark: #071e38;
+            --angel-blue: #176fc1;
+            --angel-blue-bright: #3494ed;
+            --angel-ice: #edf6ff;
+            --angel-surface: #ffffff;
+            --angel-background: #f5f8fc;
+            --angel-text: #203047;
+            --angel-muted: #687a90;
+            --angel-border: #e1e8f0;
+            --angel-green: #18865b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body.angel-homepage {
+            margin: 0;
+            padding: 0;
+            background: var(--angel-background);
+            color: var(--angel-text);
+            font-family: Arial, Helvetica, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .angel-homepage *,
+        .angel-homepage *::before,
+        .angel-homepage *::after {
+            box-sizing: border-box;
+        }
+
+        .angel-homepage a:focus-visible,
+        .angel-homepage button:focus-visible,
+        .angel-homepage input:focus-visible {
+            outline: 3px solid #78b8f5;
+            outline-offset: 3px;
+        }
+
+        .angel-container {
+            width: min(1180px, calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        /* =====================================================
+           NAVIGATION
+           ===================================================== */
+
+        .angel-homepage nav.site-nav {
+            position: relative;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+            padding: 14px 5%;
+            background: #ffffff;
+            color: var(--angel-navy);
+            border-bottom: 1px solid var(--angel-border);
+            box-shadow: 0 3px 15px rgba(15, 42, 75, 0.045);
+        }
+
+        .angel-homepage .logo {
+            flex-shrink: 0;
+            padding: 0;
+            margin: 0;
+            font-size: inherit;
+        }
+
+        .angel-homepage .logo-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .angel-homepage .navbar-logo {
+            display: block;
+            width: 66px;
+            height: 56px;
+            object-fit: contain;
+        }
+
+        .angel-homepage .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .angel-homepage .nav-links > li {
+            position: relative;
+            display: block;
+            margin: 0;
+        }
+
+        .angel-homepage .nav-links > li > a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 42px;
+            padding: 10px 15px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--angel-navy);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition:
+                background 0.18s ease,
+                border-color 0.18s ease,
+                color 0.18s ease;
+        }
+
+        .angel-homepage .nav-links > li > a:hover,
+        .angel-homepage .nav-links > li > a:focus-visible {
+            background: #edf5fd;
+            border-color: #e0ecf9;
+            color: var(--angel-blue);
+        }
+
+        .angel-homepage .dropdown-toggle::after {
+            content: "";
+            width: 7px;
+            height: 7px;
+            margin-left: 2px;
+            border-right: 1.5px solid currentColor;
+            border-bottom: 1.5px solid currentColor;
+            transform: translateY(-2px) rotate(45deg);
+        }
+
+        .angel-homepage .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            z-index: 200;
+            display: none;
+            min-width: 205px;
+            padding: 7px;
+            margin: 0;
+            border: 1px solid var(--angel-border);
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0 12px 35px rgba(12, 40, 72, 0.14);
+            list-style: none;
+        }
+
+        .angel-homepage .dropdown:hover .dropdown-menu,
+        .angel-homepage .dropdown:focus-within .dropdown-menu {
+            display: block;
+        }
+
+        .angel-homepage .nav-links .dropdown-menu li {
+            display: block;
+            margin: 0;
+        }
+
+        .angel-homepage .nav-links .dropdown-menu a {
+            display: block;
+            padding: 11px 12px;
+            border-radius: 7px;
+            color: var(--angel-text);
+            background: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .angel-homepage .nav-links .dropdown-menu a:hover {
+            color: var(--angel-navy);
+            background: #edf5fd;
+        }
+
+        /* Support popup */
+
+        .angel-homepage .support-item {
+            position: relative;
+        }
+
+        .angel-homepage .support-popup {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            z-index: 300;
+            width: 330px;
+            max-width: calc(100vw - 30px);
+            padding: 22px;
+            border: 1px solid var(--angel-border);
+            border-radius: 13px;
+            background: #ffffff;
+            color: var(--angel-text);
+            box-shadow: 0 15px 40px rgba(12, 40, 72, 0.16);
+        }
+
+        .angel-homepage .support-popup[hidden] {
+            display: none !important;
+        }
+
+        .angel-homepage .support-popup h3 {
+            margin: 0 0 12px;
+            color: var(--angel-navy);
+            font-size: 18px;
+            text-align: left;
+        }
+
+        .angel-homepage .support-popup p {
+            width: auto;
+            margin: 0 0 12px;
+            color: var(--angel-muted);
+            font-size: 13px;
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        .angel-homepage .support-popup #openAngelSupport {
+            display: inline-flex;
+            margin-top: 7px;
+            padding: 11px 13px;
+            border-radius: 7px;
+            background: var(--angel-navy);
+            color: #ffffff;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .angel-homepage .support-popup #openAngelSupport:hover {
+            background: var(--angel-blue);
+            color: #ffffff;
+        }
+
+        /* =====================================================
+           HERO SECTION
+           ===================================================== */
+
+        .angel-homepage .home-hero {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            padding: 78px 0 86px;
+            color: #ffffff;
+            background:
+                radial-gradient(
+                    circle at 80% 23%,
+                    rgba(65, 151, 231, 0.24),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 8% 85%,
+                    rgba(37, 104, 174, 0.22),
+                    transparent 32%
+                ),
+                linear-gradient(120deg, #071e38 0%, #0b3159 55%, #104b80 100%);
+        }
+
+        .angel-homepage .home-hero::before,
+        .angel-homepage .home-hero::after {
+            position: absolute;
+            z-index: -1;
+            content: "";
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+        }
+
+        .angel-homepage .home-hero::before {
+            top: -250px;
+            right: -100px;
+            width: 720px;
+            height: 720px;
+        }
+
+        .angel-homepage .home-hero::after {
+            top: -160px;
+            right: -10px;
+            width: 540px;
+            height: 540px;
+        }
+
+        .angel-homepage .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(390px, 0.85fr);
+            align-items: center;
+            gap: 58px;
+        }
+
+        .angel-homepage .hero-copy {
+            min-width: 0;
+        }
+
+        .angel-homepage .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin: 0 0 22px;
+            padding: 8px 12px;
+            border: 1px solid rgba(191, 219, 254, 0.25);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.07);
+            color: #d4e9ff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .angel-homepage .hero-eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #77c7ff;
+            box-shadow: 0 0 12px rgba(119, 199, 255, 0.7);
+        }
+
+        .angel-homepage .hero-copy h1 {
+            max-width: 650px;
+            margin: 0 0 20px;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: clamp(38px, 5.1vw, 65px);
+            font-weight: 800;
+            letter-spacing: -2.1px;
+            line-height: 1.08;
+            text-align: left;
+        }
+
+        .angel-homepage .hero-copy h1 span {
+            display: block;
+            margin-top: 8px;
+            color: #8bc8ff;
+        }
+
+        .angel-homepage .hero-copy p {
+            width: auto;
+            max-width: 570px;
+            margin: 0;
+            color: #d8e5f2;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.9;
+            text-align: left;
+        }
+
+        .angel-homepage .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .angel-homepage .action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            min-height: 47px;
+            padding: 13px 18px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            transition:
+                background 0.18s ease,
+                transform 0.18s ease,
+                border-color 0.18s ease;
+        }
+
+        .angel-homepage .action-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .angel-homepage .action-button-primary {
+            background: #ffffff;
+            color: var(--angel-navy);
+        }
+
+        .angel-homepage .action-button-primary:hover {
+            background: #e9f4ff;
+        }
+
+        .angel-homepage .action-button-outline {
+            border-color: rgba(255, 255, 255, 0.38);
+            background: rgba(255, 255, 255, 0.055);
+            color: #ffffff;
+        }
+
+        .angel-homepage .action-button-outline:hover {
+            border-color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .angel-homepage .hero-note {
+            margin-top: 22px;
+            color: #adc5dc;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        /* Tracking panel */
+
+        .angel-homepage .tracking-panel {
+            position: relative;
+            min-width: 0;
+            padding: 27px;
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.98);
+            color: var(--angel-text);
+            box-shadow: 0 26px 65px rgba(0, 0, 0, 0.22);
+        }
+
+        .angel-homepage .tracking-panel-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .angel-homepage .tracking-panel-kicker {
+            margin: 0 0 7px;
+            color: var(--angel-blue);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .angel-homepage .tracking-panel h2 {
+            margin: 0;
+            color: var(--angel-navy);
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        .angel-homepage .tracking-panel-description {
+            width: auto;
+            margin: 9px 0 0;
+            color: var(--angel-muted);
+            font-size: 13px;
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        .angel-homepage .tracking-icon {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #eaf4ff;
+            color: var(--angel-blue);
+            font-size: 23px;
+        }
+
+        .angel-homepage .tracking-label {
+            display: block;
+            margin: 0 0 8px;
+            color: #344b65;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .angel-homepage .tracking-search-form {
+            display: flex;
+            gap: 9px;
+            padding: 5px;
+            border: 1px solid #d6e1ed;
+            border-radius: 10px;
+            background: #f7faff;
+        }
+
+        .angel-homepage #trackingID {
+            display: block;
+            flex: 1;
+            min-width: 0;
+            width: 100%;
+            margin: 0;
+            padding: 12px;
+            border: 0;
+            border-radius: 6px;
+            outline: none;
+            background: transparent;
+            color: var(--angel-text);
+            font-family: inherit;
+            font-size: 14px;
+            box-shadow: none;
+        }
+
+        .angel-homepage #trackingID::placeholder {
+            color: #8594a7;
+        }
+
+        .angel-homepage #trackingID:focus-visible {
+            outline: 2px solid #91c5f3;
+            outline-offset: 0;
+        }
+
+        .angel-homepage .tracking-search-form button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-shrink: 0;
+            min-height: 44px;
+            padding: 11px 14px;
+            margin: 0;
+            border: 0;
+            border-radius: 7px;
+            background: var(--angel-blue);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.18s ease;
+        }
+
+        .angel-homepage .tracking-search-form button:hover {
+            background: var(--angel-navy);
+        }
+
+        .angel-homepage .tracking-hint {
+            margin-top: 12px;
+            color: #7b8ca0;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .angel-homepage .tracking-panel-divider {
+            height: 1px;
+            margin: 23px 0;
+            background: #e8edf3;
+        }
+
+        .angel-homepage .tracking-benefits {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 12px;
+        }
+
+        .angel-homepage .tracking-benefit {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .angel-homepage .tracking-benefit-icon {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            width: 31px;
+            height: 31px;
+            border-radius: 8px;
+            background: #edf6ff;
+            color: var(--angel-blue);
+            font-size: 15px;
+        }
+
+        .angel-homepage .tracking-benefit strong {
+            display: block;
+            margin: 1px 0 4px;
+            color: var(--angel-navy);
+            font-size: 12px;
+        }
+
+        .angel-homepage .tracking-benefit span {
+            display: block;
+            color: var(--angel-muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* Tracking response generated by script.js */
+
+        .angel-homepage #searchResult {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .angel-homepage #searchResult .tracking-result,
+        .angel-homepage #searchResult .tracking-error {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 19px;
+            border: 1px solid var(--angel-border);
+            border-radius: 11px;
+            background: #ffffff;
+            color: var(--angel-text);
+            text-align: left;
+            box-shadow: none;
+        }
+
+        .angel-homepage #searchResult .tracking-result h2,
+        .angel-homepage #searchResult .tracking-error h2 {
+            width: auto;
+            margin: 0 0 15px;
+            color: var(--angel-navy);
+            font-size: 18px;
+            letter-spacing: 0;
+            text-align: left;
+        }
+
+        .angel-homepage #searchResult .tracking-result p,
+        .angel-homepage #searchResult .tracking-error p {
+            width: auto;
+            margin: 8px 0;
+            color: #53657a;
+            font-size: 12px;
+            line-height: 1.65;
+            text-align: left;
+        }
+
+        .angel-homepage #searchResult .journey-container {
+            margin-top: 18px;
+            overflow-x: auto;
+        }
+
+        .angel-homepage #searchResult .journey-container h3 {
+            color: var(--angel-navy);
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           SECTION HEADINGS
+           ===================================================== */
+
+        .angel-homepage .section {
+            padding: 79px 0;
+        }
+
+        .angel-homepage .section-heading {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .angel-homepage .section-eyebrow {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--angel-blue);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.7px;
+            text-transform: uppercase;
+        }
+
+        .angel-homepage .section-heading h2 {
+            margin: 0 0 15px;
+            color: var(--angel-navy-dark);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: clamp(27px, 3.3vw, 38px);
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            line-height: 1.23;
+            text-align: center;
+        }
+
+        .angel-homepage .section-heading p {
+            width: auto;
+            max-width: 660px;
+            margin: 0 auto;
+            color: var(--angel-muted);
+            font-size: 15px;
+            line-height: 1.85;
+            text-align: center;
+        }
+
+        /* =====================================================
+           FEATURES
+           ===================================================== */
+
+        .angel-homepage .features-section {
+            background: #ffffff;
+        }
+
+        .angel-homepage .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .angel-homepage .feature-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 245px;
+            padding: 23px 21px;
+            border: 1px solid var(--angel-border);
+            border-radius: 13px;
+            background: #ffffff;
+            color: inherit;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(21, 49, 79, 0.025);
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .angel-homepage .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #b9d6f3;
+            box-shadow: 0 12px 28px rgba(21, 49, 79, 0.08);
+        }
+
+        .angel-homepage .feature-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 47px;
+            height: 47px;
+            margin-bottom: 21px;
+            border-radius: 12px;
+            background: #eaf4ff;
+            color: var(--angel-blue);
+            font-size: 22px;
+        }
+
+        .angel-homepage .feature-card h3 {
+            margin: 0 0 10px;
+            color: var(--angel-navy);
+            font-size: 17px;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .angel-homepage .feature-card p {
+            width: auto;
+            margin: 0;
+            color: var(--angel-muted);
+            font-size: 13px;
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        .angel-homepage .feature-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: auto;
+            padding-top: 19px;
+            color: var(--angel-blue);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* =====================================================
+           HOW IT WORKS
+           ===================================================== */
+
+        .angel-homepage .steps-section {
+            background:
+                linear-gradient(
+                    180deg,
+                    #f3f7fc 0%,
+                    #edf4fb 100%
+                );
+        }
+
+        .angel-homepage .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 23px;
+        }
+
+        .angel-homepage .step-card {
+            position: relative;
+            padding: 28px 25px;
+            border: 1px solid var(--angel-border);
+            border-radius: 13px;
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(21, 49, 79, 0.035);
+        }
+
+        .angel-homepage .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 43px;
+            height: 43px;
+            margin-bottom: 22px;
+            border-radius: 12px;
+            background: var(--angel-navy);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .angel-homepage .step-card h3 {
+            margin: 0 0 12px;
+            color: var(--angel-navy);
+            font-size: 18px;
+            line-height: 1.45;
+            text-align: left;
+        }
+
+        .angel-homepage .step-card p {
+            width: auto;
+            margin: 0;
+            color: var(--angel-muted);
+            font-size: 14px;
+            line-height: 1.85;
+            text-align: left;
+        }
+
+        /* =====================================================
+           ACCOUNT CTA
+           ===================================================== */
+
+        .angel-homepage .account-section {
+            padding: 70px 0;
+            background: #ffffff;
+        }
+
+        .angel-homepage .account-banner {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 35px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 17px;
+            background:
+                radial-gradient(
+                    circle at 95% 10%,
+                    rgba(74, 157, 228, 0.3),
+                    transparent 38%
+                ),
+                linear-gradient(120deg, #071e38, #0b3c6f);
+            color: #ffffff;
+            box-shadow: 0 15px 35px rgba(9, 43, 78, 0.12);
+        }
+
+        .angel-homepage .account-banner::after {
+            position: absolute;
+            z-index: -1;
+            top: -110px;
+            right: -60px;
+            width: 330px;
+            height: 330px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            content: "";
+            pointer-events: none;
+        }
+
+        .angel-homepage .account-copy {
+            min-width: 0;
+        }
+
+        .angel-homepage .account-copy h2 {
+            margin: 0 0 13px;
+            color: #ffffff;
+            font-size: clamp(25px, 3vw, 34px);
+            font-weight: 800;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        .angel-homepage .account-copy p {
+            width: auto;
+            max-width: 670px;
+            margin: 0;
+            color: #d7e7f7;
+            font-size: 14px;
+            line-height: 1.85;
+            text-align: left;
+        }
+
+        .angel-homepage .account-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            min-width: 190px;
+        }
+
+        .angel-homepage .account-actions .action-button {
+            width: 100%;
+        }
+
+        .angel-homepage .account-actions .account-secondary {
+            border-color: rgba(255, 255, 255, 0.35);
+            background: transparent;
+            color: #ffffff;
+        }
+
+        .angel-homepage .account-actions .account-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+
+        .angel-homepage .angel-footer {
+            margin: 0;
+            padding: 48px 30px 20px;
+            background: #071e38;
+            color: #ffffff;
+        }
+
+        .angel-homepage .angel-footer .footer-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1.2fr 1fr 0.8fr;
+            align-items: start;
+            gap: 32px;
+            width: min(1180px, 100%);
+            margin: 0 auto;
+        }
+
+        .angel-homepage .angel-footer .footer-section {
+            min-width: 0;
+            text-align: left;
+        }
+
+        .angel-homepage .angel-footer .footer-section h3 {
+            margin: 0 0 17px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .angel-homepage .angel-footer .footer-section p {
+            width: auto;
+            margin: 0 0 12px;
+            color: #c2d2e3;
+            font-size: 13px;
+            line-height: 1.85;
+            text-align: left;
+        }
+
+        .angel-homepage .angel-footer .footer-section a {
+            display: block;
+            width: fit-content;
+            max-width: 100%;
+            margin: 0 0 12px;
+            color: #c2d2e3;
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: left;
+            text-decoration: none;
+            overflow-wrap: anywhere;
+            transition: color 0.18s ease;
+        }
+
+        .angel-homepage .angel-footer .footer-section a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .angel-homepage .angel-footer .footer-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .angel-homepage .angel-footer .footer-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            margin: 0;
+            border: 1px solid rgba(255, 255, 255, 0.17);
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+            font-size: 17px;
+            text-align: center;
+        }
+
+        .angel-homepage .angel-footer .footer-socials a:hover {
+            background: rgba(255, 255, 255, 0.14);
+            text-decoration: none;
+        }
+
+        .angel-homepage .angel-footer .footer-bottom {
+            width: min(1180px, 100%);
+            margin: 34px auto 0;
+            padding-top: 19px;
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+            text-align: center;
+        }
+
+        .angel-homepage .angel-footer .footer-bottom p {
+            width: auto;
+            margin: 0;
+            color: #a9bfd5;
+            font-size: 12px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        /* =====================================================
+           RESPONSIVE LAYOUT
+           ===================================================== */
+
+        @media (max-width: 1000px) {
+            .angel-homepage .hero-grid {
+                grid-template-columns: minmax(0, 1fr) minmax(340px, 0.9fr);
+                gap: 32px;
+            }
+
+            .angel-homepage .feature-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .angel-homepage .account-banner {
+                grid-template-columns: 1fr;
+                gap: 23px;
+            }
+
+            .angel-homepage .account-actions {
+                flex-direction: row;
+                flex-wrap: wrap;
+                min-width: 0;
+            }
+
+            .angel-homepage .account-actions .action-button {
+                width: auto;
+            }
+
+            .angel-homepage .angel-footer .footer-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            .angel-homepage nav.site-nav {
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 12px;
+                padding: 12px 20px;
+            }
+
+            .angel-homepage .navbar-logo {
+                width: 55px;
+                height: 48px;
+            }
+
+            .angel-homepage .nav-links {
+                width: 100%;
+                justify-content: flex-start;
+                gap: 5px;
+            }
+
+            .angel-homepage .nav-links > li > a {
+                min-height: 39px;
+                padding: 9px 11px;
+                font-size: 13px;
+            }
+
+            .angel-homepage .home-hero {
+                padding: 57px 0 60px;
+            }
+
+            .angel-homepage .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+
+            .angel-homepage .hero-copy h1 {
+                font-size: clamp(37px, 8vw, 56px);
+                letter-spacing: -1.5px;
+            }
+
+            .angel-homepage .hero-copy p {
+                font-size: 15px;
+            }
+
+            .angel-homepage .tracking-panel {
+                width: 100%;
+                max-width: 560px;
+                margin: 0 auto;
+                padding: 23px;
+            }
+
+            .angel-homepage .section {
+                padding: 60px 0;
+            }
+
+            .angel-homepage .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .angel-homepage .step-card {
+                padding: 23px;
+            }
+
+            .angel-homepage .account-banner {
+                padding: 30px 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .angel-homepage .angel-container {
+                width: calc(100% - 32px);
+            }
+
+            .angel-homepage .nav-links {
+                gap: 3px;
+            }
+
+            .angel-homepage .nav-links > li > a {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .angel-homepage .support-popup {
+                left: 0;
+                right: auto;
+                width: 300px;
+            }
+
+            .angel-homepage .dropdown-menu {
+                left: auto;
+                right: 0;
+            }
+
+            .angel-homepage .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .angel-homepage .hero-actions .action-button {
+                width: 100%;
+            }
+
+            .angel-homepage .tracking-panel {
+                padding: 19px;
+            }
+
+            .angel-homepage .tracking-panel h2 {
+                font-size: 21px;
+            }
+
+            .angel-homepage .tracking-search-form {
+                flex-direction: column;
+                padding: 7px;
+            }
+
+            .angel-homepage .tracking-search-form button {
+                width: 100%;
+            }
+
+            .angel-homepage .tracking-benefits {
+                grid-template-columns: 1fr;
+            }
+
+            .angel-homepage .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .angel-homepage .feature-card {
+                min-height: 0;
+                padding: 22px;
+            }
+
+            .angel-homepage .account-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .angel-homepage .account-actions .action-button {
+                width: 100%;
+            }
+
+            .angel-homepage .angel-footer {
+                padding: 36px 22px 20px;
+            }
+
+            .angel-homepage .angel-footer .footer-container {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .angel-homepage *,
+            .angel-homepage *::before,
+            .angel-homepage *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="angel-homepage">
+
+<!-- =====================================================
+     NAVIGATION
+     ===================================================== -->
+
+<nav class="site-nav" aria-label="Main navigation">
+
+    <div class="logo">
+        <a
+            href="{{ url_for('home') }}"
+            class="logo-link"
+            aria-label="ANGEL Home"
+        >
+            <img
+                src="{{ url_for('static', filename='images/angel-logo.png') }}"
+                alt="ANGEL Logo"
+                class="navbar-logo"
+            >
+        </a>
+    </div>
+
+    <ul class="nav-links">
+
+        <li class="support-item">
+            <a href="#" id="supportInfoToggle">
+                Support
+            </a>
+
+            <div class="support-popup" id="supportPopup" hidden>
+
+                <h3>Need Assistance?</h3>
+
+                <p>
+                    Need help with luggage tracking or using ANGEL?
+                    Our assistant can guide you through the available
+                    support options.
+                </p>
+
+                <p>
+                    Open the assistant to get started.
+                </p>
+
+                <a href="#" id="openAngelSupport">
+                    Open ANGEL Assistant &rarr;
+                </a>
+
+            </div>
+        </li>
+
+        <li>
+            <a href="{{ url_for('flights') }}">
+                Flights
+            </a>
+        </li>
+
+        <li class="dropdown">
+
+            <a href="#" class="dropdown-toggle">
+                Menu
+            </a>
+
+            <ul class="dropdown-menu">
+
+                <li>
+                    <a href="{{ url_for('user_login') }}">
+                        Customer Login
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('user_register') }}">
+                        Create Account
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('faq') }}">
+                        FAQs
+                    </a>
+                </li>
+
+            </ul>
+
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO AND TRACKING PANEL
+     ===================================================== -->
+
+<section class="home-hero">
+
+    <div class="angel-container hero-grid">
+
+        <div class="hero-copy">
+
+            <div class="hero-eyebrow">
+                <span class="hero-eyebrow-dot"></span>
+                LUGGAGE MANAGEMENT &amp; ASSISTANCE
+            </div>
+
+            <h1>
+                Your journey.
+                <span>Your luggage.</span>
+                More visibility.
+            </h1>
+
+            <p>
+                Welcome to ANGEL, your airport luggage tracking and
+                management system. Access recorded luggage updates,
+                review your linked journey history and get help through
+                our support assistant.
+            </p>
+
+            <div class="hero-actions">
+
+                <a
+                    href="#tracking-panel"
+                    class="action-button action-button-primary"
+                >
+                    <i class="bi bi-search" aria-hidden="true"></i>
+                    Track My Luggage
+                </a>
+
+                <a
+                    href="{{ url_for('flights') }}"
+                    class="action-button action-button-outline"
+                >
+                    <i class="bi bi-airplane" aria-hidden="true"></i>
+                    My Flight History
+                </a>
+
+            </div>
+
+            <div class="hero-note">
+                Use your ANGEL tracking reference to look up the latest
+                information recorded for your luggage.
+            </div>
+
+        </div>
+
+
+        <div class="tracking-panel" id="tracking-panel">
+
+            <div class="tracking-panel-top">
+
+                <div>
+
+                    <div class="tracking-panel-kicker">
+                        LUGGAGE LOOKUP
+                    </div>
+
+                    <h2>Track your luggage</h2>
+
+                    <p class="tracking-panel-description">
+                        Enter the tracking ID provided when your luggage
+                        was registered.
+                    </p>
+
+                </div>
+
+                <div class="tracking-icon" aria-hidden="true">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+
+            </div>
+
+
+            <label for="trackingID" class="tracking-label">
+                ANGEL Tracking ID
+            </label>
+
+            <form class="tracking-search-form" id="trackingForm">
+
+                <input
+                    type="text"
+                    id="trackingID"
+                    name="trackingID"
+                    placeholder="e.g. ANGEL-1001"
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit">
+                    Track
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </button>
+
+            </form>
+
+            <div class="tracking-hint">
+                Enter the complete tracking reference. Results depend on
+                the information recorded in ANGEL.
+            </div>
+
+
+            <div
+                id="searchResult"
+                aria-live="polite"
+                aria-atomic="true"
+            ></div>
+
+
+            <div class="tracking-panel-divider"></div>
+
+
+            <div class="tracking-benefits">
+
+                <div class="tracking-benefit">
+
+                    <div class="tracking-benefit-icon" aria-hidden="true">
+                        <i class="bi bi-upc-scan"></i>
+                    </div>
+
+                    <div>
+                        <strong>Tracking reference</strong>
+                        <span>Look up a registered luggage record.</span>
+                    </div>
+
+                </div>
+
+                <div class="tracking-benefit">
+
+                    <div class="tracking-benefit-icon" aria-hidden="true">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+
+                    <div>
+                        <strong>Recorded location</strong>
+                        <span>Review the last location saved in ANGEL.</span>
+                    </div>
+
+                </div>
+
+                <div class="tracking-benefit">
+
+                    <div class="tracking-benefit-icon" aria-hidden="true">
+                        <i class="bi bi-airplane"></i>
+                    </div>
+
+                    <div>
+                        <strong>Journey status</strong>
+                        <span>See recorded progress through journey stages.</span>
+                    </div>
+
+                </div>
+
+                <div class="tracking-benefit">
+
+                    <div class="tracking-benefit-icon" aria-hidden="true">
+                        <i class="bi bi-chat-dots"></i>
+                    </div>
+
+                    <div>
+                        <strong>Support assistance</strong>
+                        <span>Open the ANGEL assistant whenever you need help.</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FEATURES
+     ===================================================== -->
+
+<section class="section features-section">
+
+    <div class="angel-container">
+
+        <div class="section-heading">
+
+            <span class="section-eyebrow">
+                ANGEL FEATURES
+            </span>
+
+            <h2>Everything you need in one place</h2>
+
+            <p>
+                Navigate luggage information, personal records and support
+                through a single, straightforward interface.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+            <a href="#tracking-panel" class="feature-card">
+
+                <div class="feature-icon" aria-hidden="true">
+                    <i class="bi bi-search"></i>
+                </div>
+
+                <h3>Luggage Tracking</h3>
+
+                <p>
+                    Enter a tracking reference to find the luggage record,
+                    review its status and see its last recorded location.
+                </p>
+
+                <span class="feature-link">
+                    Track luggage
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('flights') }}" class="feature-card">
+
+                <div class="feature-icon" aria-hidden="true">
+                    <i class="bi bi-airplane"></i>
+                </div>
+
+                <h3>My Flight History</h3>
+
+                <p>
+                    Sign in to view flight-linked luggage records associated
+                    with your ANGEL customer account.
+                </p>
+
+                <span class="feature-link">
+                    View history
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </span>
+
+            </a>
+
+
+            <a href="#" class="feature-card" id="homepageAssistantLink">
+
+                <div class="feature-icon" aria-hidden="true">
+                    <i class="bi bi-chat-square-text"></i>
+                </div>
+
+                <h3>ANGEL Assistant</h3>
+
+                <p>
+                    Open the support assistant for guidance and help with
+                    the options available in ANGEL.
+                </p>
+
+                <span class="feature-link">
+                    Get assistance
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('user_register') }}" class="feature-card">
+
+                <div class="feature-icon" aria-hidden="true">
+                    <i class="bi bi-person-check"></i>
+                </div>
+
+                <h3>Customer Account</h3>
+
+                <p>
+                    Create an account or sign in to access personal luggage
+                    records that are linked to your account.
+                </p>
+
+                <span class="feature-link">
+                    Get started
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     HOW ANGEL WORKS
+     ===================================================== -->
+
+<section class="section steps-section">
+
+    <div class="angel-container">
+
+        <div class="section-heading">
+
+            <span class="section-eyebrow">
+                SIMPLE BY DESIGN
+            </span>
+
+            <h2>How ANGEL works</h2>
+
+            <p>
+                From luggage registration to checking its recorded journey
+                information, ANGEL brings the main steps together.
+            </p>
+
+        </div>
+
+
+        <div class="steps-grid">
+
+            <article class="step-card">
+
+                <div class="step-number">01</div>
+
+                <h3>Register the luggage</h3>
+
+                <p>
+                    Luggage details are entered through the available
+                    customer or employee registration process.
+                </p>
+
+            </article>
+
+
+            <article class="step-card">
+
+                <div class="step-number">02</div>
+
+                <h3>Keep the tracking ID</h3>
+
+                <p>
+                    A successful registration generates a unique ANGEL
+                    tracking reference that can be used to look up the
+                    saved luggage record.
+                </p>
+
+            </article>
+
+
+            <article class="step-card">
+
+                <div class="step-number">03</div>
+
+                <h3>Review journey updates</h3>
+
+                <p>
+                    Enter the tracking reference to view recorded status
+                    and location information. Customers can sign in to
+                    view their linked luggage history.
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CLOSING CALL TO ACTION
+     ===================================================== -->
+
+<section class="account-section">
+
+    <div class="angel-container">
+
+        <div class="account-banner">
+
+            <div class="account-copy">
+
+                <h2>Make ANGEL part of your journey.</h2>
+
+                <p>
+                    Create a customer account to access your linked luggage
+                    history, or sign in if you already have an account.
+                    You can also look up luggage using a tracking ID above.
+                </p>
+
+            </div>
+
+
+            <div class="account-actions">
+
+                <a
+                    href="{{ url_for('user_register') }}"
+                    class="action-button action-button-primary"
+                >
+                    Create Account
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+
+                <a
+                    href="{{ url_for('user_login') }}"
+                    class="action-button account-secondary"
+                >
+                    Customer Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ANGEL ASSISTANT CHAT WINDOW
+     Existing IDs are preserved for angel-assistant.js.
+     ===================================================== -->
+
+<div
+    id="angelChatWindow"
+    class="angel-chat-window"
+    role="dialog"
+    aria-label="ANGEL assistant"
+    aria-modal="false"
+    aria-hidden="true"
+>
+
+    <div class="angel-chat-header">
+
+        <div class="angel-chat-brand">
+
+            <div class="angel-chat-avatar">
+    <img
+        src="{{ url_for('static', filename='images/angel-logo.png') }}"
+        alt="ANGEL logo"
+    >
+</div>
+
+            <div>
+                <h3>ANGEL assistant</h3>
+                <p>How can we help you?</p>
+            </div>
+
+        </div>
+
+        <button
+            type="button"
+            id="angelChatClose"
+            class="angel-chat-close"
+            aria-label="Close chat"
+        >
+            &times;
+        </button>
+
+    </div>
+
+    <div
+        id="angelChatMessages"
+        class="angel-chat-messages"
+        aria-live="polite"
+    ></div>
+
+    <div
+        id="angelChatOptions"
+        class="angel-chat-options"
+    ></div>
+
+    <div class="angel-chat-footer">
+        <span>ANGEL assistant · Automated support</span>
+    </div>
+
+</div>
+
+
+<!-- FLOATING CHATBOT BUTTON -->
+
+<button
+    type="button"
+    id="angelChatToggle"
+    class="angel-chat-toggle"
+    aria-label="Open ANGEL assistant"
+    aria-controls="angelChatWindow"
+    aria-expanded="false"
+>
+
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8
+                 8.5 8.5 0 0 1-7.6 4.7
+                 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7
+                 a8.4 8.4 0 0 1-.9-3.8
+                 8.5 8.5 0 0 1 4.7-7.6
+                 8.4 8.4 0 0 1 3.8-.9h.5
+                 a8.5 8.5 0 0 1 8 8v.5z"/>
+    </svg>
+
+</button>
+
+
+<!-- =====================================================
+     FOOTER
+     Existing informational routes are preserved.
+     ===================================================== -->
+
+<footer class="angel-footer">
+
+    <div class="footer-container">
+
+        <div class="footer-section">
+
+            <h3>ANGEL</h3>
+
+            <p>
+                Airport Navigation &amp; Guidance for Every Luggage.
+            </p>
+
+            <p>
+                Making luggage tracking simpler, smarter and more organised.
+            </p>
+
+        </div>
+
+
+        <div class="footer-section">
+
+            <h3>About ANGEL</h3>
+
+            <p>
+                ANGEL helps passengers access luggage tracking records,
+                personal luggage history and support.
+            </p>
+
+            <a href="{{ url_for('about_us') }}">
+                Learn About Us &rarr;
+            </a>
+
+        </div>
+
+
+        <div class="footer-section">
+
+            <h3>Information</h3>
+
+            <a href="{{ url_for('about_us') }}">
+                About Us
+            </a>
+
+            <a href="{{ url_for('legal') }}">
+                Legal
+            </a>
+
+            <a href="{{ url_for('terms_and_conditions') }}">
+                Terms &amp; Conditions
+            </a>
+
+            <a href="{{ url_for('privacy_policy') }}">
+                Privacy Policy
+            </a>
+
+            <a href="{{ url_for('employee_login') }}">Employee Portal</a>
+
+        </div>
+
+
+        <div class="footer-section">
+
+            <h3>Connect With Us</h3>
+
+            <p>
+                Need help using ANGEL? Open the support assistant.
+            </p>
+
+            <div class="footer-socials">
+
+                <a
+                    href="#"
+                    id="footerAssistantLink"
+                    aria-label="Open ANGEL Assistant"
+                    title="Open ANGEL Assistant"
+                >
+                    <i class="bi bi-chat-dots" aria-hidden="true"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            &copy; 2026 ANGEL. All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- Existing functionality scripts -->
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/angel-assistant.js') }}"></script>
+
+
+<!-- Homepage-only interactions -->
+
+<script>
+    "use strict";
+
+    /* Use the existing tracking function and IDs. */
+    const trackingForm = document.getElementById("trackingForm");
+
+    if (trackingForm) {
+        trackingForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (typeof searchLuggage === "function") {
+                searchLuggage();
+            }
+        });
+    }
+
+    /*
+     * Allow feature cards and footer support links to open the existing
+     * chatbot through its existing toggle button.
+     */
+    function openHomepageAssistant(event) {
+        event.preventDefault();
+
+        const chatToggle = document.getElementById("angelChatToggle");
+
+        if (chatToggle) {
+            chatToggle.click();
+        }
+    }
+
+    const assistantFeature = document.getElementById("homepageAssistantLink");
+    const footerAssistant = document.getElementById("footerAssistantLink");
+
+    if (assistantFeature) {
+        assistantFeature.addEventListener(
+            "click",
+            openHomepageAssistant
+        );
+    }
+
+    if (footerAssistant) {
+        footerAssistant.addEventListener(
+            "click",
+            openHomepageAssistant
+        );
+    }
+</script>
+
+</body>
+</html>

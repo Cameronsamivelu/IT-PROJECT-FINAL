@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Employee Accounts</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="employees-page">
+
+    <!-- HEADER -->
+
+    <header class="employees-header">
+
+        <div>
+            <h1>ANGEL</h1>
+            <p>Employee Account Management</p>
+        </div>
+
+        <a href="{{ url_for('management') }}"
+           class="employees-back-button">
+            ← Management Dashboard
+        </a>
+
+    </header>
+
+
+    <!-- PAGE CONTENT -->
+
+    <main class="employees-content">
+
+
+        <!-- CREATE EMPLOYEE -->
+
+        <section class="employee-form-card">
+
+            <h2>Create New Employee</h2>
+
+            <p>
+                Create an ANGEL employee account and assign
+                their access level.
+            </p>
+
+            <form method="POST"
+                  action="{{ url_for('create_employee') }}">
+
+                <label for="full_name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="full_name"
+                    name="full_name"
+                    placeholder="Enter employee full name"
+                    required
+                >
+
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter employee username"
+                    required
+                >
+
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter employee password"
+                    required
+                >
+
+
+                <label for="role">
+                    Role
+                </label>
+
+                <select id="role" name="role">
+
+                    <option value="Employee">
+                        Employee
+                    </option>
+
+                    <option value="Supervisor">
+                        Supervisor
+                    </option>
+
+                    <option value="Admin">
+                        Admin
+                    </option>
+
+                </select>
+
+
+                <button type="submit">
+                    Create Employee
+                </button>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- EXISTING EMPLOYEES -->
+
+        <section class="employee-list-card">
+
+            <h2>Current Employees</h2>
+
+            <div class="employee-table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for employee in employees %}
+
+                        <tr>
+
+                            <td>
+                                {{ employee["full_name"] }}
+                            </td>
+
+                            <td>
+                                {{ employee["username"] }}
+                            </td>
+
+                            <td>
+                                {{ employee["role"] }}
+                            </td>
+
+                            <td>
+                                {{ employee["status"] }}
+                            </td>
+
+
+                            <td>
+
+                                <div class="employee-actions">
+
+
+                                    <!-- EDIT -->
+
+                                    <a
+                                        href="{{ url_for('edit_employee', employee_id=employee['id']) }}"
+                                        class="employee-action-button edit-button"
+                                    >
+                                        Edit
+                                    </a>
+
+
+                                    <!-- CHANGE PASSWORD -->
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('change_employee_password', employee_id=employee['id']) }}"
+                                        class="employee-action-form"
+                                    >
+
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            placeholder="New password"
+                                            required
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="employee-action-button password-button"
+                                        >
+                                            Change Password
+                                        </button>
+
+                                    </form>
+
+
+                                    <!-- ENABLE / DISABLE -->
+
+                                    {% if employee["id"] != session["employee_id"] %}
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('toggle_employee_status', employee_id=employee['id']) }}"
+                                        class="employee-action-form"
+                                    >
+
+                                        <button
+                                            type="submit"
+                                            class="employee-action-button status-button"
+                                        >
+
+                                            {% if employee["status"] == "Active" %}
+
+                                                Disable
+
+                                            {% else %}
+
+                                                Enable
+
+                                            {% endif %}
+
+                                        </button>
+
+                                    </form>
+
+                                    {% endif %}
+
+
+                                    <!-- DELETE -->
+
+                                    {% if employee["id"] != session["employee_id"] %}
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('delete_employee', employee_id=employee['id']) }}"
+                                        class="employee-action-form"
+                                        onsubmit="return confirm('Are you sure you want to permanently delete this employee account?');"
+                                    >
+
+                                        <button
+                                            type="submit"
+                                            class="employee-action-button delete-button"
+                                        >
+                                            Delete
+                                        </button>
+
+                                    </form>
+
+                                    {% endif %}
+
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FAQs | ANGEL</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* ANGEL FAQ PAGE */
+
+        .faq-page {
+            min-height: 100vh;
+            background: #f3f7fc;
+            padding: 55px 20px 80px;
+            font-family: Arial, sans-serif;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-header h1 {
+            font-size: 40px;
+            color: #0b3c6f;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .faq-header p {
+            font-size: 17px;
+            color: #526477;
+            width: 100%;
+            margin: 0;
+            text-align: center;
+        }
+
+        .faq-home-link {
+            display: inline-block;
+            color: #0b3c6f;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .faq-home-link:hover {
+            text-decoration: underline;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid #dce5f0;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .faq-item summary {
+            padding: 22px 25px;
+            font-size: 17px;
+            font-weight: bold;
+            color: #17395d;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: "+";
+            font-size: 25px;
+            color: #0b3c6f;
+        }
+
+        .faq-item[open] summary::after {
+            content: "−";
+        }
+
+        .faq-answer {
+            padding: 0 25px 22px;
+        }
+
+        .faq-answer p {
+            width: 100%;
+            margin: 0;
+            text-align: left;
+            color: #526477;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .faq-help {
+            margin-top: 40px;
+            padding: 30px;
+            border-radius: 14px;
+            background: #0b3c6f;
+            color: white;
+            text-align: center;
+        }
+
+        .faq-help h2 {
+            color: white;
+            margin: 0 0 12px;
+            font-size: 24px;
+        }
+
+        .faq-help p {
+            width: 100%;
+            margin: 0;
+            color: #dce8f7;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .faq-header h1 {
+                font-size: 30px;
+            }
+
+            .faq-item summary {
+                padding: 18px;
+                font-size: 15px;
+            }
+
+            .faq-answer {
+                padding: 0 18px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="faq-page">
+    <div class="faq-container">
+
+        <a href="{{ url_for('home') }}"
+           class="faq-home-link">
+            ← Back to ANGEL Home
+        </a>
+
+        <div class="faq-header">
+            <h1>Frequently Asked Questions</h1>
+            <p>
+                Find answers to common questions about
+                ANGEL and luggage tracking.
+            </p>
+        </div>
+
+        <details class="faq-item">
+            <summary>What is ANGEL?</summary>
+            <div class="faq-answer">
+                <p>
+                    ANGEL stands for Airport Navigation &amp;
+                    Guidance for Every Luggage. It is an
+                    airport luggage tracking system designed
+                    to help passengers check the status and
+                    location of their baggage.
+                </p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary>What is the purpose of ANGEL?</summary>
+            <div class="faq-answer">
+                <p>
+                    ANGEL aims to make luggage tracking
+                    easier and more convenient. Passengers
+                    can check their baggage information,
+                    view tracking updates and access
+                    assistance when needed.
+                </p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary>How do I track my luggage?</summary>
+            <div class="faq-answer">
+                <p>
+                    Visit the ANGEL homepage and enter your
+                    luggage tracking ID in the "Track Your
+                    Luggage" search box. Click Search to
+                    view the available information about
+                    your baggage.
+                </p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary>What if I forget my password?</summary>
+            <div class="faq-answer">
+                <p>
+                    If you forget your password, return
+                    to the ANGEL homepage and open the
+                    ANGEL chatbot to request support.
+                    Do not share your password with
+                    anyone through the chat.
+                </p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary>What if my luggage is delayed or lost?</summary>
+            <div class="faq-answer">
+                <p>
+                    Use your tracking ID to check the latest
+                    available baggage status. If your luggage
+                    is delayed or marked as lost, contact
+                    ANGEL support for further guidance.
+                </p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary>How can I contact ANGEL support?</summary>
+            <div class="faq-answer">
+                <p>
+                    Open the ANGEL chatbot on the homepage
+                    to access automated assistance.
+                    Additional support options may be
+                    available through the chatbot.
+                </p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary>Do I need an account to track my luggage?</summary>
+            <div class="faq-answer">
+                <p>
+                    You can use the luggage tracking search
+                    on the ANGEL homepage with a valid
+                    tracking ID. A customer account may
+                    provide additional features.
+                </p>
+            </div>
+        </details>
+
+        <div class="faq-help">
+            <h2>Still Need Help?</h2>
+            <p>
+                Return to the ANGEL homepage and open
+                our chatbot for assistance.
+            </p>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

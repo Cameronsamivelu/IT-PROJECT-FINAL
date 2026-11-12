@@ -1,0 +1,1484 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANGEL | Support Inbox</title>
+
+    <style>
+        :root {
+            --navy: #0d477f;
+            --navy-dark: #08345d;
+            --blue: #1674c4;
+            --blue-light: #eaf4ff;
+            --background: #f3f7fc;
+            --white: #ffffff;
+            --text: #203047;
+            --muted: #718096;
+            --border: #e1e8f0;
+            --green: #18865b;
+            --red: #c43b43;
+            --shadow: 0 4px 18px rgba(24, 54, 88, 0.07);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        button, input, textarea {
+            font: inherit;
+        }
+
+        .topbar {
+            min-height: 76px;
+            padding: 16px 5%;
+            background: var(--navy);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            opacity: 0.85;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .topbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .topbar a:hover {
+            background: rgba(255, 255, 255, 0.13);
+        }
+
+        .page {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 28px 24px;
+        }
+
+        .page-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 7px;
+            font-size: 28px;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .refresh-button, .primary-button, .secondary-button,
+        .resolve-button {
+            border: 0;
+            border-radius: 8px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background 0.15s ease;
+        }
+
+        .refresh-button, .secondary-button {
+            background: #e5edf6;
+            color: var(--navy);
+        }
+
+        .refresh-button:hover, .secondary-button:hover {
+            background: #d5e4f4;
+        }
+
+        .primary-button {
+            background: var(--blue);
+            color: white;
+        }
+
+        .primary-button:hover {
+            background: var(--navy);
+        }
+
+        .resolve-button {
+            background: #e5f5ed;
+            color: var(--green);
+        }
+
+        .resolve-button:hover {
+            background: #ccebdc;
+        }
+
+        button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .inbox-layout {
+            display: grid;
+            grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+            min-height: 570px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .conversation-panel {
+            min-width: 0;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-heading {
+            padding: 19px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-heading h2 {
+            margin: 0 0 14px;
+            font-size: 17px;
+        }
+
+        .search-input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 11px 12px;
+            outline: none;
+            background: #fbfdff;
+        }
+
+        .search-input:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(22, 116, 196, 0.1);
+        }
+
+        .conversation-list {
+            overflow-y: auto;
+            max-height: 650px;
+        }
+
+        .conversation-item {
+            display: block;
+            width: 100%;
+            padding: 17px 18px;
+            text-align: left;
+            background: white;
+            border: 0;
+            border-bottom: 1px solid #edf1f6;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .conversation-item:hover {
+            background: #f7faff;
+        }
+
+        .conversation-item.active {
+            background: var(--blue-light);
+            box-shadow: inset 4px 0 var(--blue);
+        }
+
+        .conversation-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 9px;
+        }
+
+        .conversation-reference {
+            font-size: 13px;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+        }
+
+        .status {
+            display: inline-block;
+            flex-shrink: 0;
+            padding: 5px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .status-waiting {
+            background: #fff1d2;
+            color: #885800;
+        }
+
+        .status-progress {
+            background: #e1efff;
+            color: #145a9a;
+        }
+
+        .conversation-passenger {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 8px 0 4px;
+            overflow-wrap: anywhere;
+        }
+
+        .conversation-tracking {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .conversation-preview {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #526176;
+            overflow-wrap: anywhere;
+        }
+
+        .conversation-date {
+            font-size: 11px;
+            color: #8a96a7;
+            margin-top: 10px;
+        }
+
+        .empty-list {
+            padding: 35px 22px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .chat-panel {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            background: #fbfdff;
+        }
+
+        .chat-header {
+            padding: 20px 23px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .chat-header h2 {
+            margin: 0 0 7px;
+            font-size: 19px;
+            overflow-wrap: anywhere;
+        }
+
+        .chat-subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .message-area {
+            padding: 24px;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: 15px;
+            min-height: 300px;
+            max-height: 460px;
+            overflow-y: auto;
+        }
+
+        .message {
+            max-width: 78%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.035);
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .message-passenger {
+            align-self: flex-start;
+            background: white;
+            border: 1px solid var(--border);
+            border-top-left-radius: 3px;
+        }
+
+        .message-employee {
+            align-self: flex-end;
+            color: white;
+            background: var(--navy);
+            border-top-right-radius: 3px;
+        }
+
+        .message-system {
+            align-self: center;
+            max-width: 90%;
+            background: #edf3f9;
+            color: #596a7e;
+            text-align: center;
+            font-size: 12px;
+            border-radius: 20px;
+        }
+
+        .message-sender {
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            opacity: 0.8;
+        }
+
+        .message-time {
+            margin-top: 7px;
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        .reply-area {
+            padding: 17px 20px 20px;
+            background: white;
+            border-top: 1px solid var(--border);
+        }
+
+        .reply-area textarea {
+            display: block;
+            width: 100%;
+            min-height: 90px;
+            max-height: 180px;
+            resize: vertical;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            outline: none;
+        }
+
+        .reply-area textarea:focus {
+            border-color: var(--blue);
+        }
+
+        .reply-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .reply-help {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .notice {
+            display: none;
+            padding: 12px 15px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .notice.show {
+            display: block;
+        }
+
+        .notice.error {
+            color: #962b32;
+            background: #fff0f0;
+            border: 1px solid #f2caca;
+        }
+
+        .notice.success {
+            color: #126b48;
+            background: #e8f8ef;
+            border: 1px solid #c6ebd6;
+        }
+
+        /* In-page confirmation modal for resolving a support conversation. */
+        .modal-backdrop[hidden] {
+            display: none !important;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(12, 30, 51, 0.56);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            animation: modal-backdrop-in 0.16s ease-out;
+        }
+
+        .confirmation-modal {
+            width: min(100%, 460px);
+            padding: 30px;
+            background: var(--white);
+            border: 1px solid rgba(225, 232, 240, 0.9);
+            border-radius: 16px;
+            box-shadow: 0 24px 80px rgba(8, 30, 55, 0.28);
+            animation: modal-card-in 0.18s ease-out;
+        }
+
+        .confirmation-modal-icon {
+            display: flex;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            background: #e8f8ef;
+            color: var(--green);
+        }
+
+        .confirmation-modal-icon svg {
+            width: 23px;
+            height: 23px;
+        }
+
+        .confirmation-modal h2 {
+            margin: 0 0 10px;
+            color: #162b43;
+            font-size: 21px;
+            line-height: 1.3;
+        }
+
+        .confirmation-modal p {
+            margin: 0;
+            color: #617187;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .confirmation-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 26px;
+        }
+
+        .modal-cancel-button,
+        .modal-confirm-button {
+            min-height: 42px;
+            padding: 10px 15px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .modal-cancel-button {
+            background: #f2f5f9;
+            border-color: #e0e7ef;
+            color: #34465c;
+        }
+
+        .modal-cancel-button:hover {
+            background: #e7edf4;
+        }
+
+        .modal-confirm-button {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .modal-confirm-button:hover {
+            background: #116b48;
+        }
+
+        .modal-cancel-button:focus-visible,
+        .modal-confirm-button:focus-visible {
+            outline: 3px solid rgba(22, 116, 196, 0.28);
+            outline-offset: 2px;
+        }
+
+        @keyframes modal-backdrop-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modal-card-in {
+            from { opacity: 0; transform: translateY(8px) scale(0.985); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .modal-backdrop,
+            .confirmation-modal {
+                animation: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .confirmation-modal {
+                padding: 24px 20px;
+            }
+
+            .confirmation-modal-actions {
+                flex-direction: column-reverse;
+            }
+
+            .modal-cancel-button,
+            .modal-confirm-button {
+                width: 100%;
+            }
+        }
+
+        .placeholder {
+            flex: 1;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 35px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .placeholder-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .placeholder h2 {
+            color: var(--text);
+            font-size: 20px;
+            margin: 0 0 10px;
+        }
+
+        .placeholder p {
+            max-width: 350px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .loading {
+            padding: 25px;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 850px) {
+            .page {
+                padding: 20px 14px;
+            }
+
+            .inbox-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .conversation-panel {
+                border-right: 0;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .conversation-list {
+                max-height: 330px;
+            }
+
+            .chat-panel {
+                min-height: 500px;
+            }
+
+            .stats {
+                gap: 9px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-value {
+                font-size: 23px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .topbar {
+                padding: 15px;
+            }
+
+            .page-heading h1 {
+                font-size: 24px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .message-area {
+                padding: 16px 12px;
+            }
+
+            .message {
+                max-width: 92%;
+            }
+
+            .chat-header {
+                padding: 17px 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">
+            ANGEL
+            <small>PASSENGER SUPPORT CENTRE</small>
+        </div>
+
+        <nav class="topbar-actions">
+            <a href="{{ url_for('employee_dashboard') }}">Employee Dashboard</a>
+            <a href="{{ url_for('employee_logout') }}">Logout</a>
+        </nav>
+    </header>
+
+    <main class="page">
+        <section class="page-heading">
+            <div>
+                <h1>Support Inbox</h1>
+                <p>Manage passenger enquiries, respond to live chats and resolve requests.</p>
+            </div>
+
+            <button class="refresh-button" id="refreshButton" type="button">
+                ↻ Refresh inbox
+            </button>
+        </section>
+
+        <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+        <div
+            id="resolveModal"
+            class="modal-backdrop"
+            hidden
+            aria-hidden="true"
+        >
+            <section
+                class="confirmation-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="resolveModalTitle"
+                aria-describedby="resolveModalDescription"
+                tabindex="-1"
+            >
+                <div class="confirmation-modal-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 6 9 17l-5-5"></path>
+                    </svg>
+                </div>
+                <h2 id="resolveModalTitle">Resolve this conversation?</h2>
+                <p id="resolveModalDescription">
+                    This will close the support request. Once it is resolved, you will no longer be able to send replies from this inbox.
+                </p>
+                <div class="confirmation-modal-actions">
+                    <button class="modal-cancel-button" id="cancelResolveButton" type="button">
+                        Keep conversation open
+                    </button>
+                    <button class="modal-confirm-button" id="confirmResolveButton" type="button">
+                        Resolve conversation
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Waiting for an employee</div>
+                <div class="stat-value" id="waitingCount">—</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">In progress</div>
+                <div class="stat-value" id="progressCount">—</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Open conversations</div>
+                <div class="stat-value" id="totalCount">—</div>
+            </div>
+        </section>
+
+        <section class="inbox-layout">
+            <aside class="conversation-panel">
+                <div class="panel-heading">
+                    <h2>Passenger requests</h2>
+                    <input
+                        type="search"
+                        id="searchInput"
+                        class="search-input"
+                        placeholder="Search reference or tracking ID..."
+                        aria-label="Search conversations"
+                    >
+                </div>
+
+                <div id="conversationList" class="conversation-list">
+                    <div class="loading">Loading support requests...</div>
+                </div>
+            </aside>
+
+            <section class="chat-panel">
+                <div id="noConversation" class="placeholder">
+                    <div class="placeholder-icon">✉</div>
+                    <h2>Select a conversation</h2>
+                    <p>Choose a passenger request from the inbox to view the conversation and respond.</p>
+                </div>
+
+                <div id="chatContent" class="hidden" style="display:flex;flex-direction:column;flex:1;min-height:0;">
+                    <div class="chat-header">
+                        <h2 id="chatReference">Support conversation</h2>
+                        <div class="chat-subtitle" id="chatDetails"></div>
+
+                        <div class="chat-actions">
+                            <button class="primary-button" id="acceptButton" type="button">
+                                Accept chat
+                            </button>
+
+                            <button class="resolve-button" id="resolveButton" type="button">
+                                Resolve conversation
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="messageArea" class="message-area">
+                        <div class="loading">Loading messages...</div>
+                    </div>
+
+                    <form id="replyForm" class="reply-area">
+                        <textarea
+                            id="replyInput"
+                            placeholder="Type your reply to the passenger..."
+                            maxlength="4000"
+                            required
+                            aria-label="Reply to passenger. Press Enter to send or Shift plus Enter for a new line."
+                        ></textarea>
+
+                        <div class="reply-footer">
+                            <span class="reply-help">Be helpful, clear and professional.</span>
+                            <button class="primary-button" id="sendButton" type="submit">
+                                Send reply
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script>
+        (() => {
+            "use strict";
+
+            const API = {
+                inbox: "/support/employee/inbox",
+                accept: id => `/support/employee/accept/${id}`,
+                messages: id => `/support/employee/messages/${id}`,
+                send: id => `/support/employee/send/${id}`,
+                resolve: id => `/support/employee/resolve/${id}`
+            };
+
+            const elements = {
+                notice: document.getElementById("notice"),
+                waitingCount: document.getElementById("waitingCount"),
+                progressCount: document.getElementById("progressCount"),
+                totalCount: document.getElementById("totalCount"),
+                conversationList: document.getElementById("conversationList"),
+                searchInput: document.getElementById("searchInput"),
+                refreshButton: document.getElementById("refreshButton"),
+                noConversation: document.getElementById("noConversation"),
+                chatContent: document.getElementById("chatContent"),
+                chatReference: document.getElementById("chatReference"),
+                chatDetails: document.getElementById("chatDetails"),
+                acceptButton: document.getElementById("acceptButton"),
+                resolveButton: document.getElementById("resolveButton"),
+                messageArea: document.getElementById("messageArea"),
+                replyForm: document.getElementById("replyForm"),
+                replyInput: document.getElementById("replyInput"),
+                sendButton: document.getElementById("sendButton"),
+                resolveModal: document.getElementById("resolveModal"),
+                cancelResolveButton: document.getElementById("cancelResolveButton"),
+                confirmResolveButton: document.getElementById("confirmResolveButton")
+            };
+
+            let conversations = [];
+            let selectedId = null;
+            let selectedConversation = null;
+            let lastMessageSignature = "";
+            let requestInProgress = false;
+            let noticeTimer = null;
+            const passengerNameCache = new Map();
+
+            // Enter sends the reply; Shift+Enter keeps the normal textarea newline.
+            // This is the same capture-phase handler verified in the browser console.
+            elements.replyInput.addEventListener("keydown", event => {
+                if (
+                    event.key !== "Enter" ||
+                    event.shiftKey ||
+                    event.isComposing ||
+                    event.keyCode === 229
+                ) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                if (
+                    elements.sendButton.disabled ||
+                    elements.replyInput.disabled
+                ) {
+                    return;
+                }
+
+                if (typeof elements.replyForm.requestSubmit === "function") {
+                    elements.replyForm.requestSubmit(elements.sendButton);
+                } else {
+                    elements.sendButton.click();
+                }
+            }, true);
+
+            // Resolve the passenger name from the inbox response first, and fall back
+            // to the public luggage-tracking endpoint when older backend responses omit it.
+            async function getPassengerName(conversation) {
+                const suppliedName = String(conversation?.passenger_name || "").trim();
+                const trackingId = String(conversation?.tracking_id || "").trim();
+
+                if (suppliedName && suppliedName.toLowerCase() !== "passenger") {
+                    if (trackingId) {
+                        passengerNameCache.set(trackingId.toUpperCase(), suppliedName);
+                    }
+                    return suppliedName;
+                }
+
+                if (!trackingId) return suppliedName || "Passenger";
+
+                const cacheKey = trackingId.toUpperCase();
+                if (passengerNameCache.has(cacheKey)) {
+                    return passengerNameCache.get(cacheKey);
+                }
+
+                try {
+                    const response = await fetch(`/track?id=${encodeURIComponent(trackingId)}`, {
+                        credentials: "same-origin"
+                    });
+                    if (!response.ok) return suppliedName || "Passenger";
+
+                    const data = await response.json();
+                    const resolvedName = String(
+                        data?.luggage?.passenger ||
+                        data?.luggage?.passenger_name ||
+                        data?.passenger_name ||
+                        data?.passenger ||
+                        ""
+                    ).trim();
+
+                    if (resolvedName) {
+                        passengerNameCache.set(cacheKey, resolvedName);
+                        return resolvedName;
+                    }
+                } catch (error) {
+                    // A name lookup must never prevent the support inbox from loading.
+                }
+
+                return suppliedName || "Passenger";
+            }
+
+            async function addPassengerNames(items) {
+                return Promise.all(items.map(async conversation => ({
+                    ...conversation,
+                    passenger_name: await getPassengerName(conversation)
+                })));
+            }
+
+            function showNotice(message, type = "error") {
+                clearTimeout(noticeTimer);
+                elements.notice.textContent = message;
+                elements.notice.className = `notice show ${type}`;
+
+                noticeTimer = setTimeout(() => {
+                    elements.notice.className = "notice";
+                }, 6000);
+            }
+
+            async function apiRequest(url, options = {}) {
+                const response = await fetch(url, {
+                    credentials: "same-origin",
+                    ...options,
+                    headers: {
+                        ...(options.body ? { "Content-Type": "application/json" } : {}),
+                        ...(options.headers || {})
+                    }
+                });
+
+                let data;
+
+                try {
+                    data = await response.json();
+                } catch {
+                    throw new Error(
+                        `The server returned an unexpected response (HTTP ${response.status}).`
+                    );
+                }
+
+                if (!response.ok || data.success === false) {
+                    if (response.status === 401) {
+                        throw new Error("Your employee session has expired. Please log in again.");
+                    }
+
+                    throw new Error(data.message || `Request failed (HTTP ${response.status}).`);
+                }
+
+                return data;
+            }
+
+            function makeElement(tag, className, text) {
+                const node = document.createElement(tag);
+
+                if (className) {
+                    node.className = className;
+                }
+
+                if (text !== undefined) {
+                    node.textContent = text;
+                }
+
+                return node;
+            }
+
+            function formatDate(value) {
+                if (!value) return "";
+
+                const date = new Date(value.replace(" ", "T"));
+
+                if (Number.isNaN(date.getTime())) return value;
+
+                return date.toLocaleString([], {
+                    day: "2-digit",
+                    month: "short",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+            }
+
+            function statusClass(status) {
+                return status === "Waiting"
+                    ? "status status-waiting"
+                    : "status status-progress";
+            }
+
+            function renderStats() {
+                const waiting = conversations.filter(c => c.status === "Waiting").length;
+                const progress = conversations.filter(c => c.status === "In Progress").length;
+
+                elements.waitingCount.textContent = waiting;
+                elements.progressCount.textContent = progress;
+                elements.totalCount.textContent = conversations.length;
+            }
+
+            function renderConversations() {
+                const query = elements.searchInput.value.trim().toLowerCase();
+
+                const filtered = conversations.filter(c => {
+                    return [
+                        c.passenger_name,
+                        c.reference,
+                        c.tracking_id,
+                        c.status,
+                        c.last_message,
+                        c.assigned_employee
+                    ].some(value => String(value || "").toLowerCase().includes(query));
+                });
+
+                elements.conversationList.replaceChildren();
+
+                if (filtered.length === 0) {
+                    const empty = makeElement(
+                        "div",
+                        "empty-list",
+                        conversations.length === 0
+                            ? "There are no open support requests right now. New passenger requests will appear here."
+                            : "No conversations match your search."
+                    );
+
+                    elements.conversationList.appendChild(empty);
+                    return;
+                }
+
+                filtered.forEach(conversation => {
+                    const item = makeElement(
+                        "button",
+                        "conversation-item" +
+                            (Number(conversation.id) === Number(selectedId) ? " active" : "")
+                    );
+
+                    item.type = "button";
+                    item.setAttribute("aria-pressed",
+                        String(Number(conversation.id) === Number(selectedId)));
+
+                    const top = makeElement("div", "conversation-top");
+                    top.appendChild(makeElement(
+                        "span",
+                        "conversation-reference",
+                        conversation.reference || `Request #${conversation.id}`
+                    ));
+
+                    top.appendChild(makeElement(
+                        "span",
+                        statusClass(conversation.status),
+                        conversation.status || "Waiting"
+                    ));
+
+                    item.appendChild(top);
+
+                    item.appendChild(makeElement(
+                        "div",
+                        "conversation-passenger",
+                        `Passenger: ${conversation.passenger_name || "Passenger"}`
+                    ));
+
+                    item.appendChild(makeElement(
+                        "div",
+                        "conversation-tracking",
+                        `Tracking ID: ${conversation.tracking_id || "Not provided"}`
+                    ));
+
+                    item.appendChild(makeElement(
+                        "div",
+                        "conversation-preview",
+                        conversation.last_message || "No messages yet."
+                    ));
+
+                    item.appendChild(makeElement(
+                        "div",
+                        "conversation-date",
+                        `Updated: ${formatDate(conversation.updated_at)}`
+                    ));
+
+                    item.addEventListener("click", () => {
+                        openConversation(conversation.id);
+                    });
+
+                    elements.conversationList.appendChild(item);
+                });
+            }
+
+            function updateChatHeader() {
+                if (!selectedConversation) return;
+
+                elements.chatReference.textContent =
+                    selectedConversation.reference || `Request #${selectedConversation.id}`;
+
+                const details = [
+                    `Passenger: ${selectedConversation.passenger_name || "Passenger"}`,
+                    `Tracking ID: ${selectedConversation.tracking_id || "Not provided"}`,
+                    `Status: ${selectedConversation.status || "Unknown"}`,
+                    `Assigned to: ${selectedConversation.assigned_employee || "No employee yet"}`
+                ];
+
+                elements.chatDetails.textContent = details.join(" · ");
+
+                const waiting = selectedConversation.status === "Waiting";
+                const resolved = selectedConversation.status === "Resolved";
+
+                elements.acceptButton.classList.toggle("hidden", !waiting);
+                elements.resolveButton.classList.toggle("hidden", resolved);
+                elements.replyInput.disabled = resolved;
+                elements.sendButton.disabled = resolved;
+
+                if (resolved) {
+                    elements.replyInput.placeholder = "This conversation has been resolved.";
+                } else {
+                    elements.replyInput.placeholder = "Type your reply to the passenger...";
+                }
+            }
+
+            function renderMessages(messages) {
+                const signature = JSON.stringify(messages);
+
+                if (signature === lastMessageSignature) return;
+
+                const shouldStickToBottom =
+                    elements.messageArea.scrollHeight -
+                    elements.messageArea.scrollTop -
+                    elements.messageArea.clientHeight < 100;
+
+                lastMessageSignature = signature;
+                elements.messageArea.replaceChildren();
+
+                if (!Array.isArray(messages) || messages.length === 0) {
+                    elements.messageArea.appendChild(makeElement(
+                        "div",
+                        "empty-list",
+                        "No messages are available for this conversation yet."
+                    ));
+                    return;
+                }
+
+                messages.forEach(message => {
+                    const senderType = String(message.sender_type || "system").toLowerCase();
+
+                    let className = "message message-system";
+                    let senderLabel = "ANGEL";
+
+                    if (senderType === "passenger" || senderType === "user") {
+                        className = "message message-passenger";
+                        senderLabel = selectedConversation?.passenger_name || "Passenger";
+                    } else if (
+                        senderType === "employee" ||
+                        senderType === "agent" ||
+                        senderType === "admin"
+                    ) {
+                        className = "message message-employee";
+                        senderLabel = "Support employee";
+                    }
+
+                    const bubble = makeElement("div", className);
+                    bubble.appendChild(makeElement("div", "message-sender", senderLabel));
+                    bubble.appendChild(makeElement(
+                        "div",
+                        "message-body",
+                        message.message || ""
+                    ));
+
+                    if (message.created_at) {
+                        bubble.appendChild(makeElement(
+                            "div",
+                            "message-time",
+                            formatDate(message.created_at)
+                        ));
+                    }
+
+                    elements.messageArea.appendChild(bubble);
+                });
+
+                if (shouldStickToBottom) {
+                    elements.messageArea.scrollTop = elements.messageArea.scrollHeight;
+                }
+            }
+
+            async function loadInbox(options = {}) {
+                if (requestInProgress) return;
+                requestInProgress = true;
+
+                try {
+                    const data = await apiRequest(API.inbox);
+                    conversations = Array.isArray(data.conversations)
+                        ? await addPassengerNames(data.conversations)
+                        : [];
+
+                    renderStats();
+                    renderConversations();
+
+                    if (selectedId !== null) {
+                        const updated = conversations.find(
+                            c => Number(c.id) === Number(selectedId)
+                        );
+
+                        if (updated) {
+                            selectedConversation = updated;
+                            updateChatHeader();
+                        } else {
+                            selectedId = null;
+                            selectedConversation = null;
+                            lastMessageSignature = "";
+                            elements.chatContent.classList.add("hidden");
+                            elements.noConversation.classList.remove("hidden");
+                        }
+                    }
+
+                    if (options.notify) {
+                        showNotice("Inbox refreshed.", "success");
+                    }
+                } catch (error) {
+                    showNotice(error.message);
+                } finally {
+                    requestInProgress = false;
+                }
+            }
+
+            async function loadMessages(options = {}) {
+                if (selectedId === null) return;
+
+                try {
+                    const data = await apiRequest(API.messages(selectedId));
+
+                    if (Number(selectedId) !== Number(data.conversation_id || selectedId)) {
+                        return;
+                    }
+
+                    if (data.conversation) {
+                        selectedConversation = {
+                            ...selectedConversation,
+                            ...data.conversation,
+                            passenger_name: data.conversation.passenger_name ||
+                                selectedConversation?.passenger_name || "Passenger"
+                        };
+                        updateChatHeader();
+                    }
+
+                    renderMessages(data.messages || []);
+                } catch (error) {
+                    if (options.showError) {
+                        showNotice(error.message);
+                    }
+                }
+            }
+
+            async function openConversation(id) {
+                selectedId = id;
+                lastMessageSignature = "";
+
+                selectedConversation = conversations.find(
+                    c => Number(c.id) === Number(id)
+                ) || null;
+
+                elements.noConversation.classList.add("hidden");
+                elements.chatContent.classList.remove("hidden");
+
+                updateChatHeader();
+                renderConversations();
+
+                elements.messageArea.replaceChildren(
+                    makeElement("div", "loading", "Loading messages...")
+                );
+
+                await loadMessages({ showError: true });
+            }
+
+            elements.refreshButton.addEventListener("click", () => {
+                loadInbox({ notify: true });
+            });
+
+            elements.searchInput.addEventListener("input", renderConversations);
+
+            elements.acceptButton.addEventListener("click", async () => {
+                if (selectedId === null) return;
+
+                elements.acceptButton.disabled = true;
+
+                try {
+                    const data = await apiRequest(API.accept(selectedId), {
+                        method: "POST",
+                        body: JSON.stringify({})
+                    });
+
+                    showNotice(data.message || "Chat accepted.", "success");
+
+                    await loadInbox();
+
+                    if (selectedId !== null) {
+                        await loadMessages({ showError: true });
+                    }
+                } catch (error) {
+                    showNotice(error.message);
+                } finally {
+                    elements.acceptButton.disabled = false;
+                }
+            });
+
+            elements.replyForm.addEventListener("submit", async event => {
+                event.preventDefault();
+
+                if (selectedId === null) {
+                    showNotice("Select a conversation first.");
+                    return;
+                }
+
+                const message = elements.replyInput.value.trim();
+
+                if (!message) {
+                    showNotice("Please type a reply before sending.");
+                    return;
+                }
+
+                const conversationId = selectedId;
+                elements.sendButton.disabled = true;
+
+                try {
+                    const data = await apiRequest(API.send(conversationId), {
+                        method: "POST",
+                        body: JSON.stringify({ message })
+                    });
+
+                    elements.replyInput.value = "";
+
+                    showNotice(data.message || "Reply sent.", "success");
+
+                    await loadInbox();
+                    await loadMessages({ showError: true });
+                } catch (error) {
+                    showNotice(error.message);
+                } finally {
+                    elements.sendButton.disabled = false;
+                }
+            });
+
+            function openResolveModal() {
+                if (selectedId === null) return;
+
+                elements.resolveModal.hidden = false;
+                elements.resolveModal.setAttribute("aria-hidden", "false");
+                document.body.style.overflow = "hidden";
+                elements.cancelResolveButton.focus();
+            }
+
+            function closeResolveModal(restoreFocus = true) {
+                elements.resolveModal.hidden = true;
+                elements.resolveModal.setAttribute("aria-hidden", "true");
+                document.body.style.overflow = "";
+
+                if (restoreFocus && !elements.resolveButton.disabled) {
+                    elements.resolveButton.focus();
+                }
+            }
+
+            elements.resolveButton.addEventListener("click", openResolveModal);
+            elements.cancelResolveButton.addEventListener("click", () => closeResolveModal());
+
+            elements.resolveModal.addEventListener("click", event => {
+                if (event.target === elements.resolveModal) {
+                    closeResolveModal();
+                }
+            });
+
+            document.addEventListener("keydown", event => {
+                if (elements.resolveModal.hidden) return;
+
+                if (event.key === "Escape") {
+                    closeResolveModal();
+                }
+            });
+
+            elements.confirmResolveButton.addEventListener("click", async () => {
+                if (selectedId === null) {
+                    closeResolveModal(false);
+                    return;
+                }
+
+                const conversationId = selectedId;
+                elements.confirmResolveButton.disabled = true;
+                elements.cancelResolveButton.disabled = true;
+                elements.confirmResolveButton.textContent = "Resolving...";
+
+                try {
+                    const data = await apiRequest(API.resolve(conversationId), {
+                        method: "POST",
+                        body: JSON.stringify({})
+                    });
+
+                    closeResolveModal(false);
+                    showNotice(data.message || "Conversation resolved.", "success");
+
+                    selectedId = null;
+                    selectedConversation = null;
+                    lastMessageSignature = "";
+
+                    elements.chatContent.classList.add("hidden");
+                    elements.noConversation.classList.remove("hidden");
+
+                    await loadInbox();
+                } catch (error) {
+                    closeResolveModal(false);
+                    showNotice(error.message);
+                } finally {
+                    elements.confirmResolveButton.disabled = false;
+                    elements.cancelResolveButton.disabled = false;
+                    elements.confirmResolveButton.textContent = "Resolve conversation";
+                }
+            });
+
+            loadInbox();
+
+            // Refresh the queue and selected conversation while this page is open.
+            window.setInterval(() => {
+                loadInbox();
+
+                if (selectedId !== null) {
+                    loadMessages();
+                }
+            }, 4000);
+        })();
+    </script>
+</body>
+</html>

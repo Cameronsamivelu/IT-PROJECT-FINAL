@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ANGEL - Search Luggage</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef5fb;
+        }
+
+        .luggage-search-page {
+            min-height: 100vh;
+        }
+
+        .luggage-search-header {
+            background: #0d477f;
+            color: white;
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .luggage-search-header h1 {
+            margin: 0;
+            font-size: 34px;
+            letter-spacing: 1.5px;
+            color: white !important;
+            font-weight: 700;
+        }
+
+        .luggage-search-header p {
+            margin: 5px 0 0;
+            font-size: 15px;
+            color: white !important;
+            opacity: 0.9;
+        }
+
+        .back-button {
+            background: white;
+            color: #0d477f !important;
+            padding: 11px 19px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #e8f0f7;
+        }
+
+        .luggage-search-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 25px 60px;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow:
+                0 6px 20px rgba(0, 0, 0, 0.10);
+        }
+
+        .search-card h2 {
+            text-align: center;
+            color: #0d477f;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 25px;
+        }
+
+        .search-card-description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .search-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .search-field label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .search-field input {
+            padding: 14px;
+            border: 1px solid #bbb;
+            border-radius: 7px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .search-field input:focus {
+            outline: none;
+            border-color: #0d5aa7;
+            box-shadow:
+                0 0 5px rgba(13, 90, 167, 0.20);
+        }
+
+        .search-button {
+            grid-column: 1 / -1;
+            border: none;
+            border-radius: 7px;
+            padding: 15px;
+            background: #0d5aa7;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background: #083f75;
+        }
+
+        .clear-button {
+            grid-column: 1 / -1;
+            border: none;
+            border-radius: 7px;
+            padding: 12px;
+            background: #eef2f5;
+            color: #555;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .clear-button:hover {
+            background: #dfe6eb;
+        }
+
+        #searchMessage {
+            margin-top: 20px;
+        }
+
+        .success-message {
+            padding: 13px;
+            background: #e7f7ed;
+            border: 1px solid #48a868;
+            color: #218838;
+            border-radius: 7px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .error-message {
+            padding: 13px;
+            background: #fdeaea;
+            border: 1px solid #d9534f;
+            color: #c9302c;
+            border-radius: 7px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        #searchResults {
+            margin-top: 25px;
+            overflow-x: auto;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+        .results-table th {
+            background: #003b73;
+            color: white;
+            padding: 14px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .results-table td {
+            padding: 14px;
+            border-bottom: 1px solid #e3e7eb;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .results-table tr:hover {
+            background: #f7faff;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            background: #eef5fb;
+            color: #0d477f;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .action-cell {
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .remove-passenger-button {
+            border: none;
+            background: #d64545;
+            color: white;
+            padding: 9px 13px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.2s ease;
+        }
+
+        .remove-passenger-button:hover {
+            background: #b83232;
+            transform: translateY(-1px);
+        }
+
+        .remove-passenger-button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            transform: none;
+        }
+
+        .no-results {
+            padding: 25px;
+            text-align: center;
+            color: #666;
+            background: #f7f9fb;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 700px) {
+
+            .luggage-search-header {
+                padding: 20px;
+            }
+
+            .luggage-search-header h1 {
+                font-size: 27px;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .search-field.full-width {
+                grid-column: auto;
+            }
+
+            .search-button {
+                grid-column: auto;
+            }
+
+            .clear-button {
+                grid-column: auto;
+            }
+
+            .luggage-search-content {
+                margin-top: 25px;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .search-card {
+                padding: 25px 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="luggage-search-page">
+
+
+    <header class="luggage-search-header">
+
+        <div>
+
+            <h1>ANGEL</h1>
+
+            <p>Luggage Search</p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('employee_dashboard') }}"
+            class="back-button"
+        >
+
+            ← Employee Dashboard
+
+        </a>
+
+    </header>
+
+
+    <main class="luggage-search-content">
+
+
+        <section class="search-card">
+
+
+            <h2>
+                🔎 Search Luggage
+            </h2>
+
+
+            <p class="search-card-description">
+
+                Search luggage using a tracking ID, passenger
+                name, flight number or registration date.
+
+            </p>
+
+
+            <form
+                id="luggageSearchForm"
+                class="search-form"
+            >
+
+                <div class="search-field full-width">
+
+                    <label for="search">
+
+                        Tracking ID / Passenger / Flight
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="search"
+                        name="search"
+                        placeholder="e.g. ANGEL-1001, Reuel or SA123"
+                    >
+
+                </div>
+
+
+                <div class="search-field">
+
+                    <label for="from_date">
+
+                        From Registration Date
+
+                    </label>
+
+
+                    <input
+                        type="date"
+                        id="from_date"
+                        name="from_date"
+                    >
+
+                </div>
+
+
+                <div class="search-field">
+
+                    <label for="to_date">
+
+                        To Registration Date
+
+                    </label>
+
+
+                    <input
+                        type="date"
+                        id="to_date"
+                        name="to_date"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="search-button"
+                >
+
+                    Search Luggage
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="clear-button"
+                    onclick="clearSearch()"
+                >
+
+                    Clear Search
+
+                </button>
+
+            </form>
+
+
+            <div id="searchMessage"></div>
+
+            <div id="searchResults"></div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+<script>
+
+
+document
+    .getElementById("luggageSearchForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            searchLuggage();
+
+        }
+    );
+
+
+function searchLuggage() {
+
+    const search =
+        document
+            .getElementById("search")
+            .value
+            .trim();
+
+
+    const fromDate =
+        document
+            .getElementById("from_date")
+            .value;
+
+
+    const toDate =
+        document
+            .getElementById("to_date")
+            .value;
+
+
+    const message =
+        document
+            .getElementById("searchMessage");
+
+
+    const results =
+        document
+            .getElementById("searchResults");
+
+
+    if (
+        fromDate !== "" &&
+        toDate !== "" &&
+        fromDate > toDate
+    ) {
+
+        message.innerHTML = `
+
+            <div class="error-message">
+
+                The From Date cannot be later than
+                the To Date.
+
+            </div>
+
+        `;
+
+        results.innerHTML = "";
+
+        return;
+    }
+
+
+    const params =
+        new URLSearchParams();
+
+
+    if (search !== "") {
+
+        params.append(
+            "search",
+            search
+        );
+
+    }
+
+
+    if (fromDate !== "") {
+
+        params.append(
+            "date_from",
+            fromDate
+        );
+
+    }
+
+
+    if (toDate !== "") {
+
+        params.append(
+            "date_to",
+            toDate
+        );
+
+    }
+
+
+    message.innerHTML = "";
+
+
+    results.innerHTML = `
+
+        <div class="no-results">
+
+            Searching luggage records...
+
+        </div>
+
+    `;
+
+
+    fetch(
+        `/employee-luggage/search?${params.toString()}`,
+        {
+            method: "GET",
+            credentials: "same-origin",
+            cache: "no-store"
+        }
+    )
+
+    .then(response => {
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Search failed (${response.status}).`
+            );
+
+        }
+
+        return response.json();
+
+    })
+
+    .then(data => {
+
+        if (!data.success) {
+
+            results.innerHTML = "";
+
+            message.innerHTML = `
+
+                <div class="error-message">
+
+                    ${escapeHTML(
+                        data.message ||
+                        "Unable to search luggage."
+                    )}
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        message.innerHTML = `
+
+            <div class="success-message">
+
+                ✓ ${data.count}
+                luggage record(s) found.
+
+            </div>
+
+        `;
+
+
+        if (
+            !data.luggage ||
+            data.luggage.length === 0
+        ) {
+
+            results.innerHTML = `
+
+                <div class="no-results">
+
+                    No luggage records matched your search.
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        let tableHTML = `
+
+            <table class="results-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Tracking ID</th>
+
+                        <th>Passenger</th>
+
+                        <th>Flight</th>
+
+                        <th>Origin</th>
+
+                        <th>Destination</th>
+
+                        <th>Weight</th>
+
+                        <th>Status</th>
+
+                        <th>Location</th>
+
+                        <th>Registered</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+        `;
+
+
+        data.luggage.forEach(luggage => {
+
+
+            /*
+             * Find every luggage ID in the CURRENT SEARCH
+             * belonging to this same passenger.
+             *
+             * This means pressing "Remove Passenger"
+             * removes all of that passenger's luggage
+             * records, not just the row you clicked.
+             */
+
+            const passengerKey =
+                String(
+                    luggage.passenger || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            const passengerIds =
+                data.luggage
+
+                    .filter(item => {
+
+                        return String(
+                            item.passenger || ""
+                        )
+                        .trim()
+                        .toLowerCase()
+                        ===
+                        passengerKey;
+
+                    })
+
+                    .map(item => item.id);
+
+
+            const passengerJson =
+                JSON.stringify(
+                    luggage.passenger
+                );
+
+
+            const idsJson =
+                JSON.stringify(
+                    passengerIds
+                );
+
+
+            tableHTML += `
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            ${escapeHTML(
+                                luggage.tracking_id
+                            )}
+
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHTML(
+                            luggage.passenger
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHTML(
+                            luggage.flight
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHTML(
+                            luggage.origin
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHTML(
+                            luggage.destination
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHTML(
+                            luggage.weight
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="status-badge">
+
+                            ${escapeHTML(
+                                luggage.status
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHTML(
+                            luggage.location
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHTML(
+                            luggage.registered_at
+                        )}
+
+                    </td>
+
+
+                    <td class="action-cell">
+
+
+                        {% if session.get("employee_role") in ["Supervisor", "Admin"] %}
+
+
+                            <button
+                                type="button"
+                                class="remove-passenger-button"
+                                data-passenger='${escapeAttribute(passengerJson)}'
+                                data-luggage-ids='${escapeAttribute(idsJson)}'
+                                onclick="removePassenger(this)"
+                            >
+
+                                Remove Passenger
+
+                            </button>
+
+
+                        {% else %}
+
+
+                            -
+
+
+                        {% endif %}
+
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        tableHTML += `
+
+                </tbody>
+
+            </table>
+
+        `;
+
+
+        results.innerHTML =
+            tableHTML;
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            "SEARCH ERROR:",
+            error
+        );
+
+        results.innerHTML = "";
+
+        message.innerHTML = `
+
+            <div class="error-message">
+
+                ${escapeHTML(
+                    error.message ||
+                    "Something went wrong while searching."
+                )}
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================================================
+   REMOVE PASSENGER
+   ========================================================= */
+
+function removePassenger(button) {
+
+
+    const passenger =
+        button.dataset.passenger || "";
+
+
+    let luggageIds = [];
+
+
+    try {
+
+        luggageIds =
+            JSON.parse(
+                button.dataset.luggageIds || "[]"
+            );
+
+    }
+
+    catch (error) {
+
+        alert(
+            "Could not determine the luggage records."
+        );
+
+        return;
+    }
+
+
+    if (
+        !passenger ||
+        !Array.isArray(luggageIds) ||
+        luggageIds.length === 0
+    ) {
+
+        alert(
+            "Could not determine the luggage records."
+        );
+
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+
+            "WARNING\n\n" +
+
+            "You are about to remove " +
+
+            passenger +
+
+            " from the luggage system.\n\n" +
+
+            "This will DELETE ALL " +
+
+            luggageIds.length +
+
+            " luggage record(s) belonging to this passenger.\n\n" +
+
+            "Are you sure you want to continue?"
+
+        );
+
+
+    if (!confirmed) {
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent = "Removing...";
+
+
+    const message =
+        document.getElementById(
+            "searchMessage"
+        );
+
+
+    message.innerHTML = `
+
+        <div class="no-results">
+
+            Removing ${escapeHTML(passenger)}
+            from the system...
+
+        </div>
+
+    `;
+
+
+    fetch(
+        "/employee-luggage/delete-passenger",
+        {
+
+            method: "POST",
+
+            credentials: "same-origin",
+
+            cache: "no-store",
+
+            headers: {
+
+                "Content-Type":
+                    "application/json",
+
+                "Accept":
+                    "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                passenger:
+                    passenger,
+
+                luggage_ids:
+                    luggageIds
+
+            })
+
+        }
+    )
+
+    .then(response => {
+
+        return response.text().then(text => {
+
+            let data;
+
+
+            try {
+
+                data =
+                    JSON.parse(text);
+
+            }
+
+            catch (error) {
+
+                throw new Error(
+                    `Server returned HTTP ${response.status} instead of JSON.`
+                );
+
+            }
+
+
+            return {
+
+                ok:
+                    response.ok,
+
+                data:
+                    data
+
+            };
+
+        });
+
+    })
+
+    .then(result => {
+
+        if (
+            !result.ok ||
+            !result.data.success
+        ) {
+
+            throw new Error(
+
+                result.data.message ||
+
+                "The passenger could not be removed."
+
+            );
+
+        }
+
+
+        message.innerHTML = `
+
+            <div class="success-message">
+
+                ✓ ${escapeHTML(passenger)}
+                has been removed successfully.
+
+                <br><br>
+
+                ${result.data.deleted_count}
+                luggage record(s) deleted.
+
+            </div>
+
+        `;
+
+
+        /*
+         * Search again after deletion.
+         *
+         * Because the search field still contains
+         * the passenger name, the deleted passenger
+         * should immediately disappear.
+         */
+
+        searchLuggage();
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            "DELETE ERROR:",
+            error
+        );
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "Remove Passenger";
+
+
+        message.innerHTML = `
+
+            <div class="error-message">
+
+                ${escapeHTML(
+                    error.message ||
+                    "Something went wrong while removing the passenger."
+                )}
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================================================
+   CLEAR SEARCH
+   ========================================================= */
+
+function clearSearch() {
+
+    document
+        .getElementById("search")
+        .value = "";
+
+
+    document
+        .getElementById("from_date")
+        .value = "";
+
+
+    document
+        .getElementById("to_date")
+        .value = "";
+
+
+    document
+        .getElementById("searchMessage")
+        .innerHTML = "";
+
+
+    document
+        .getElementById("searchResults")
+        .innerHTML = "";
+
+}
+
+
+/* =========================================================
+   HTML ESCAPING
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+function escapeAttribute(value) {
+
+    return escapeHTML(value);
+
+}
+
+</script>
+
+
+</body>
+
+</html>
