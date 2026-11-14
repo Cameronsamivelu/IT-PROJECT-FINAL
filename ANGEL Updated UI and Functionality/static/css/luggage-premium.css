@@ -1,0 +1,231 @@
+/* ========================================
+   ANGEL PREMIUM LUGGAGE REGISTRATION
+======================================== */
+
+.luggage-premium {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f4f5f7;
+    color: #111827;
+}
+
+/* NAVIGATION */
+
+.luggage-premium header {
+    background: #ffffff;
+    color: #111827;
+    padding: 24px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.luggage-premium .luggage-brand {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: #111827;
+    text-decoration: none;
+}
+
+.luggage-brand img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.luggage-brand strong {
+    display: block;
+    font-size: 27px;
+    font-weight: 600;
+    letter-spacing: 5px;
+}
+
+.luggage-brand small {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.luggage-premium .dashboard-back {
+    color: #111827;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 15px 22px;
+    border: 1px solid #111827;
+    border-radius: 4px;
+    transition: all 0.25s ease;
+}
+
+.luggage-premium .dashboard-back:hover {
+    background: #111827;
+    color: #ffffff;
+}
+
+/* MAIN CONTENT */
+
+.luggage-premium main {
+    width: 100%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+/* AIRPORT BANNER */
+
+.luggage-premium main::before {
+    content: "Your next journey starts here.";
+    display: flex;
+    align-items: center;
+    min-height: 220px;
+    padding: 40px;
+    box-sizing: border-box;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8, 20, 38, 0.88),
+            rgba(8, 20, 38, 0.35)
+        ),
+        url("../images/airport.jpg") center / cover no-repeat;
+
+    color: #ffffff;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 500;
+    letter-spacing: -1px;
+    border-radius: 4px 4px 0 0;
+}
+
+/* FORM CARD */
+
+.luggage-premium .form-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 45px;
+    border: 1px solid #e2e8f0;
+    border-radius: 0 0 4px 4px;
+    box-shadow: none;
+}
+
+.luggage-premium .form-card h2 {
+    color: #111827;
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.8px;
+    margin: 0 0 15px;
+}
+
+.luggage-premium .form-card > p {
+    color: #64748b;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+/* FORM FIELDS */
+
+.luggage-premium label {
+    display: block;
+    color: #111827;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.luggage-premium input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]),
+.luggage-premium select,
+.luggage-premium textarea {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #111827;
+    font-family: inherit;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.luggage-premium input:focus,
+.luggage-premium select:focus,
+.luggage-premium textarea:focus {
+    outline: none;
+    border-color: #2161c5;
+    box-shadow: 0 0 0 3px rgba(33, 97, 197, 0.12);
+}
+
+.luggage-premium input[readonly] {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+/* REGISTER BUTTON */
+
+.luggage-premium form button[type="submit"],
+.luggage-premium form input[type="submit"],
+.luggage-premium form button:not([type]) {
+    width: 100%;
+    background: #2161c5;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 19px 25px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.luggage-premium form button[type="submit"]:hover,
+.luggage-premium form input[type="submit"]:hover,
+.luggage-premium form button:not([type]):hover {
+    background: #174a9e;
+}
+
+/* MOBILE RESPONSIVENESS */
+
+@media (max-width: 650px) {
+    .luggage-premium header {
+        padding: 18px;
+        flex-wrap: wrap;
+    }
+
+    .luggage-brand img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .luggage-brand strong {
+        font-size: 21px;
+    }
+
+    .luggage-brand small {
+        font-size: 9px;
+    }
+
+    .luggage-premium main {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+    .luggage-premium main::before {
+        min-height: 180px;
+        padding: 25px;
+    }
+
+    .luggage-premium .form-card {
+        padding: 25px;
+    }
+
+    .luggage-premium .form-card h2 {
+        font-size: 26px;
+    }
+}

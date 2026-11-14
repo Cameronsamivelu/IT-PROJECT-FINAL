@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Help & Support | ANGEL</title>
+
+    <link rel="icon"
+          href="{{ url_for('static', filename='images/angel-favicon.png') }}">
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/support.css') }}">
+
+</head>
+
+<body class="angel-support-page">
+
+    <!-- NAVIGATION -->
+
+    <header class="support-header">
+
+        <nav class="support-nav">
+
+            <a href="/" class="support-brand">
+
+                <img
+                    src="{{ url_for('static', filename='images/angel-logo.png') }}"
+                    alt="ANGEL"
+                >
+
+                <span>ANGEL</span>
+
+            </a>
+
+            <a href="/" class="support-home-link">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back to homepage
+
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- HERO SECTION -->
+
+    <section class="support-hero">
+
+        <div class="support-hero-content">
+
+            <span class="support-eyebrow">
+                HERE FOR YOUR JOURNEY
+            </span>
+
+            <h1>Help &amp; Support.</h1>
+
+            <p>
+                Whatever your journey brings,
+                we're here to help.
+            </p>
+
+            <a href="#support-options"
+               class="support-primary-button">
+
+                Explore support
+
+                <i class="bi bi-arrow-down"></i>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUPPORT OPTIONS -->
+
+    <section class="support-options"
+             id="support-options">
+
+        <div class="support-container">
+
+            <div class="support-section-heading">
+
+                <span class="support-eyebrow">
+                    FIND THE RIGHT SUPPORT
+                </span>
+
+                <h2>How can we help you?</h2>
+
+                <p>
+                    Explore our support services and find
+                    the assistance you need for your journey.
+                </p>
+
+            </div>
+
+
+            <div class="support-grid">
+
+                <!-- LUGGAGE ASSISTANCE -->
+
+                <a href="/#tracking-panel"
+                   class="support-card">
+
+                    <i class="bi bi-suitcase-lg support-card-icon"></i>
+
+                    <h3>Luggage assistance</h3>
+
+                    <p>
+                        Access luggage tracking, check recorded
+                        updates and find your luggage information.
+                    </p>
+
+                    <span class="support-card-link">
+                        Track my luggage
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <!-- ACCOUNT ASSISTANCE -->
+
+                <a href="{{ url_for('user_login') }}"
+                   class="support-card">
+
+                    <i class="bi bi-person-circle support-card-icon"></i>
+
+                    <h3>Account assistance</h3>
+
+                    <p>
+                        Access your customer account, manage
+                        your details or recover your password.
+                    </p>
+
+                    <span class="support-card-link">
+                        Access my account
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <!-- ANGEL ASSISTANT -->
+
+                <a href="/?assistant=open"
+                   class="support-card">
+
+                    <i class="bi bi-chat-dots support-card-icon"></i>
+
+                    <h3>ANGEL Assistant</h3>
+
+                    <p>
+                        Get guidance from our virtual assistant
+                        and explore the available support options.
+                    </p>
+
+                    <span class="support-card-link">
+                        Get assistance
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <!-- FAQ -->
+
+                <a href="{{ url_for('faq') }}"
+                   class="support-card">
+
+                    <i class="bi bi-question-circle support-card-icon"></i>
+
+                    <h3>Frequently asked questions</h3>
+
+                    <p>
+                        Find answers to common questions about
+                        ANGEL, luggage tracking and your account.
+                    </p>
+
+                    <span class="support-card-link">
+                        Explore FAQs
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ADDITIONAL SUPPORT BANNER -->
+
+    <section class="support-contact">
+
+        <div class="support-container">
+
+            <span class="support-eyebrow">
+                WITH YOU EVERY STEP OF THE WAY
+            </span>
+
+            <h2>We're here for you.</h2>
+
+            <p>
+                From departure to arrival, ANGEL helps you
+                stay informed and connected throughout
+                your luggage journey.
+            </p>
+
+            <a href="{{ url_for('faq') }}"
+               class="support-primary-button">
+
+                Discover more
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="support-footer">
+
+        <div class="support-footer-main">
+
+            <div>
+
+                <h3>ANGEL</h3>
+
+                <p>Your journey. Connected.</p>
+
+            </div>
+
+            <div class="support-footer-links">
+
+                <a href="{{ url_for('about_us') }}">
+                    About Us
+                </a>
+
+                <a href="{{ url_for('legal') }}">
+                    Legal
+                </a>
+
+                <a href="{{ url_for('terms_and_conditions') }}">
+                    Terms &amp; Conditions
+                </a>
+
+                <a href="{{ url_for('privacy_policy') }}">
+                    Privacy Policy
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="support-footer-bottom">
+
+            &copy; 2026 ANGEL. All rights reserved.
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

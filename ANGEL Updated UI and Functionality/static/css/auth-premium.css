@@ -1,0 +1,356 @@
+/* =========================================
+   ANGEL PREMIUM AUTHENTICATION DESIGN
+   ========================================= */
+
+body.auth-premium {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+    display: block;
+}
+
+/* Full-screen split layout */
+
+.auth-premium .auth-shell {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+}
+
+/* Cinematic left panel */
+
+.auth-premium .auth-brand {
+    position: relative;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5, 15, 30, 0.65),
+            rgba(5, 15, 30, 0.85)
+        ),
+        url('../images/airport.jpg') center center / cover no-repeat;
+    padding: 50px 8%;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.auth-premium .auth-brand::before,
+.auth-premium .auth-brand::after {
+    display: none;
+}
+
+.auth-premium .brand-logo {
+    border-radius: 0;
+    background: #ffffff;
+    box-shadow: none;
+}
+
+.auth-premium .brand-name {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 6px;
+}
+
+.auth-premium .brand-tagline {
+    color: #d1d5db;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+
+.auth-premium .brand-copy {
+    margin: 70px 0 40px;
+}
+
+.auth-premium .brand-eyebrow {
+    color: #cbd5e1;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.auth-premium .brand-eyebrow::before {
+    background: #2161c5;
+}
+
+.auth-premium .brand-copy h1 {
+    font-size: clamp(42px, 4.5vw, 76px);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -2px;
+    color: #ffffff;
+    margin: 24px 0;
+}
+
+.auth-premium .brand-copy p:not(.brand-eyebrow) {
+    color: #e2e8f0;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.auth-premium .brand-points {
+    margin-bottom: 40px;
+}
+
+.auth-premium .point-icon {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+}
+
+/* Clean right-hand login panel */
+
+.auth-premium .auth-panel {
+    background: #ffffff;
+    padding: 65px 12%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
+.auth-premium .auth-kicker {
+    color: #2161c5;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.auth-premium .auth-kicker::before {
+    background: #2161c5;
+}
+
+.auth-premium .auth-title {
+    color: #111827;
+    font-size: clamp(32px, 3vw, 46px);
+    font-weight: 500;
+    letter-spacing: -1.5px;
+    line-height: 1.2;
+    margin: 20px 0 15px;
+}
+
+.auth-premium .auth-description {
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
+
+/* Premium input fields */
+
+.auth-premium .form-field label {
+    color: #111827;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.auth-premium .form-field input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 56px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 16px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #111827;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-premium .form-field input:focus {
+    outline: none;
+    border-color: #2161c5;
+    box-shadow: 0 0 0 3px rgba(33, 97, 197, 0.12);
+}
+
+/* Integrated password visibility button */
+
+.auth-premium .password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.auth-premium .password-input-wrapper input {
+    padding-right: 80px;
+}
+
+.auth-premium .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 8px;
+    color: #2161c5;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.auth-premium .password-toggle:hover {
+    color: #123d85;
+}
+
+/* Primary login button */
+
+.auth-premium .auth-form button[type="submit"] {
+    width: 100%;
+    min-height: 56px;
+    background: #2161c5;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.auth-premium .auth-form button[type="submit"]:hover {
+    background: #194da0;
+}
+
+.auth-premium .auth-panel a {
+    color: #2161c5;
+    text-decoration: none;
+}
+
+.auth-premium .auth-panel a:hover {
+    text-decoration: underline;
+}
+
+/* Tablet and mobile layout */
+
+@media (max-width: 900px) {
+
+    .auth-premium .auth-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-premium .auth-brand {
+        padding: 35px 7%;
+        min-height: 320px;
+    }
+
+    .auth-premium .brand-copy {
+        margin: 40px 0 20px;
+    }
+
+    .auth-premium .brand-points {
+        display: none;
+    }
+
+    .auth-premium .auth-panel {
+        padding: 45px 7%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .auth-premium .brand-copy h1 {
+        font-size: 40px;
+    }
+
+    .auth-premium .auth-title {
+        font-size: 32px;
+    }
+
+    .auth-premium .auth-panel {
+        padding: 35px 24px;
+    }
+}
+
+/* Compact desktop login layout */
+
+@media (min-width: 901px) {
+
+    .auth-premium .auth-brand {
+        padding: 32px 8%;
+    }
+
+    .auth-premium .brand-copy {
+        margin: 30px 0;
+    }
+
+    .auth-premium .brand-copy h1 {
+        font-size: clamp(40px, 4vw, 64px);
+        margin: 18px 0;
+    }
+
+    .auth-premium .brand-points {
+        margin: 15px 0;
+    }
+
+    .auth-premium .auth-panel {
+        padding: 35px 12%;
+    }
+
+    .auth-premium .auth-title {
+        margin: 12px 0;
+    }
+
+    .auth-premium .auth-description {
+        margin-bottom: 24px;
+    }
+
+    .auth-premium .auth-form {
+        gap: 16px;
+    }
+
+    .auth-premium .form-field input {
+        min-height: 50px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+}
+
+/* =========================================
+   PREMIUM CUSTOMER REGISTRATION
+   ========================================= */
+
+.auth-premium .brand-copy h1 span {
+    color: #ffffff;
+}
+
+@media (min-width: 901px) {
+
+    .auth-register .auth-shell {
+        overflow: visible;
+        align-items: start;
+    }
+
+    .auth-register .auth-brand {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .auth-register .brand-copy {
+        margin: 25px 0;
+    }
+
+    .auth-register .auth-panel {
+        padding: 40px 12%;
+    }
+
+    .auth-register .auth-form {
+        gap: 14px;
+    }
+}

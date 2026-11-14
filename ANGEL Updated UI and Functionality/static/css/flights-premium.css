@@ -1,0 +1,229 @@
+/* ANGEL - Premium Flight History */
+
+body.flights-premium {
+    font-family: 'Inter', sans-serif;
+    background: #f3f4f6;
+    color: #111827;
+}
+
+/* Navigation header */
+
+.flights-premium .topbar {
+    background: #ffffff;
+    padding: 22px 5%;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: none;
+}
+
+.flights-premium .brand {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #111827;
+    text-decoration: none;
+}
+
+.flights-premium .brand img {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+}
+
+.flights-premium .brand-text strong {
+    display: block;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 5px;
+}
+
+.flights-premium .brand-text small {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.flights-premium .topbar-actions a {
+    background: transparent;
+    color: #111827;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 15px 22px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.flights-premium .topbar-actions a:last-child {
+    border-color: #111827;
+}
+
+.flights-premium .topbar-actions a:hover {
+    background: #2161c5;
+    color: #ffffff;
+    border-color: #2161c5;
+}
+
+/* Main content */
+
+.flights-premium main {
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 25px;
+}
+
+/* Cinematic airport banner */
+
+.flights-premium .page-heading {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8, 18, 35, 0.88),
+            rgba(8, 18, 35, 0.35)
+        ),
+        url('../images/airport.jpg') center center / cover no-repeat;
+
+    padding: 65px 50px;
+    border-radius: 4px;
+    margin-bottom: 35px;
+    color: #ffffff;
+}
+
+.flights-premium .page-heading h1 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 500;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+    margin: 0 0 20px;
+}
+
+.flights-premium .page-heading p {
+    color: #e2e8f0;
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 750px;
+    margin: 0;
+}
+
+/* Flight history panel */
+
+.flights-premium .panel {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    padding: 32px;
+    box-shadow: none;
+    overflow-x: auto;
+}
+
+.flights-premium .history-summary h2 {
+    font-size: 26px;
+    font-weight: 500;
+    color: #111827;
+    letter-spacing: -0.5px;
+}
+
+.flights-premium .history-summary p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* Search field */
+
+.flights-premium input {
+    font-family: inherit;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 16px;
+    font-size: 14px;
+}
+
+.flights-premium input:focus {
+    outline: none;
+    border-color: #2161c5;
+    box-shadow: 0 0 0 3px rgba(33, 97, 197, 0.12);
+}
+
+/* Search button */
+
+.flights-premium button[type="submit"] {
+    font-family: inherit;
+    background: #2161c5;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 16px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.flights-premium button[type="submit"]:hover {
+    background: #174b9e;
+}
+
+/* Flight history table */
+
+.flights-premium table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.flights-premium table th {
+    background: #111827;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+    padding: 18px 15px;
+}
+
+.flights-premium table td {
+    padding: 20px 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.flights-premium table tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* Mobile responsiveness */
+
+@media (max-width: 768px) {
+
+    .flights-premium .topbar {
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .flights-premium .topbar-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .flights-premium .topbar-actions a {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .flights-premium main {
+        margin: 25px auto;
+        padding: 0 15px;
+    }
+
+    .flights-premium .page-heading {
+        padding: 40px 25px;
+    }
+
+    .flights-premium .panel {
+        padding: 20px;
+    }
+
+    .flights-premium table {
+        min-width: 750px;
+    }
+}

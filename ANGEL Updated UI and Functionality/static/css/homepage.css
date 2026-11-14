@@ -1,0 +1,2021 @@
+/* =========================================
+   ANGEL — MIDNIGHT LUXURY DESIGN
+   Homepage Stylesheet
+========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --angel-midnight: #0B1118;
+    --angel-slate: #202C39;
+    --angel-blue: #3276CF;
+    --angel-light: #E9EDF2;
+    --angel-white: #FFFFFF;
+
+    --angel-font: 'Inter', sans-serif;
+}
+
+/* Base homepage styling */
+
+body.angel-homepage {
+    margin: 0;
+    padding: 0;
+    font-family: var(--angel-font);
+    background: var(--angel-white);
+    color: var(--angel-midnight);
+    -webkit-font-smoothing: antialiased;
+}
+
+.angel-homepage *,
+.angel-homepage *::before,
+.angel-homepage *::after {
+    box-sizing: border-box;
+}
+
+.angel-homepage button,
+.angel-homepage input {
+    font-family: var(--angel-font);
+}
+
+.angel-homepage a {
+    text-decoration: none;
+}
+
+/* =========================================
+   ANGEL — PREMIUM NAVIGATION
+========================================= */
+
+.angel-homepage .angel-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: transparent;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.angel-nav-inner {
+    max-width: 1440px;
+    width: 86%;
+    margin: 0 auto;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    gap: 45px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* ANGEL BRAND */
+
+.angel-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: inherit;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.angel-brand img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+}
+
+.angel-brand span {
+    font-size: 23px;
+    font-weight: 600;
+    letter-spacing: 4px;
+}
+
+/* NAVIGATION LINKS */
+
+.angel-nav-links {
+    display: flex;
+    align-items: stretch;
+    gap: 30px;
+    flex: 1;
+    align-self: stretch;
+}
+
+.angel-nav-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0 8px;
+    white-space: nowrap;
+}
+
+/* ANIMATED BLUE UNDERLINE */
+
+.angel-nav-button::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #3985ff;
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+}
+
+.angel-nav-button:hover::after,
+.angel-nav-button:focus-visible::after,
+.angel-nav-button[aria-expanded="true"]::after {
+    transform: scaleX(1);
+}
+
+/* DROPDOWN CHEVRONS */
+
+.angel-chevron {
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    margin-top: -4px;
+    transition: transform 0.25s ease;
+}
+
+.angel-nav-button[aria-expanded="true"] .angel-chevron {
+    transform: rotate(225deg);
+    margin-top: 4px;
+}
+
+.angel-account {
+    align-self: stretch;
+    margin-left: auto;
+    padding: 0 15px;
+}
+
+/* OPEN NAVIGATION STATE */
+
+.angel-homepage .angel-nav.menu-open {
+    background: #ffffff;
+    color: #171b24;
+}
+
+.angel-nav.menu-open .angel-nav-inner {
+    border-bottom-color: #d9dce2;
+}
+
+.angel-nav-button[aria-expanded="true"] {
+    color: #2166d1;
+}
+
+/* FULL-WIDTH MEGA MENUS */
+
+.angel-mega-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    color: #171b24;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.12);
+    animation: angelMenuReveal 0.3s ease both;
+}
+
+.angel-mega-menu[hidden] {
+    display: none !important;
+}
+
+.angel-mega-inner {
+    width: 86%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 55px 0 65px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+}
+
+.angel-mega-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+}
+
+.angel-mega-links h2 {
+    font-size: 29px;
+    font-weight: 400;
+    margin: 0 0 15px;
+    letter-spacing: -0.8px;
+}
+
+.angel-mega-links a {
+    color: #363c46;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.angel-mega-links a:hover {
+    color: #2166d1;
+    transform: translateX(5px);
+}
+
+/* MEGA MENU IMAGERY */
+
+.angel-mega-feature {
+    max-width: 520px;
+}
+
+.angel-mega-feature img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+}
+
+.angel-mega-feature h3 {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 22px 0 10px;
+}
+
+.angel-mega-feature p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #606773;
+    margin: 0;
+}
+
+/* SMOOTH MENU ANIMATION */
+
+@keyframes angelMenuReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVE NAVIGATION */
+
+@media (max-width: 768px) {
+    .angel-nav-inner {
+        width: 92%;
+        min-height: 85px;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding: 12px 0;
+    }
+
+    .angel-brand img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .angel-brand span {
+        font-size: 17px;
+        letter-spacing: 2px;
+    }
+
+    .angel-nav-links {
+        order: 3;
+        flex-basis: 100%;
+        justify-content: space-between;
+        gap: 5px;
+    }
+
+    .angel-nav-button {
+        font-size: 12px;
+        padding: 12px 5px;
+        gap: 7px;
+    }
+
+    .angel-mega-menu {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .angel-mega-inner {
+        width: 90%;
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 30px 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .angel-nav *,
+    .angel-nav {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* =========================================
+   ANGEL — CINEMATIC HOMEPAGE HERO
+========================================= */
+
+.angel-homepage .angel-cinematic-hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #08111e;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    isolation: isolate;
+}
+
+/* CINEMATIC BACKGROUND */
+
+.angel-hero-background {
+    position: absolute;
+    inset: 0;
+    background-image: url('../images/airport.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+}
+
+/* DARK CINEMATIC OVERLAY */
+
+.angel-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(4, 12, 23, 0.88) 0%,
+            rgba(4, 12, 23, 0.55) 45%,
+            rgba(4, 12, 23, 0.12) 100%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(4, 12, 23, 0.65) 0%,
+            transparent 35%,
+            transparent 65%,
+            rgba(4, 12, 23, 0.65) 100%
+        );
+    z-index: -1;
+}
+
+/* HERO CONTENT */
+
+.angel-cinematic-content {
+    width: 86%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 180px 0 140px;
+    animation: angelHeroReveal 0.9s ease both;
+}
+
+.angel-hero-kicker {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    color: #d1dceb;
+    margin-bottom: 25px;
+}
+
+.angel-cinematic-content h1 {
+    font-size: clamp(52px, 6.5vw, 110px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -4px;
+    color: #ffffff;
+    margin: 0 0 25px;
+}
+
+.angel-cinematic-content p {
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #d4dce7;
+    max-width: 520px;
+    margin: 0 0 35px;
+}
+
+/* PREMIUM HERO BUTTONS */
+
+.angel-hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.angel-primary-button,
+.angel-outline-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    min-height: 58px;
+    padding: 16px 30px;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.angel-primary-button {
+    background: #2468d8;
+    border: 1px solid #2468d8;
+    color: #ffffff;
+}
+
+.angel-primary-button:hover {
+    background: #174fae;
+    border-color: #174fae;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.angel-outline-button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #ffffff;
+}
+
+.angel-outline-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* SCROLL INDICATOR */
+
+.angel-scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.angel-scroll-indicator span {
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+.angel-scroll-indicator i {
+    font-size: 20px;
+    animation: angelScrollBounce 2s infinite;
+}
+
+/* =========================================
+   ANGEL — LUGGAGE TRACKING SECTION
+========================================= */
+
+.angel-homepage .angel-tracking-section {
+    background: #f5f6f8;
+    color: #101923;
+    padding: 100px 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.angel-tracking-container {
+    width: 86%;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    gap: 80px;
+}
+
+.angel-section-kicker {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #2468d8;
+    margin-bottom: 25px;
+}
+
+.angel-tracking-intro h2 {
+    font-size: clamp(36px, 4vw, 65px);
+    font-weight: 300;
+    letter-spacing: -2px;
+    line-height: 1.15;
+    color: #101923;
+    margin: 0 0 25px;
+}
+
+.angel-tracking-intro p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #626c7a;
+    max-width: 420px;
+}
+
+/* UPDATED TRACKING CARD */
+
+.angel-tracking-section .tracking-panel {
+    width: 100%;
+    max-width: none;
+    background: #ffffff;
+    border: 1px solid #e1e5eb;
+    border-radius: 6px;
+    padding: 35px;
+    box-sizing: border-box;
+    box-shadow: 0 15px 45px rgba(15, 25, 40, 0.06);
+    scroll-margin-top: 30px;
+}
+
+.angel-tracking-section .tracking-search-form button {
+    background: #2468d8;
+    border-radius: 3px;
+}
+
+.angel-tracking-section .tracking-search-form input {
+    border-radius: 3px;
+}
+
+/* SMOOTH SCROLLING */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ANIMATIONS */
+
+@keyframes angelHeroReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes angelScrollBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(6px);
+    }
+}
+
+/* MOBILE RESPONSIVENESS */
+
+@media (max-width: 768px) {
+
+    .angel-cinematic-content {
+        width: 90%;
+        padding: 200px 0 130px;
+    }
+
+    .angel-cinematic-content h1 {
+        font-size: clamp(42px, 10vw, 65px);
+        letter-spacing: -2px;
+    }
+
+    .angel-cinematic-content p {
+        font-size: 16px;
+    }
+
+    .angel-hero-kicker {
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+
+    .angel-hero-background {
+        background-position: 65% center;
+    }
+
+    .angel-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .angel-tracking-container {
+        width: 90%;
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .angel-homepage .angel-tracking-section {
+        padding: 60px 0;
+    }
+
+    .angel-tracking-section .tracking-panel {
+        padding: 22px;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    .angel-cinematic-content,
+    .angel-scroll-indicator i {
+        animation: none;
+    }
+
+}
+
+/* =========================================
+   ANGEL — PREMIUM TRACKING EXPERIENCE
+========================================= */
+
+/* KEEP TRACKING SECTION ALIGNED */
+
+.angel-tracking-container {
+    align-items: start;
+}
+
+.angel-tracking-intro {
+    padding-top: 35px;
+    text-align: left;
+}
+
+.angel-tracking-intro h2,
+.angel-tracking-intro p {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.angel-tracking-section .tracking-panel {
+    min-width: 0;
+}
+
+/* TRACKING RESULT ANIMATION */
+
+.angel-result {
+    margin-top: 25px;
+    min-width: 0;
+    animation: angelResultReveal 0.5s ease both;
+}
+
+.angel-result-success {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #24784c;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 18px;
+}
+
+.angel-result-success i {
+    font-size: 19px;
+}
+
+/* DIGITAL LUGGAGE TICKET */
+
+.angel-luggage-ticket {
+    background: linear-gradient(
+        135deg,
+        #081321,
+        #192d45
+    );
+    color: #ffffff;
+    padding: 28px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.angel-ticket-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 25px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+}
+
+.angel-ticket-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #aabdd4;
+    margin-bottom: 10px;
+}
+
+.angel-ticket-top h2 {
+    font-size: 25px;
+    font-weight: 500;
+    color: #ffffff;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.angel-ticket-top i {
+    font-size: 32px;
+    color: #80b1ff;
+}
+
+/* DEPARTURE AND DESTINATION */
+
+.angel-ticket-route {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 45px minmax(0, 1fr);
+    align-items: center;
+    gap: 15px;
+    padding-top: 25px;
+}
+
+.angel-ticket-route span {
+    display: block;
+    color: #aabdd4;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+}
+
+.angel-ticket-route h3 {
+    font-size: clamp(18px, 2vw, 26px);
+    font-weight: 400;
+    color: #ffffff;
+    text-transform: capitalize;
+    overflow-wrap: anywhere;
+    margin: 0;
+}
+
+.angel-route-origin {
+    text-align: left;
+}
+
+.angel-route-destination {
+    text-align: right;
+}
+
+.angel-route-plane {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #80b1ff;
+    font-size: 25px;
+}
+
+.angel-route-plane i {
+    transform: rotate(90deg);
+}
+
+/* PASSENGER AND LUGGAGE DETAILS */
+
+.angel-result-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    padding: 28px 5px;
+    border-bottom: 1px solid #e1e5eb;
+}
+
+.angel-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.angel-detail span {
+    color: #758091;
+    font-size: 12px;
+}
+
+.angel-detail strong {
+    color: #101923;
+    font-size: 15px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+/* JOURNEY PROGRESS */
+
+.angel-journey-progress {
+    padding: 28px 5px 10px;
+}
+
+.angel-progress-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.angel-progress-heading h3 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #101923;
+    margin: 0;
+}
+
+.angel-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 13px;
+    background: #eaf1fc;
+    color: #2468d8;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* VERTICAL JOURNEY TIMELINE */
+
+.angel-timeline {
+    display: flex;
+    flex-direction: column;
+}
+
+.angel-timeline-stage {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    min-height: 65px;
+    padding-bottom: 22px;
+    box-sizing: border-box;
+}
+
+/* CONNECTING LINE */
+
+.angel-timeline-stage:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 34px;
+    bottom: 0;
+    left: 16px;
+    width: 2px;
+    background: #e1e5eb;
+}
+
+.angel-stage-marker {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #eef1f5;
+    color: #758091;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.angel-stage-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 8px;
+    text-align: left;
+}
+
+.angel-stage-content strong {
+    color: #758091;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.angel-stage-content span {
+    color: #2468d8;
+    font-size: 12px;
+}
+
+/* COMPLETED STAGES */
+
+.angel-timeline-stage.completed .angel-stage-marker {
+    background: #2468d8;
+    color: #ffffff;
+}
+
+.angel-timeline-stage.completed::after {
+    background: #2468d8;
+}
+
+.angel-timeline-stage.completed strong {
+    color: #101923;
+}
+
+/* CURRENT STAGE */
+
+.angel-timeline-stage.current .angel-stage-marker {
+    background: #2468d8;
+    color: #ffffff;
+    box-shadow: 0 0 0 5px rgba(36, 104, 216, 0.12);
+}
+
+.angel-timeline-stage.current strong {
+    color: #2468d8;
+    font-weight: 600;
+}
+
+/* RESULT DISCLAIMER */
+
+.angel-result-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #f4f6f9;
+    padding: 15px;
+    border-radius: 4px;
+    color: #626c7a;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.angel-result-note i {
+    color: #2468d8;
+}
+
+/* LOADING ANIMATION */
+
+.angel-tracking-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 40px 20px;
+    color: #626c7a;
+}
+
+.angel-loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e1e5eb;
+    border-top-color: #2468d8;
+    border-radius: 50%;
+    animation: angelLoadingSpin 0.8s linear infinite;
+}
+
+@keyframes angelLoadingSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes angelResultReveal {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* MOBILE TRACKING EXPERIENCE */
+
+@media (max-width: 768px) {
+
+    .angel-tracking-intro {
+        padding-top: 0;
+    }
+
+    .angel-luggage-ticket {
+        padding: 20px;
+    }
+
+    .angel-ticket-top h2 {
+        font-size: 20px;
+    }
+
+    .angel-ticket-route {
+        gap: 8px;
+        grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr);
+    }
+
+    .angel-ticket-route h3 {
+        font-size: 18px;
+    }
+
+    .angel-result-details {
+        gap: 20px;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .angel-result,
+    .angel-loading-spinner {
+        animation: none;
+    }
+
+}
+/* TRACKING TICKET — FINAL VISUAL POLISH */
+
+.angel-homepage .tracking-panel .angel-ticket-top h2 {
+    color: #ffffff;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.angel-ticket-label {
+    color: #b8c9df;
+}
+
+.angel-detail:last-child strong {
+    text-transform: capitalize;
+}
+
+/* ========================================
+   ANGEL PREMIUM FEATURES SECTION
+======================================== */
+
+.angel-homepage .features-section {
+    background: #ffffff;
+    padding: 110px 0;
+}
+
+.angel-homepage .features-section .section-heading {
+    text-align: center;
+    margin-bottom: 65px;
+}
+
+.angel-homepage .features-section .section-eyebrow {
+    color: #2166d5;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 4px;
+}
+
+.angel-homepage .features-section .section-heading h2 {
+    font-size: clamp(34px, 3.5vw, 54px);
+    font-weight: 400;
+    letter-spacing: -2px;
+    color: #111923;
+    margin: 20px 0;
+}
+
+.angel-homepage .features-section .section-heading p {
+    color: #647184;
+    font-size: 17px;
+    line-height: 1.8;
+    font-weight: 400;
+}
+
+.angel-homepage .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.angel-homepage .feature-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #dce1e7;
+    border-radius: 4px;
+    padding: 36px 28px;
+    min-height: 310px;
+    text-decoration: none;
+    box-shadow: none;
+    overflow: hidden;
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+.angel-homepage .feature-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #2166d5;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+}
+
+.angel-homepage .feature-card:hover {
+    transform: translateY(-7px);
+    border-color: #c5d5eb;
+    box-shadow: 0 18px 40px rgba(15, 30, 50, 0.08);
+}
+
+.angel-homepage .feature-card:hover::after,
+.angel-homepage .feature-card:focus-visible::after {
+    transform: scaleX(1);
+}
+
+.angel-homepage .feature-icon {
+    background: transparent;
+    color: #17283d;
+    width: 60px;
+    height: 60px;
+    border-radius: 0;
+    font-size: 38px;
+    margin-bottom: 26px;
+    transition: color 0.3s ease;
+}
+
+.angel-homepage .feature-card:hover .feature-icon {
+    color: #2166d5;
+}
+
+.angel-homepage .feature-card h3 {
+    font-size: 23px;
+    font-weight: 500;
+    color: #111923;
+    letter-spacing: -0.5px;
+    margin-bottom: 15px;
+}
+
+.angel-homepage .feature-card p {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #647184;
+    margin-bottom: 30px;
+}
+
+.angel-homepage .feature-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    color: #2166d5;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.angel-homepage .feature-link i {
+    transition: transform 0.3s ease;
+}
+
+.angel-homepage .feature-card:hover .feature-link i {
+    transform: translateX(6px);
+}
+
+/* RESPONSIVE FEATURE CARDS */
+
+@media (max-width: 1100px) {
+    .angel-homepage .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .angel-homepage .features-section {
+        padding: 65px 0;
+    }
+
+    .angel-homepage .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .angel-homepage .feature-card {
+        min-height: auto;
+        padding: 30px 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .angel-homepage .feature-card,
+    .angel-homepage .feature-card::after,
+    .angel-homepage .feature-icon,
+    .angel-homepage .feature-link i {
+        transition: none;
+    }
+
+    .angel-homepage .feature-card:hover {
+        transform: none;
+    }
+}
+
+/* ========================================
+   ANGEL PREMIUM JOURNEY STEPS
+======================================== */
+
+.angel-homepage .steps-section {
+    background: #f4f6f8;
+    padding: 110px 0 120px;
+}
+
+.angel-homepage .steps-section .section-heading {
+    text-align: center;
+    margin-bottom: 75px;
+}
+
+.angel-homepage .steps-section .section-eyebrow {
+    color: #2166d5;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 4px;
+}
+
+.angel-homepage .steps-section .section-heading h2 {
+    font-size: clamp(34px, 3.5vw, 54px);
+    font-weight: 400;
+    letter-spacing: -2px;
+    color: #111923;
+    margin: 20px 0;
+}
+
+.angel-homepage .steps-section .section-heading p {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #647184;
+}
+
+/* THREE STEP LAYOUT */
+
+.angel-homepage .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 45px;
+    position: relative;
+}
+
+/* CONNECTING JOURNEY LINE */
+
+.angel-homepage .steps-grid::before {
+    content: "";
+    position: absolute;
+    top: 46px;
+    left: 16.66%;
+    right: 16.66%;
+    border-top: 1px dashed #aabbd0;
+    z-index: 0;
+}
+
+/* REMOVE OLD CARD STYLING */
+
+.angel-homepage .step-card {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0 25px;
+    text-align: center;
+    transition: none;
+}
+
+.angel-homepage .step-card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* PREMIUM STEP NUMBERS */
+
+.angel-homepage .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 32px;
+    background: #f4f6f8;
+    border: 1px solid #2166d5;
+    border-radius: 50%;
+    color: #2166d5;
+    font-size: 36px;
+    font-weight: 300;
+    transition:
+        background 0.35s ease,
+        color 0.35s ease,
+        transform 0.35s ease;
+}
+
+.angel-homepage .step-card:hover .step-number {
+    background: #2166d5;
+    color: #ffffff;
+    transform: scale(1.07);
+}
+
+/* STEP TYPOGRAPHY */
+
+.angel-homepage .step-card h3 {
+    color: #111923;
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: -0.6px;
+    margin: 0 0 18px;
+}
+
+.angel-homepage .step-card p {
+    color: #647184;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.85;
+    max-width: 340px;
+    margin: 0 auto;
+}
+
+/* MOBILE RESPONSIVENESS */
+
+@media (max-width: 768px) {
+
+    .angel-homepage .steps-section {
+        padding: 65px 0;
+    }
+
+    .angel-homepage .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .angel-homepage .steps-grid::before {
+        display: none;
+    }
+
+    .angel-homepage .step-card {
+        padding: 0 15px;
+    }
+
+    .angel-homepage .step-number {
+        width: 76px;
+        height: 76px;
+        font-size: 30px;
+        margin-bottom: 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .angel-homepage .step-number {
+        transition: none;
+    }
+
+    .angel-homepage .step-card:hover .step-number {
+        transform: none;
+    }
+}
+/* FINAL JOURNEY ALIGNMENT */
+
+.angel-homepage .steps-section .step-card h3,
+.angel-homepage .steps-section .step-card p {
+    text-align: center;
+}
+
+.angel-homepage .steps-section .step-card p {
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =========================================
+   PREMIUM ACCOUNT SECTION
+   ========================================= */
+
+.angel-homepage .angel-account-section {
+    padding: 0;
+    margin: 0;
+    background: #ffffff;
+}
+
+.angel-account-visual {
+    position: relative;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background-image: url("../images/airport.jpg");
+    background-size: cover;
+    background-position: center 65%;
+}
+
+.angel-account-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(5, 15, 28, 0.94) 0%,
+        rgba(5, 15, 28, 0.75) 40%,
+        rgba(5, 15, 28, 0.15) 100%
+    );
+}
+
+.angel-account-content {
+    position: relative;
+    z-index: 2;
+    width: 86%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 90px 0;
+    color: #ffffff;
+}
+
+.angel-account-eyebrow {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #c4d3e5;
+    margin-bottom: 28px;
+}
+
+.angel-homepage .angel-account-content h2 {
+    font-size: clamp(48px, 5vw, 80px);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -3px;
+    color: #ffffff;
+    margin: 0 0 24px;
+}
+
+.angel-homepage .angel-account-content p {
+    font-size: 19px;
+    line-height: 1.7;
+    color: #d6dce5;
+    max-width: 480px;
+    margin: 0 0 36px;
+}
+
+.angel-account-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.angel-account-primary,
+.angel-account-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    min-width: 190px;
+    padding: 19px 30px;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.25s ease,
+                border-color 0.25s ease;
+}
+
+.angel-homepage .angel-account-primary {
+    background: #2161ce;
+    color: #ffffff;
+    border: 1px solid #2161ce;
+}
+
+.angel-homepage .angel-account-primary:hover {
+    background: #174ba6;
+    border-color: #174ba6;
+    color: #ffffff;
+}
+
+.angel-homepage .angel-account-secondary {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.angel-homepage .angel-account-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+/* MOBILE ACCOUNT SECTION */
+
+@media (max-width: 768px) {
+
+    .angel-account-visual {
+        min-height: 480px;
+    }
+
+    .angel-account-content {
+        width: 88%;
+        padding: 65px 0;
+    }
+
+    .angel-homepage .angel-account-content h2 {
+        font-size: 48px;
+        letter-spacing: -2px;
+    }
+
+    .angel-account-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 340px;
+    }
+
+}
+
+/* ACCOUNT SECTION ALIGNMENT FIX */
+
+.angel-homepage .angel-account-content,
+.angel-homepage .angel-account-content h2,
+.angel-homepage .angel-account-content p {
+    text-align: left;
+}
+
+.angel-homepage .angel-account-content h2 {
+    max-width: 700px;
+}
+
+
+/* =========================================
+   ANGEL PREMIUM FOOTER
+========================================= */
+
+.angel-homepage .angel-premium-footer {
+    background: #f3f4f6;
+    color: #101820;
+    font-family: 'Inter', sans-serif;
+    padding: 0;
+    border-top: 1px solid #e2e6eb;
+}
+
+
+/* MAIN FOOTER LAYOUT */
+
+.angel-footer-main {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 80px 6%;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr;
+    gap: 55px;
+    align-items: start;
+}
+
+
+/* ANGEL BRAND */
+
+.angel-footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    margin-bottom: 24px;
+}
+
+.angel-footer-logo img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    background: transparent !important;
+}
+
+.angel-footer-logo span {
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    color: #101820;
+}
+
+.angel-footer-brand p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #626e7d;
+    max-width: 280px;
+    margin: 0 0 18px;
+}
+
+.angel-footer-brand .angel-footer-tagline {
+    color: #101820;
+    font-weight: 500;
+}
+
+
+/* FOOTER COLUMNS */
+
+.angel-footer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 17px;
+}
+
+.angel-footer-column h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #101820;
+    margin: 0 0 12px;
+}
+
+.angel-footer-column a {
+    color: #4c5868;
+    font-size: 15px;
+    font-weight: 400;
+    text-decoration: none;
+    line-height: 1.6;
+    transition: color 0.2s ease;
+}
+
+.angel-footer-column a:hover {
+    color: #2161ce;
+}
+
+.angel-footer-column p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #626e7d;
+    margin: 0;
+}
+
+
+/* ASSISTANT LINK */
+
+.angel-footer-column .angel-footer-assistant {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: #2161ce;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.angel-footer-assistant i:first-child {
+    font-size: 21px;
+}
+
+.angel-footer-assistant i:last-child {
+    transition: transform 0.25s ease;
+}
+
+.angel-footer-assistant:hover i:last-child {
+    transform: translateX(5px);
+}
+
+
+/* BOTTOM COPYRIGHT BAR */
+
+.angel-footer-bottom {
+    background: #ffffff;
+    border-top: 1px solid #e0e4e9;
+}
+
+.angel-footer-bottom-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 28px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+
+.angel-footer-bottom-inner p {
+    margin: 0;
+    font-size: 13px;
+    color: #626e7d;
+}
+
+.angel-footer-legal {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.angel-footer-legal a {
+    font-size: 13px;
+    color: #101820;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.angel-footer-legal a:hover {
+    color: #2161ce;
+}
+
+
+/* TABLET RESPONSIVENESS */
+
+@media (max-width: 1024px) {
+
+    .angel-footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 45px;
+        padding: 60px 6%;
+    }
+
+}
+
+
+/* MOBILE RESPONSIVENESS */
+
+@media (max-width: 600px) {
+
+    .angel-footer-main {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding: 45px 6%;
+    }
+
+    .angel-footer-bottom-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .angel-footer-legal {
+        gap: 18px;
+    }
+
+    .angel-footer-column {
+        gap: 14px;
+    }
+
+}
+
+/* =========================================
+   PREMIUM FLOATING SUPPORT MENU
+   ========================================= */
+
+.angel-homepage #angelChatToggle {
+    display: none !important;
+}
+
+.angel-homepage .angel-support-launcher {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    z-index: 9990;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Floating white button */
+
+.angel-support-toggle {
+    width: 64px;
+    height: 64px;
+    border: 1px solid #e5e7eb;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    cursor: pointer;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.16);
+    transition: background 0.25s ease,
+                color 0.25s ease,
+                transform 0.25s ease;
+}
+
+.angel-support-toggle:hover {
+    background: #2161c5;
+    color: #ffffff;
+    transform: translateY(-3px);
+}
+
+/* Support menu */
+
+.angel-support-menu {
+    position: absolute;
+    bottom: 82px;
+    right: 0;
+    width: 370px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 12px 45px rgba(0, 0, 0, 0.16);
+    animation: angelSupportAppear 0.25s ease;
+}
+
+.angel-support-menu[hidden] {
+    display: none !important;
+}
+
+/* Menu heading */
+
+.angel-support-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.angel-support-heading h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+#angelSupportClose {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Support options */
+
+.angel-support-option {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 22px 0;
+    border: none;
+    border-bottom: 1px solid #e5e7eb;
+    background: transparent;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    color: #111827;
+    font-family: inherit;
+    transition: color 0.2s ease;
+}
+
+.angel-support-option:last-child {
+    border-bottom: none;
+    padding-bottom: 5px;
+}
+
+.angel-support-option > i:first-child {
+    font-size: 27px;
+    color: #2161c5;
+}
+
+.angel-support-option span {
+    flex: 1;
+}
+
+.angel-support-option strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.angel-support-option small {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.angel-support-option > i:last-child {
+    font-size: 14px;
+}
+
+.angel-support-option:hover {
+    color: #2161c5;
+}
+
+/* Opening animation */
+
+@keyframes angelSupportAppear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile support */
+
+@media (max-width: 600px) {
+
+    .angel-homepage .angel-support-launcher {
+        right: 20px;
+        bottom: 20px;
+    }
+
+    .angel-support-menu {
+        width: min(340px, calc(100vw - 40px));
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
+    .angel-support-toggle {
+        width: 58px;
+        height: 58px;
+    }
+
+}
+
+/* CINEMATIC HOMEPAGE VIDEO */
+
+.angel-homepage .angel-cinematic-hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.angel-homepage .angel-hero-background {
+    z-index: 0;
+}
+
+.angel-homepage .angel-hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.angel-homepage .angel-hero-overlay {
+    z-index: 2;
+}
+
+.angel-homepage .angel-cinematic-content {
+    position: relative;
+    z-index: 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .angel-homepage .angel-hero-video {
+        display: none;
+    }
+}
+
+/* HOMEPAGE VIDEO PLAY / PAUSE BUTTON */
+
+.angel-video-control {
+    position: absolute;
+    right: 120px;
+    bottom: 38px;
+    z-index: 4;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.angel-video-control:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.angel-video-control:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+    .angel-video-control {
+        right: 95px;
+        bottom: 24px;
+        width: 46px;
+        height: 46px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .angel-video-control {
+        display: none;
+    }
+}

@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGEL - Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/mobile-responsive.css') }}">
+
+</head>
+
+<body>
+
+    <div class="management-dashboard">
+
+        <!-- HEADER -->
+
+        <header class="management-header">
+
+            <div>
+
+                <h1>ANGEL</h1>
+
+                <p>Administration Panel</p>
+
+            </div>
+
+            <a href="{{ url_for('employee_dashboard') }}"
+               class="management-back-button">
+
+                Employee Dashboard
+
+            </a>
+
+        </header>
+
+
+        <!-- WELCOME -->
+
+        <section class="management-welcome">
+
+            <h2>Welcome, {{ employee_name }}!</h2>
+
+            <p>
+                Manage employees, permissions, luggage,
+                customer support and system information.
+            </p>
+
+        </section>
+
+
+        <!-- ADMIN MANAGEMENT OPTIONS -->
+
+        <main class="management-content">
+
+            <div class="management-grid">
+
+
+                <!-- EMPLOYEE MANAGEMENT -->
+
+                <div class="management-card">
+
+                    <div class="management-icon"></div>
+
+                    <h3>Employee Management</h3>
+
+                    <p>
+                        Create, view, edit and manage
+                        employee accounts.
+                    </p>
+
+                    <a href="{{ url_for('employees') }}"
+                       class="management-button">
+
+                        Manage Employees
+
+                    </a>
+
+                </div>
+
+
+                <!-- ROLE MANAGEMENT -->
+
+                <div class="management-card">
+
+                    <div class="management-icon"></div>
+
+                    <h3>Role Management</h3>
+
+                    <p>
+                        Manage employee permissions
+                        and assign administrative roles.
+                    </p>
+
+                    <a href="{{ url_for('roles') }}"
+                       class="management-button">
+
+                        Manage Roles
+
+                    </a>
+
+                </div>
+
+
+                <!-- LUGGAGE MANAGEMENT -->
+
+                <div class="management-card">
+
+                    <div class="management-icon"></div>
+
+                    <h3>Luggage Management</h3>
+
+                    <p>
+                        Search luggage records, monitor
+                        journeys and manage passenger records.
+                    </p>
+
+                    <a href="{{ url_for('employee_luggage') }}"
+                       class="management-button">
+
+                        Manage Luggage
+
+                    </a>
+
+                </div>
+
+
+                <!-- SUPPORT MANAGEMENT -->
+
+                <div class="management-card">
+
+                    <div class="management-icon"></div>
+
+                    <h3>Support Management</h3>
+
+                    <p>
+                        View customer conversations,
+                        monitor support requests and
+                        manage resolved chats.
+                    </p>
+
+                    <a href="{{ url_for('support_inbox_page') }}"
+                       class="management-button">
+
+                        Manage Support
+
+                    </a>
+
+                </div>
+
+
+                <!-- ACTIVITY LOGS -->
+
+                <div class="management-card">
+
+                    <div class="management-icon"></div>
+
+                    <h3>Activity Logs</h3>
+
+                    <p>
+                        Monitor employee actions and
+                        review changes made within ANGEL.
+                    </p>
+
+                    <a href="{{ url_for('activity_log') }}"
+                       class="management-button">
+
+                        View Activity Logs
+
+                    </a>
+
+                </div>
+
+
+                <!-- SYSTEM OVERVIEW -->
+
+                <div class="management-card">
+
+                    <div class="management-icon"></div>
+
+                    <h3>System Overview</h3>
+
+                    <p>
+                        View an overview of employees,
+                        luggage records and system information.
+                    </p>
+
+                    <a href="{{ url_for('overview') }}"
+                       class="management-button">
+
+                        View Overview
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

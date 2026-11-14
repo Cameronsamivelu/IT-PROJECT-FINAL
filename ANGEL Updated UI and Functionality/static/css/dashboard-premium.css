@@ -1,0 +1,258 @@
+/* =========================================
+   ANGEL PREMIUM CUSTOMER DASHBOARD
+   ========================================= */
+
+body.dashboard-premium {
+    font-family: 'Inter', sans-serif;
+    background: #f5f6f8;
+    color: #111827;
+    margin: 0;
+}
+
+/* PREMIUM NAVIGATION */
+
+.dashboard-premium .dashboard-header {
+    background: #ffffff;
+    color: #111827;
+    padding: 20px 5%;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: none;
+}
+
+.dashboard-premium .brand-link {
+    color: #111827;
+    text-decoration: none;
+    gap: 16px;
+}
+
+.dashboard-premium .brand-link img {
+    width: 56px;
+    height: 56px;
+    border-radius: 0;
+    object-fit: contain;
+}
+
+.dashboard-premium .brand-text strong {
+    color: #111827;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 5px;
+}
+
+.dashboard-premium .brand-text small {
+    color: #64748b;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.dashboard-premium .header-nav {
+    gap: 24px;
+}
+
+.dashboard-premium .header-nav a {
+    background: transparent;
+    color: #111827;
+    border: none;
+    border-radius: 0;
+    padding: 14px 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.dashboard-premium .header-nav a:hover {
+    background: transparent;
+    color: #2161c5;
+}
+
+.dashboard-premium .header-nav .logout-button {
+    border: 1px solid #111827;
+    border-radius: 3px;
+    padding: 14px 25px;
+    color: #111827;
+}
+
+.dashboard-premium .header-nav .logout-button:hover {
+    background: #111827;
+    color: #ffffff;
+}
+
+/* MOBILE NAVIGATION */
+
+@media (max-width: 650px) {
+    .dashboard-premium .dashboard-header {
+        padding: 16px 5%;
+    }
+
+    .dashboard-premium .header-nav {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .dashboard-premium .header-nav a {
+        font-size: 12px;
+    }
+}
+
+/* ========================================
+   PREMIUM DASHBOARD WELCOME BANNER
+======================================== */
+
+.dashboard-premium .welcome {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8, 20, 38, 0.92),
+            rgba(8, 20, 38, 0.45)
+        ),
+        url("../images/airport.jpg") center / cover no-repeat;
+
+    border: none;
+    border-radius: 4px;
+    padding: 65px 50px;
+    min-height: 320px;
+    box-sizing: border-box;
+    color: #ffffff;
+    box-shadow: none;
+}
+
+.dashboard-premium .welcome h1 {
+    color: #ffffff;
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 500;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-premium .welcome p {
+    color: #e2e8f0;
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 650px;
+    margin-bottom: 30px;
+}
+
+.dashboard-premium .welcome a.button {
+    background: #2161c5;
+    color: #ffffff;
+    border: 1px solid #2161c5;
+    border-radius: 4px;
+    padding: 17px 25px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.dashboard-premium .welcome a.button:hover {
+    background: #174a9e;
+    border-color: #174a9e;
+}
+
+.dashboard-premium .welcome a.button ~ a {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    padding: 17px 25px;
+    transition: all 0.25s ease;
+}
+
+.dashboard-premium .welcome a.button ~ a:hover {
+    background: #ffffff;
+    color: #111827;
+}
+
+@media (max-width: 650px) {
+    .dashboard-premium .welcome {
+        padding: 35px 24px;
+    }
+
+    .dashboard-premium .welcome a {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 10px 0;
+        text-align: center;
+    }
+}
+
+/* ========================================
+   PREMIUM LUGGAGE SECTION
+======================================== */
+
+.dashboard-premium .section-heading {
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.8px;
+    color: #111827;
+    margin-top: 40px;
+    margin-bottom: 24px;
+}
+
+.dashboard-premium .luggage-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: none;
+    transition: box-shadow 0.25s ease;
+}
+
+.dashboard-premium .luggage-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-premium .luggage-card h3 {
+    color: #111827;
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.dashboard-premium .tracking-id {
+    color: #2161c5;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-premium .luggage-card .button {
+    background: #2161c5;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 14px 22px;
+}
+
+.dashboard-premium .luggage-card .button:hover {
+    background: #174a9e;
+}
+
+/* EMPTY LUGGAGE SECTION */
+
+.dashboard-premium main > section:not(.welcome):not(.luggage-card) {
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+/* DASHBOARD FOOTER */
+
+.dashboard-premium footer {
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+    padding: 30px 20px;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* MOBILE ADJUSTMENTS */
+
+@media (max-width: 650px) {
+    .dashboard-premium .luggage-card {
+        padding: 20px;
+    }
+
+    .dashboard-premium .section-heading {
+        font-size: 25px;
+    }
+}

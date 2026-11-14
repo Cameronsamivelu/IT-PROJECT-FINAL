@@ -1,0 +1,647 @@
+/* ==========================================================
+   ANGEL - Mobile responsive add-on
+   This is an override stylesheet. It does not change Flask routes,
+   database logic, page content, or desktop styling.
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-width: 0;
+    max-width: 100%;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+    max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+    max-width: 100%;
+}
+
+/* Tablets and phones */
+@media (max-width: 760px) {
+    body {
+        overflow-x: hidden;
+        font-size: 16px;
+    }
+
+    body p {
+        max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        overflow-wrap: anywhere;
+    }
+
+    button,
+    input,
+    select,
+    textarea,
+    .button,
+    .action-btn,
+    .employee-action-button,
+    .live-status-back-button,
+    .employees-back-button,
+    .activity-log-back-button,
+    .activity-log-pdf-button,
+    .back-button,
+    .clear-button,
+    .search-button {
+        min-height: 42px;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+
+    /* Public home page */
+    body > nav {
+        gap: 12px;
+        padding: 12px 16px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    body > nav .navbar-logo {
+        width: 64px;
+        height: 54px;
+    }
+
+    body > nav .logo {
+        font-size: 24px;
+    }
+
+    body > nav .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+    }
+
+    body > nav .nav-links > li > a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 42px;
+        padding: 8px 10px;
+    }
+
+    body > nav .dropdown-menu {
+        right: 0;
+        left: auto;
+        max-width: calc(100vw - 24px);
+    }
+
+    .hero {
+        min-height: auto;
+        padding: 52px 18px 44px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.6rem, 12vw, 4rem);
+        letter-spacing: 3px;
+        line-height: 1.05;
+        margin: 0 0 14px;
+    }
+
+    .hero h2 {
+        font-size: clamp(1.15rem, 5vw, 1.65rem);
+        line-height: 1.35;
+        margin: 0 0 16px;
+    }
+
+    .hero p {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+        font-size: 16px;
+        line-height: 1.65;
+    }
+
+    .search-box {
+        width: 100%;
+        margin-top: 30px;
+        padding: 0;
+    }
+
+    .search-bar {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        width: 100%;
+        margin-top: 16px;
+    }
+
+    .search-box input {
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 14px;
+    }
+
+    .search-box button {
+        width: 100%;
+        margin: 0;
+        padding: 13px 16px;
+    }
+
+    /* Inline overview/roles dashboards frequently use grid styles directly. */
+    [style*="grid-template-columns"] {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    /* Shared content widths and cards */
+    main,
+    .admin-content,
+    .employees-content,
+    .employee-dashboard-content,
+    .luggage-search-content,
+    .live-status-content,
+    .activity-log-content,
+    .management-content,
+    .page,
+    .faq-container {
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .admin-content,
+    .employees-content,
+    .employee-dashboard-content,
+    .luggage-search-content,
+    .live-status-content,
+    .activity-log-content,
+    .management-content,
+    .page {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .admin-card,
+    .employee-form-card,
+    .employee-list-card,
+    .panel,
+    .employee-dashboard-card,
+    .search-card,
+    .live-status-search-card,
+    .live-status-luggage-card,
+    .activity-log-info-card,
+    .activity-log-table-card,
+    .management-card,
+    .welcome,
+    .luggage-card,
+    .form-card,
+    .login-card,
+    .register-card {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    /* Auth and data-entry forms */
+    .login-card,
+    .register-card,
+    .employee-login-card,
+    .form-card {
+        width: 100%;
+        padding: 24px 20px;
+        border-radius: 14px;
+    }
+
+    .employee-login-page {
+        padding: 18px 14px;
+        min-height: 100svh;
+        align-items: center;
+    }
+
+    .employee-login-card {
+        width: 100%;
+    }
+
+    .employee-login-header h1 {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .form-card .button,
+    .form-card a.button,
+    .login-card button,
+    .register-card button,
+    .employee-login-card button {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .form-card a.button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    form input:not([type="checkbox"]):not([type="radio"]),
+    form select,
+    form textarea {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    /* Page headers and navigation actions stack cleanly */
+    .employees-header,
+    .admin-header,
+    .activity-log-header,
+    .employee-dashboard-header,
+    .luggage-search-header,
+    .live-status-header,
+    .management-header,
+    .topbar {
+        padding: 17px 16px;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .employees-header,
+    .admin-header,
+    .activity-log-header,
+    .luggage-search-header,
+    .live-status-header,
+    .management-header {
+        align-items: flex-start;
+    }
+
+    .employees-header h1,
+    .admin-header h1,
+    .activity-log-header h1,
+    .employee-dashboard-header h1,
+    .luggage-search-header h1,
+    .live-status-header h1,
+    .management-header h1 {
+        font-size: clamp(1.45rem, 6vw, 2rem);
+        line-height: 1.2;
+    }
+
+    .employees-back-button,
+    .admin-header a,
+    .activity-log-back-button,
+    .activity-log-pdf-button,
+    .luggage-search-header .back-button,
+    .live-status-back-button,
+    .management-back-button,
+    .logout-button {
+        max-width: 100%;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .activity-log-header-actions,
+    .employee-dashboard-header > div,
+    .topbar-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        max-width: 100%;
+    }
+
+    /* Dashboard and card grids */
+    .employee-dashboard-grid,
+    .management-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 14px;
+    }
+
+    .employee-dashboard-content {
+        padding-top: 20px;
+        padding-bottom: 28px;
+    }
+
+    .employee-dashboard-card {
+        padding: 20px;
+    }
+
+    .employee-dashboard-card h3 {
+        font-size: 1.1rem;
+        line-height: 1.35;
+    }
+
+    .employee-dashboard-card p {
+        width: auto;
+        font-size: 15px;
+        line-height: 1.55;
+    }
+
+    .luggage-details-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .luggage-detail,
+    .luggage-detail-full {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .search-form {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 14px;
+    }
+
+    .search-field,
+    .search-field.full-width {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .live-status-search {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .live-status-search input,
+    .live-status-search button,
+    .search-button,
+    .clear-button,
+    .live-status-update-button {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    /* Tables: horizontally scroll rather than widening the phone page */
+    .table-wrapper,
+    .employee-table-container,
+    .activity-log-table-wrapper,
+    .table-responsive {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-wrapper table,
+    .employee-table-container table,
+    .activity-log-table-wrapper table,
+    .results-table {
+        min-width: 620px;
+    }
+
+    .customer-actions,
+    .employee-actions,
+    .employee-action-form {
+        flex-wrap: wrap;
+    }
+
+    .action-btn,
+    .employee-action-button {
+        margin: 3px 2px;
+    }
+
+    /* FAQ and footer spacing */
+    .faq-page {
+        padding: 22px 14px;
+    }
+
+    .faq-container {
+        padding: 22px 16px;
+    }
+
+    .faq-header h1,
+    .faq-header h2 {
+        font-size: clamp(1.45rem, 6vw, 2rem);
+    }
+
+    .angel-footer .footer-container {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .angel-footer .footer-section,
+    .angel-footer .footer-section p,
+    .angel-footer .footer-section h3 {
+        width: auto;
+        text-align: left;
+    }
+
+    /* Support inbox. Keep its conversation/chat layout inside the viewport. */
+    .topbar {
+        align-items: flex-start;
+    }
+
+    .topbar-actions {
+        width: 100%;
+    }
+
+    .topbar-actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 9px 10px;
+    }
+
+    .inbox-layout {
+        grid-template-columns: minmax(0, 1fr) !important;
+        min-width: 0;
+    }
+
+    .conversation-panel,
+    .chat-panel,
+    .chat-actions,
+    .reply-area,
+    .reply-footer,
+    .message-area {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .conversation-list {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .chat-panel {
+        min-height: 420px;
+    }
+
+    .chat-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .chat-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .chat-actions button,
+    .reply-footer button,
+    #sendButton {
+        max-width: 100%;
+        white-space: normal;
+    }
+
+    #replyInput {
+        width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    /* Chat widget */
+    .angel-chat-window {
+        width: min(420px, calc(100vw - 20px));
+        max-width: calc(100vw - 20px);
+        right: 10px;
+        bottom: 86px;
+    }
+
+    .angel-chat-toggle {
+        right: 16px;
+        bottom: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    body > nav {
+        padding: 10px 12px;
+    }
+
+    body > nav .nav-links {
+        gap: 4px;
+    }
+
+    body > nav .nav-links > li > a {
+        padding: 7px 8px;
+        font-size: 14px;
+    }
+
+    .hero {
+        padding: 40px 15px 34px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .search-box h3 {
+        font-size: 1.15rem;
+    }
+
+    .login-card,
+    .register-card,
+    .employee-login-card,
+    .form-card,
+    .panel,
+    .admin-card,
+    .search-card,
+    .live-status-search-card,
+    .live-status-luggage-card,
+    .activity-log-info-card,
+    .activity-log-table-card,
+    .welcome,
+    .luggage-card {
+        padding: 18px 15px;
+    }
+
+    .luggage-details-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .stats {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .page-heading {
+        align-items: stretch;
+    }
+
+    .page-heading > * {
+        max-width: 100%;
+    }
+
+    .topbar-actions a {
+        flex: 1 1 auto;
+    }
+
+    .chat-panel {
+        min-height: 380px;
+    }
+
+    .message-area {
+        padding: 14px 10px;
+    }
+
+    .conversation-item {
+        padding: 13px;
+    }
+
+    .angel-chat-window {
+        width: calc(100vw - 16px);
+        max-width: calc(100vw - 16px);
+        right: 8px;
+        bottom: 78px;
+        max-height: calc(100svh - 100px);
+    }
+
+    .angel-chat-toggle {
+        right: 12px;
+        bottom: 12px;
+    }
+}
+
+@media (max-width: 350px) {
+    .hero h1 {
+        font-size: 2.3rem;
+        letter-spacing: 2px;
+    }
+
+    .employee-dashboard-card,
+    .form-card,
+    .login-card,
+    .register-card {
+        padding: 16px 12px;
+    }
+
+    .luggage-detail {
+        padding: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
